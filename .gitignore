@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.cache/
+.npm/
+.arena/
+.DS_Store
+.env
+.env.*
+uploads/
+.sudo_as_admin_successful

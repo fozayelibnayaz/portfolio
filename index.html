@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#070b14" />
+    <meta name="description" content="Fozayel Ibn Ayaz — developer, analyst, WordPress builder, and hands-on digital marketer." />
+    <link rel="icon" type="image/png" href="./avatar.png" />
+    <link rel="apple-touch-icon" href="./avatar.png" />
+    <link rel="stylesheet" href="/src/style.css" />
+    <title>Fozayel Ibn Ayaz — Enter the Work World</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="ambient ambient-a" aria-hidden="true"></div><div class="ambient ambient-b" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
+      <header class="site-header">
+        <a class="brand" href="#home" aria-label="Fozayel Ibn Ayaz home"><span class="brand-mark">FA</span><span class="brand-copy"><b>FOZAYEL IBN AYAZ</b><small>developer / analyst / builder</small></span></a>
+        <div class="header-right"><span class="availability"><i></i> OPEN TO THE NEXT GOOD PROBLEM</span><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch color theme"><span class="theme-icon">◐</span><b>LIGHT</b></button></div>
+      </header>
+
+      <main class="world-grid">
+        <section class="world-stage" aria-label="Interactive developer work world">
+          <div class="stage-frame">
+            <div class="stage-topline"><span>ENTERING / FOZAYEL'S WORK WORLD</span><b id="stageMode">DARK ROOM / LIVE</b></div>
+            <canvas id="characterCanvas" aria-label="A seated 3D developer working behind a large display"></canvas>
+            <div class="fallback-character" id="fallbackCharacter" aria-hidden="true"><img src="./avatar.png" alt="" /></div>
+            <div class="stage-coordinate"><span>ACTIVE THREAD</span><b id="stageIndex">01</b><strong id="stageLabel">PERSON</strong></div>
+            <div class="stage-corner stage-corner-a">03.°<br />Dhaka / BD</div><div class="stage-corner stage-corner-b">01—05<br />viewfinder</div>
+          </div>
+          <div class="stage-foot"><span>THREE.JS / CHARACTER RIG / DESK DISPLAY</span><span>CLICK A SCREEN TO MOVE THROUGH THE STORY</span></div>
+          <nav class="display-board" aria-label="Five portfolio chapters">
+            <div class="board-heading"><span>THE DISPLAY</span><b>SELECT A THREAD TO SEE THE FULL STORY</b></div>
+            <div class="display-buttons">
+              <button class="display-button active" type="button" data-section="about" aria-current="true"><span class="button-number">01</span><span class="button-copy"><b>PERSON</b><small>the signal behind the work</small></span><i>↗</i></button>
+              <button class="display-button" type="button" data-section="projects"><span class="button-number">02</span><span class="button-copy"><b>WORK</b><small>proof, not performance</small></span><i>↗</i></button>
+              <button class="display-button" type="button" data-section="skills"><span class="button-number">03</span><span class="button-copy"><b>SKILLS</b><small>tools with a reason</small></span><i>↗</i></button>
+              <button class="display-button" type="button" data-section="path"><span class="button-number">04</span><span class="button-copy"><b>PATH</b><small>the field notes so far</small></span><i>↗</i></button>
+              <button class="display-button" type="button" data-section="contact"><span class="button-number">05</span><span class="button-copy"><b>CONTACT</b><small>leave the loop open</small></span><i>↗</i></button>
+            </div>
+          </nav>
+        </section>
+
+        <section class="story-column" id="home">
+          <div class="hero-copy">
+            <div class="hero-presence"><img id="heroPortrait" src="./avatar.png" alt="Portrait of Fozayel Ibn Ayaz" /><span>FOZAYEL IBN AYAZ<small>THE PERSON BEHIND THE SYSTEM</small></span></div>
+            <div class="eyebrow"><span></span>PERSONAL OPERATING SYSTEM / 2026</div>
+            <h1>Someone just walked into my <em>work world.</em></h1>
+            <p class="hero-deck">This is not a list of tools. It is the way I notice things, make things, measure what happened, and keep improving what people actually use.</p>
+            <div class="hero-actions"><button class="primary-button" type="button" data-scroll="about">Open the display <b>↓</b></button><a class="text-button" href="./Fozayel_Ibn_Ayaz.pdf" target="_blank" rel="noreferrer">DOWNLOAD CV <b>↗</b></a></div>
+            <div class="hero-proof"><div><b>01</b><span>working mind<br />in the room</span></div><div><b>06</b><span>case files<br />worth opening</span></div><div><b>∞</b><span>questions<br />before solutions</span></div></div>
+          </div>
+
+
+          <article class="content-window" id="contentWindow" aria-live="polite">
+            <div class="window-top"><span id="windowTag">THREAD 01 / PERSON</span><span><i></i> DISPLAY ONLINE</span></div>
+            <div class="window-body">
+              <section class="chapter-content active" id="aboutPanel" data-panel="about"><div class="chapter-kicker">THE SIGNAL BEHIND THE WORK</div><h2>I make the complicated <em>feel possible.</em></h2><div id="aboutContent"></div></section>
+              <section class="chapter-content" id="projectsPanel" data-panel="projects"><div class="chapter-kicker">PROOF, NOT PERFORMANCE</div><h2>Things I helped <em>make real.</em></h2><div id="projectsContent"></div></section>
+              <section class="chapter-content" id="skillsPanel" data-panel="skills"><div class="chapter-kicker">TOOLS WITH A REASON</div><h2>The hands, the head, <em>the signal.</em></h2><div id="skillsContent"></div></section>
+              <section class="chapter-content" id="pathPanel" data-panel="path"><div class="chapter-kicker">THE FIELD NOTES SO FAR</div><h2>A few rooms. <em>One instinct.</em></h2><div id="pathContent"></div></section>
+              <section class="chapter-content" id="contactPanel" data-panel="contact"><div class="chapter-kicker">LEAVE THE LOOP OPEN</div><h2>Bring me a problem <em>worth caring about.</em></h2><div id="contactContent"></div></section>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="site-footer"><span>FOZAYEL IBN AYAZ / WORK WORLD</span><span>FULL-STACK · DATA · DIGITAL MARKETING</span><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ibnayaz789%40gmail.com" target="_blank" rel="noreferrer">IBNAYAZ789@GMAIL.COM <b>↗</b></a><a class="footer-cms-link" href="./cms.html">CMS <b>↗</b></a></footer>
+      <div class="case-overlay" id="caseOverlay" aria-hidden="true"><button class="case-backdrop" type="button" data-close-case aria-label="Close case file"></button><article class="case-file" role="dialog" aria-modal="true" aria-labelledby="caseTitle"><button class="case-close" type="button" data-close-case aria-label="Close case file">CLOSE <b>×</b></button><div id="caseContent"></div></article></div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

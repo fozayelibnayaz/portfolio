@@ -1,0 +1,54 @@
+export const portfolio = {
+  name: 'Fozayel Ibn Ayaz',
+  location: 'Dhaka, Bangladesh',
+  role: 'Full-stack developer · data analyst · WordPress builder',
+  email: 'ibnayaz789@gmail.com',
+  phone: '+8801726611455',
+  github: 'https://github.com/fozayelibnayaz',
+  summary: 'I notice the empty state, the missing tracking event, and the customer who stopped replying. Then I build the useful next step.',
+  longerSummary: 'I work at the seam between a polished interface and the system that has to keep it honest — code, data, content, QA, and the unglamorous details that make a product trustworthy.',
+  traits: ['systems thinker', 'UI / UX sensitive', 'QA-minded', 'friendly in a crisis'],
+};
+
+export const projects = [
+  { id: 'command-center', number: '01 / 06', tag: 'Product · AI · Analytics', title: 'AI YouTube Command Center', summary: 'A command center for creators who want the story behind the numbers, not another pile of charts.', what: 'Built an OAuth-connected Next.js dashboard across 12+ YouTube Analytics endpoints, plus an AI assistant with 30+ function-calling tools for on-demand channel insights. Added smart notifications, weekly and monthly digests, and production CI.', how: 'Typed API boundaries, scheduled GitHub Actions jobs, server-side data aggregation, and a UI that turns retention, search terms, views, and subscriber movements into decisions you can actually make.', stack: ['Next.js', 'TypeScript', 'YouTube OAuth', 'AI tools', 'Vercel', 'GitHub Actions'], outcome: 'Production-grade creator intelligence, without the spreadsheet archaeology.' },
+  { id: 'eagle-hub', number: '02 / 06', tag: 'Data · BI · Automation', title: 'Eagle 3D Streaming BI Hub', summary: 'A single operational view for KPIs, customers, revenue, and anomalies that should not wait for Monday.', what: 'Built a secure 10-page analytics platform unifying KPI scraping, YouTube OAuth analytics, customer success tracking, and a payment ledger for new versus recurring revenue.', how: 'Python and Streamlit on top of MongoDB, with a four-times-daily automated pipeline, 15-minute anomaly detection, cookie-based authentication, and 16 alert types routed through Telegram.', stack: ['Python', 'Streamlit', 'MongoDB', 'YouTube API', 'Telegram', 'Forecasting'], outcome: 'Less tab switching. Faster decisions. Better questions in the room.' },
+  { id: 'euroedge', number: '03 / 06', tag: 'WordPress · Information architecture', title: 'EuroEdge Admission Group', summary: 'A clearer digital front door for a UK-based international student consultancy.', what: 'Created a multi-page WordPress and Elementor architecture covering study destinations, English and IELTS courses, visa and admission services, and a partner-university network.', how: 'Started with the content model, then shaped navigation, reusable page sections, conversion points, and a layout system that lets a non-technical team keep the site alive.', stack: ['WordPress', 'Elementor', 'SEO', 'Content systems', 'UX writing'], outcome: 'More clarity before the first consultation.' },
+  { id: 'aeg', number: '04 / 06', tag: 'E-commerce · Solo build', title: 'AEG Fournitures Storefront', summary: 'A French WooCommerce storefront for the very serious business of moving and packing supplies.', what: 'Designed the experience end-to-end in Figma and built the full WordPress storefront solo — catalog structure, category system, product listings, and checkout.', how: 'Translated a visual system into reusable templates, balanced dense product information with quick scanning, and owned the last-mile details from concept through launch.', stack: ['Figma', 'WordPress', 'WooCommerce', 'UI systems', 'Checkout UX'], outcome: 'A storefront that gets out of the way of the shopping.' },
+  { id: 'things-worth-buying', number: '05 / 06', tag: 'Next.js · Content product', title: 'Things Worth Buying', summary: 'A product-discovery site for recommendations that earn the click.', what: 'Built a modular Next.js affiliate website with clean product presentation, environment-based configuration, and a Dockerized deployment setup.', how: 'Separated content from components, kept the configuration portable between environments, and optimized the browsing experience around quick trust and fast loading.', stack: ['Next.js', 'React', 'Docker', 'Affiliate UX', 'Deployment'], outcome: 'Curiosity, curated — with fewer mystery tabs.' },
+  { id: 'moving-storage', number: '06 / 06', tag: 'WordPress · Ongoing support', title: 'Moving & Storage Sites', summary: 'Ongoing page development for two live businesses where reliability beats reinvention.', what: 'Extended page templates, layout sections, and content structure across demenagement-blondeau.com and demenagementgauvin.com as part of continued WordPress development support.', how: 'Worked within an existing ecosystem, learned its constraints, then improved pages without breaking the business underneath them — the underrated superpower.', stack: ['WordPress', 'Page building', 'Content design', 'Maintenance', 'QA'], outcome: 'Small improvements, shipped safely, over time.' },
+];
+
+export const skills = [
+  { label: 'Build', note: 'Interfaces and application logic', items: ['JavaScript (ES6+)', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Express', 'PHP', 'HTML5 / CSS3'] },
+  { label: 'Measure', note: 'Data that helps a decision move', items: ['SQL', 'Python', 'GA4', 'GTM', 'Looker Studio', 'Prophet', 'ARIMA', 'LSTM'] },
+  { label: 'Shape', note: 'Content systems and discoverability', items: ['WordPress', 'WooCommerce', 'ACF', 'Technical SEO', 'JSON-LD', 'Content design', 'UX writing'] },
+  { label: 'Ship', note: 'Quality, infrastructure, and care', items: ['Docker', 'GCP', 'Kubernetes', 'MySQL', 'Supabase', 'Playwright', 'Postman', 'Core Web Vitals'] },
+];
+
+export const marketing = {
+  label: 'Digital marketing / lived experience',
+  intro: 'I learned marketing before I had the vocabulary for it: help a real business explain its offer, show up where people look, listen to the questions, and make the next version clearer.',
+  items: [
+    { title: 'Offer positioning', note: 'Turn “what we do” into a message a real customer can understand quickly.' },
+    { title: 'Content systems', note: 'Plan useful posts, pages, and calls to action instead of posting into the void.' },
+    { title: 'Local discovery', note: 'Think about search intent, location, trust signals, and the path from discovery to contact.' },
+    { title: 'Measurement', note: 'Connect GA4, GTM, and Looker Studio to questions that a business actually needs answered.' },
+    { title: 'Feedback loops', note: 'Use customer questions, objections, and drop-offs as product and messaging research.' },
+    { title: 'Landing-page thinking', note: 'Make the next action obvious, reduce friction, and keep the promise aligned with the experience.' },
+  ],
+};
+
+export const experience = [
+  { date: '12/2025 — present', role: 'WordPress Developer', company: 'Ekomedia', note: 'ACF architectures, technical SEO, Core Web Vitals, QA and deployment.' },
+  { date: '07/2024 — present', role: 'IT Administrator', company: 'Cafe Lavista', note: 'Three business-critical WordPress properties, reliability, security, and remote support.' },
+  { date: '07/2023 — 08/2026', role: 'Data Analyst', company: 'Eagle 3D Streaming', note: 'GA4, GTM, YouTube Analytics, Looker dashboards, and actionable decision support.' },
+  { date: '01/2023 — 06/2023', role: 'IT Support Engineer', company: 'n2sys Technology', note: 'Hardware, networks, applications, infrastructure health, and the first calm answer.' },
+  { date: '08/2022 — 12/2022', role: 'Coding Teacher', company: 'Codingal', note: 'Age-appropriate coding lessons, individualized learning paths, and a little sales.' },
+];
+
+export const education = [
+  { school: 'North South University', detail: 'BSc. in Computer Science and Engineering · 2017 — 2022' },
+  { school: 'Ideal College, Dhanmondi', detail: 'Higher Secondary Certificate · 2014 — 2016' },
+  { school: 'Dhanmondi Govt. Boys’ High School', detail: 'Secondary School Certificate · 2004 — 2014' },
+];
