@@ -35,7 +35,6 @@ export const marketing = {
     { title: 'Local discovery', note: 'Think about search intent, location, trust signals, and the path from discovery to contact.' },
     { title: 'Measurement', note: 'Connect GA4, GTM, and Looker Studio to questions that a business actually needs answered.' },
     { title: 'Feedback loops', note: 'Use customer questions, objections, and drop-offs as product and messaging research.' },
-    { title: 'Landing-page thinking', note: 'Make the next action obvious, reduce friction, and keep the promise aligned with the experience.' },
   ],
 };
 

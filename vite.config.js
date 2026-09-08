@@ -18,7 +18,8 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       input: {
         portfolio: resolve(process.cwd(), 'index.html'),
-        cms: resolve(process.cwd(), 'cms.html'),
+        cms: resolve(process.cwd(), 'cms/index.html'),
+        cmsPage: resolve(process.cwd(), 'cms.html'),
       },
     },
   },

@@ -1,18 +1,26 @@
-# Fozayel Ibn Ayaz — Work World
+# Fozayel Ibn Ayaz — Come In
 
-A from-scratch, responsive Three.js portfolio built for GitHub Pages. A procedural seated developer works at a desk behind a large display, while five clear chapter controls open the portfolio story.
+A from-scratch portfolio built around one simple invitation: arrive, knock, and come in. The public site opens with an interactive Three.js double door. The visitor starts three deliberate knocks, the door opens, and the site reveals a calm story about Fozayel's experience, projects, skills, and contact details.
 
-It is not a game and does not depend on a remote 3D model, external font, CDN, or runtime API.
+The public entry point is `index.html`. The story is intentionally clear for a non-technical visitor:
+
+1. Introduction — who Fozayel is and what he makes.
+2. Experience — roles, responsibilities, and education.
+3. What I Bring — practical capabilities and digital marketing.
+4. Projects — six project stories with contribution, approach, stack, and why each one matters.
+5. Contact — direct ways to start a conversation.
 
 ## Included
 
-- Procedural seated 3D developer with desk, display, keyboard, chair, headphones, studio lighting, soft shadows, responsive resizing, and reduced-motion support.
-- Five chapters: Person, Work, Skills, Path, and Contact.
-- Six project case files, skills grouped by purpose, a separate digital-marketing practice box, experience, education, contact actions, GitHub, phone, CV, and direct Gmail compose links.
-- Cropped portrait used in the hero badge, identity card, WebGL fallback, and favicon.
-- Animated Three.js skill constellation in the Skills chapter.
-- Dark/light theme switcher with persisted preference.
-- Optional password-protected CMS at `/cms.html`.
+- A meaningful Three.js threshold scene with a double door, frame, room light, knock feedback, opening animation, cinematic camera walk-through, and a three-frame arrival film before the portfolio appears.
+- The arrival film moves through Experience, Making, and Projects with animated typography, progress cues, a skip control, reduced-motion support, and a CSS fallback when WebGL is unavailable.
+- An arrival gate that can be entered by clicking the door or button, pressing Enter, or pressing Space.
+- A linear story with dedicated Experience and Projects sections instead of mixing project work into an experience timeline.
+- Six project stories with readable summaries, contribution, approach, stack, and why each build matters.
+- Identity, role, location, portrait, CV, phone, GitHub, Gmail, experience, education, and digital-marketing content.
+- Four skills groups plus exactly five digital-marketing practice items.
+- Light and dark themes, responsive layouts, accessible buttons and links, keyboard section shortcuts (`1`–`5`), and project detail dialogs.
+- A password-protected admin CMS at `/cms.html`. The legacy `/cms/` path remains available as a compatibility route. Neither route is linked from the public portfolio, and both CMS pages are marked `noindex,nofollow`.
 
 ## Local development
 
@@ -21,34 +29,68 @@ npm install
 npm run dev
 ```
 
-Open the Vite URL shown in the terminal.
+Open the Vite URL shown in the terminal. The dev server is configured for a network-accessible live preview:
+
+```bash
+npm run dev -- --host 0.0.0.0
+```
 
 ## Production build
 
 ```bash
 npm run build
-npm run preview
+npm run preview -- --host 0.0.0.0
 ```
 
-The build produces both `index.html` and `cms.html` in `dist/`.
+## Admin CMS
 
-## CMS
+Open the primary admin path:
 
-Open:
+```text
+http://localhost:4174/cms.html
+```
+
+The compatibility route is also available:
+
+```text
+http://localhost:4174/cms/
+```
+
+or, after deployment:
 
 ```text
 https://fozayelibnayaz.github.io/portfolio/cms.html
 ```
 
-The initial CMS password is `amarportfolio`. The editor can update identity, projects, skills, digital marketing, experience, education, portrait, CV, and the complete JSON content file. Local drafts are saved in the current browser.
+The initial password is `amarportfolio`. The CMS edits identity, projects, skills, digital marketing, experience, education, portrait, CV, and the complete content JSON. Local drafts are saved in the current browser.
 
-Because GitHub Pages is static, the CMS password is a browser-level editor lock rather than server authentication. To publish publicly, use the optional GitHub publisher in **Settings** with a fine-grained GitHub token that has **Contents: Read and write** access to this repository. The token is not saved by the CMS. Alternatively, download the JSON/CV files and commit them normally.
+GitHub Pages is static, so the password gate is a browser-level editor lock rather than server authentication. To publish a draft publicly from the CMS, use a fine-grained GitHub token with **Contents: Read and write** access to `fozayelibnayaz/portfolio`. The CMS keeps that token in memory only. You can also download the JSON and commit it manually.
 
-## GitHub Pages
+## Deploy to GitHub Pages
 
-1. Push this project to GitHub on the `main` branch.
-2. Open **Settings → Pages** and choose **GitHub Actions**.
-3. Push to `main` or manually run **Deploy portfolio to GitHub Pages**.
-4. Visit `https://fozayelibnayaz.github.io/portfolio/`.
+The repository includes `deploy.sh`. It installs dependencies, builds the production site, stages the source, creates a commit, and pushes to the `main` branch without a force push. It also works when this folder was downloaded without `.git`: the script creates a temporary clone, copies the current workspace into it, and pushes the update.
 
-The workflow builds `dist/` before deployment. Do not publish the raw source entry directly; Vite must transform the module and stylesheet links.
+```bash
+chmod +x deploy.sh
+./deploy.sh
+```
+
+The script assumes the repository remote is:
+
+```text
+https://github.com/fozayelibnayaz/portfolio.git
+```
+
+After the push, GitHub Actions should rebuild the site. The public portfolio will be available at:
+
+```text
+https://fozayelibnayaz.github.io/portfolio/
+```
+
+The CMS will be available at:
+
+```text
+https://fozayelibnayaz.github.io/portfolio/cms.html
+```
+
+Generated `dist/` files are intentionally ignored by Git. Do not put a GitHub token in the script or commit it to the repository.

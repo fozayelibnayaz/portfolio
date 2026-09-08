@@ -1,72 +1,50 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#070b14" />
+    <meta name="theme-color" content="#f4f1ea" />
     <meta name="description" content="Fozayel Ibn Ayaz — developer, analyst, WordPress builder, and hands-on digital marketer." />
     <link rel="icon" type="image/png" href="./avatar.png" />
     <link rel="apple-touch-icon" href="./avatar.png" />
-    <link rel="stylesheet" href="/src/style.css" />
-    <title>Fozayel Ibn Ayaz — Enter the Work World</title>
+    <link rel="stylesheet" href="/src/app.css" />
+    <title>Fozayel Ibn Ayaz — Come In</title>
   </head>
   <body>
-    <div id="app">
-      <div class="ambient ambient-a" aria-hidden="true"></div><div class="ambient ambient-b" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div>
-      <header class="site-header">
-        <a class="brand" href="#home" aria-label="Fozayel Ibn Ayaz home"><span class="brand-mark">FA</span><span class="brand-copy"><b>FOZAYEL IBN AYAZ</b><small>developer / analyst / builder</small></span></a>
-        <div class="header-right"><span class="availability"><i></i> OPEN TO THE NEXT GOOD PROBLEM</span><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch color theme"><span class="theme-icon">◐</span><b>LIGHT</b></button></div>
-      </header>
+    <div class="portfolio-shell">
+      <section class="arrival-gate" id="arrivalGate" aria-label="Portfolio entrance">
+        <canvas id="thresholdCanvas" aria-hidden="true"></canvas>
+        <div class="gate-atmosphere" aria-hidden="true"></div>
+        <div class="gate-film" aria-hidden="true"></div>
+        <div class="door-fallback" id="doorFallback" aria-hidden="true"><i></i><i></i><span></span></div>
+        <div class="cinematic-sequence" id="cinematicSequence" aria-hidden="true" inert>
+          <div class="sequence-top"><span><i></i> ARRIVAL FILM / 01—03</span><button id="skipSequence" type="button">SKIP REVEAL <b>↗</b></button></div>
+          <div class="sequence-center"><small id="sequenceKicker">01 / EXPERIENCE</small><h2 id="sequenceTitle">What happens<br /><em>after launch.</em></h2><p id="sequenceText">Support, analysis, implementation — the part of work people rely on.</p></div>
+          <div class="sequence-bottom"><span id="sequenceCount">01 — 03</span><div class="sequence-progress"><i id="sequenceProgress"></i></div><b>FOZAYEL IBN AYAZ</b></div>
+        </div>
+        <div class="gate-copy"><div class="gate-kicker"><span>ARRIVAL / 00</span><i></i><b>YOUR VISIT STARTS HERE</b></div><h1>You are<br /><em>at the door.</em></h1><p>You knock. I open. The work is inside.</p><button class="enter-button" id="enterButton" type="button">KNOCK TO ENTER <b>↗</b></button><small id="knockStatus" aria-live="polite">READY WHEN YOU ARE</small></div><div class="gate-corner"><span>FOZAYEL IBN AYAZ</span><b>EXPERIENCE + PROJECTS / 2026</b></div>
+      </section>
 
-      <main class="world-grid">
-        <section class="world-stage" aria-label="Interactive developer work world">
-          <div class="stage-frame">
-            <div class="stage-topline"><span>ENTERING / FOZAYEL'S WORK WORLD</span><b id="stageMode">DARK ROOM / LIVE</b></div>
-            <canvas id="characterCanvas" aria-label="A seated 3D developer working behind a large display"></canvas>
-            <div class="fallback-character" id="fallbackCharacter" aria-hidden="true"><img src="./avatar.png" alt="" /></div>
-            <div class="stage-coordinate"><span>ACTIVE THREAD</span><b id="stageIndex">01</b><strong id="stageLabel">PERSON</strong></div>
-            <div class="stage-corner stage-corner-a">03.°<br />Dhaka / BD</div><div class="stage-corner stage-corner-b">01—05<br />viewfinder</div>
-          </div>
-          <div class="stage-foot"><span>THREE.JS / CHARACTER RIG / DESK DISPLAY</span><span>CLICK A SCREEN TO MOVE THROUGH THE STORY</span></div>
-          <nav class="display-board" aria-label="Five portfolio chapters">
-            <div class="board-heading"><span>THE DISPLAY</span><b>SELECT A THREAD TO SEE THE FULL STORY</b></div>
-            <div class="display-buttons">
-              <button class="display-button active" type="button" data-section="about" aria-current="true"><span class="button-number">01</span><span class="button-copy"><b>PERSON</b><small>the signal behind the work</small></span><i>↗</i></button>
-              <button class="display-button" type="button" data-section="projects"><span class="button-number">02</span><span class="button-copy"><b>WORK</b><small>proof, not performance</small></span><i>↗</i></button>
-              <button class="display-button" type="button" data-section="skills"><span class="button-number">03</span><span class="button-copy"><b>SKILLS</b><small>tools with a reason</small></span><i>↗</i></button>
-              <button class="display-button" type="button" data-section="path"><span class="button-number">04</span><span class="button-copy"><b>PATH</b><small>the field notes so far</small></span><i>↗</i></button>
-              <button class="display-button" type="button" data-section="contact"><span class="button-number">05</span><span class="button-copy"><b>CONTACT</b><small>leave the loop open</small></span><i>↗</i></button>
-            </div>
-          </nav>
-        </section>
+      <div class="site-content" id="siteContent" aria-hidden="true" inert>
+        <header class="site-header" id="header"><a class="brand" href="#home" aria-label="Return to the beginning"><span class="brand-mark">FA</span><span class="brand-copy"><b id="siteName">FOZAYEL IBN AYAZ</b><small id="siteRole">developer / analyst / builder</small></span></a><nav class="top-nav" aria-label="Portfolio sections"><a href="#home" data-section-link="0">HOME</a><a href="#experience" data-section-link="1">EXPERIENCE</a><a href="#method" data-section-link="2">WHAT I BRING</a><a href="#projects" data-section-link="3">PROJECTS</a><a href="#contact" data-section-link="4">CONTACT</a></nav><div class="header-tools"><span class="header-index" id="headerSection">00 / HOME</span><span class="header-location">DHAKA / BD</span><button id="themeToggle" class="theme-toggle" type="button" aria-label="Switch color theme"><span>◐</span><b>DARK</b></button></div></header>
 
-        <section class="story-column" id="home">
-          <div class="hero-copy">
-            <div class="hero-presence"><img id="heroPortrait" src="./avatar.png" alt="Portrait of Fozayel Ibn Ayaz" /><span>FOZAYEL IBN AYAZ<small>THE PERSON BEHIND THE SYSTEM</small></span></div>
-            <div class="eyebrow"><span></span>PERSONAL OPERATING SYSTEM / 2026</div>
-            <h1>Someone just walked into my <em>work world.</em></h1>
-            <p class="hero-deck">This is not a list of tools. It is the way I notice things, make things, measure what happened, and keep improving what people actually use.</p>
-            <div class="hero-actions"><button class="primary-button" type="button" data-scroll="about">Open the display <b>↓</b></button><a class="text-button" href="./Fozayel_Ibn_Ayaz.pdf" target="_blank" rel="noreferrer">DOWNLOAD CV <b>↗</b></a></div>
-            <div class="hero-proof"><div><b>01</b><span>working mind<br />in the room</span></div><div><b>06</b><span>case files<br />worth opening</span></div><div><b>∞</b><span>questions<br />before solutions</span></div></div>
-          </div>
+        <main>
+          <section class="section home-section" id="home" data-section="0"><div class="section-inner home-layout"><div class="home-copy"><div class="eyebrow"><span>FOZAYEL IBN AYAZ</span><b>DEVELOPER / ANALYST / BUILDER</b></div><h2>I make complicated<br /><em>feel possible.</em></h2><p class="home-lede">I build clear digital experiences at the meeting point of product, data, content, and care.</p><div class="home-actions"><a class="primary-action" href="#experience">SEE EXPERIENCE <b>↓</b></a><a class="text-action" href="#projects">VIEW PROJECTS <b>↗</b></a><a class="text-action" id="heroEmail" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ibnayaz789%40gmail.com" target="_blank" rel="noreferrer">SAY HELLO <b>↗</b></a></div><div class="home-identity"><img id="heroPortrait" src="./avatar.png" alt="Portrait of Fozayel Ibn Ayaz" /><div><strong id="heroName">FOZAYEL IBN AYAZ</strong><span id="heroRole">Full-stack developer · data analyst · WordPress builder</span><small id="heroLocation">DHAKA, BANGLADESH</small></div></div><div class="home-note"><span>THE HUMAN VERSION</span><p id="heroSummary">I notice the empty state, the missing tracking event, and the customer who stopped replying. Then I build the useful next step.</p><small id="heroLonger">I work at the seam between a polished interface and the system that has to keep it honest.</small></div></div><figure class="featured-experience"><div class="featured-art"><div class="featured-art-head"><span>01 / EXPERIENCE</span><b>WORK IN MOTION</b></div><div class="featured-diagram"><i></i><i></i><i></i><b></b></div><div class="featured-art-foot"><span>BUILD / MEASURE / SHAPE / SHIP</span><b>NOW</b></div></div><figcaption><span id="featuredTag">CURRENT ROLE</span><strong id="featuredTitle">WordPress Developer</strong><small id="featuredMeta">Ekomedia · 12/2025 — present</small></figcaption></figure></div><div class="section-foot"><span>START WITH THE PERSON</span><b>00</b></div></section>
 
+          <section class="section experience-section" id="experience" data-section="1"><div class="section-inner"><div class="section-heading"><div><div class="eyebrow"><span>01 / EXPERIENCE</span><b>THE WORK BEHIND THE WORK</b></div><h2>Work you can<br /><em>trace.</em></h2></div><p class="section-lede">Roles, responsibilities, and the lessons that follow a launch. The thread through them is simple: pay attention to what happens next.</p></div><div class="experience-layout"><div class="timeline" id="experienceList"></div><aside class="education-box" id="educationBox"></aside></div></div><div class="section-foot"><span>ROLES / RESPONSIBILITY / LEARNING</span><b>01</b></div></section>
 
-          <article class="content-window" id="contentWindow" aria-live="polite">
-            <div class="window-top"><span id="windowTag">THREAD 01 / PERSON</span><span><i></i> DISPLAY ONLINE</span></div>
-            <div class="window-body">
-              <section class="chapter-content active" id="aboutPanel" data-panel="about"><div class="chapter-kicker">THE SIGNAL BEHIND THE WORK</div><h2>I make the complicated <em>feel possible.</em></h2><div id="aboutContent"></div></section>
-              <section class="chapter-content" id="projectsPanel" data-panel="projects"><div class="chapter-kicker">PROOF, NOT PERFORMANCE</div><h2>Things I helped <em>make real.</em></h2><div id="projectsContent"></div></section>
-              <section class="chapter-content" id="skillsPanel" data-panel="skills"><div class="chapter-kicker">TOOLS WITH A REASON</div><h2>The hands, the head, <em>the signal.</em></h2><div id="skillsContent"></div></section>
-              <section class="chapter-content" id="pathPanel" data-panel="path"><div class="chapter-kicker">THE FIELD NOTES SO FAR</div><h2>A few rooms. <em>One instinct.</em></h2><div id="pathContent"></div></section>
-              <section class="chapter-content" id="contactPanel" data-panel="contact"><div class="chapter-kicker">LEAVE THE LOOP OPEN</div><h2>Bring me a problem <em>worth caring about.</em></h2><div id="contactContent"></div></section>
-            </div>
-          </article>
-        </section>
-      </main>
+          <section class="section method-section" id="method" data-section="2"><div class="section-inner"><div class="section-heading"><div><div class="eyebrow"><span>02 / WHAT I BRING</span><b>THE USEFUL PARTS</b></div><h2>Every tool<br /><em>has a reason.</em></h2></div><p class="section-lede">I move between implementation, measurement, content, and quality according to what the work needs next.</p></div><div class="method-grid" id="methodGrid"></div><article class="marketing-box" id="marketingBox"></article></div><div class="section-foot"><span>BUILD / MEASURE / SHAPE / SHIP</span><b>02</b></div></section>
 
-      <footer class="site-footer"><span>FOZAYEL IBN AYAZ / WORK WORLD</span><span>FULL-STACK · DATA · DIGITAL MARKETING</span><a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ibnayaz789%40gmail.com" target="_blank" rel="noreferrer">IBNAYAZ789@GMAIL.COM <b>↗</b></a><a class="footer-cms-link" href="./cms.html">CMS <b>↗</b></a></footer>
-      <div class="case-overlay" id="caseOverlay" aria-hidden="true"><button class="case-backdrop" type="button" data-close-case aria-label="Close case file"></button><article class="case-file" role="dialog" aria-modal="true" aria-labelledby="caseTitle"><button class="case-close" type="button" data-close-case aria-label="Close case file">CLOSE <b>×</b></button><div id="caseContent"></div></article></div>
+          <section class="section projects-section" id="projects" data-section="3"><div class="section-inner"><div class="section-heading"><div><div class="eyebrow"><span>03 / PROJECTS</span><b>THINGS MADE REAL</b></div><h2>Projects that<br /><em>move.</em></h2></div><p class="section-lede">Six projects, each with a different question behind it. Open one to see the full story, not just the surface.</p></div><div class="project-list" id="projectList"></div></div><div class="section-foot"><span>SIX PROJECTS / OPEN A PROJECT</span><b>03</b></div></section>
+
+          <section class="section contact-section" id="contact" data-section="4"><div class="section-inner contact-inner"><div class="eyebrow"><span>04 / CONTACT</span><b>THE NEXT ROOM IS YOURS</b></div><h2>Tell me what is<br /><em>hard to explain.</em></h2><p class="section-lede">If the thing you are building needs someone who can move between product thinking, implementation, analytics, marketing, and deployment, I would like to hear about it.</p><div class="contact-actions" id="contactActions"></div><div class="contact-signoff"><img id="contactPortrait" src="./avatar.png" alt="" /><div><strong id="contactName">FOZAYEL IBN AYAZ</strong><small>AVAILABLE FOR THE NEXT GOOD PROBLEM</small></div></div></div><div class="section-foot"><span>THANK YOU FOR COMING IN</span><b>04</b></div></section>
+        </main>
+
+        <footer class="site-footer"><span>FOZAYEL IBN AYAZ / COME IN</span><span>EXPERIENCE + PROJECTS / 2026</span><a id="footerEmail" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ibnayaz789%40gmail.com" target="_blank" rel="noreferrer">IBNAYAZ789@GMAIL.COM ↗</a></footer>
+      </div>
+
+      <div class="case-overlay" id="caseOverlay" aria-hidden="true"><button class="case-backdrop" type="button" data-close-case aria-label="Close project details"></button><article class="case-modal" role="dialog" aria-modal="true" aria-labelledby="caseTitle"><button class="case-close" type="button" data-close-case>CLOSE <b>×</b></button><div id="caseContent"></div></article></div>
     </div>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/app.js"></script>
   </body>
 </html>

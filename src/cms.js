@@ -71,7 +71,7 @@ function fillFields() {
   $('#educationJson').value = pretty(state.content.education);
   fullJson.value = pretty(state.content);
   state.fullJsonDirty = false;
-  const avatar = localStorage.getItem('fozay-avatar-data') || './avatar.png';
+  const avatar = localStorage.getItem('fozay-avatar-data') || '../avatar.png';
   $('#cmsPortraitPreview').src = avatar;
   const cv = localStorage.getItem('fozay-cv-data');
   $('#cvStatus').textContent = cv ? 'A local uploaded CV is active.' : 'Using the repository CV.';

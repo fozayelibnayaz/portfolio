@@ -22,7 +22,7 @@ export function mergeContent(patch = {}, base = defaultContent) {
     marketing: source.marketing && typeof source.marketing === 'object' ? {
       ...clone(base.marketing),
       ...clone(source.marketing),
-      items: Array.isArray(source.marketing.items) ? clone(source.marketing.items) : clone(base.marketing.items),
+      items: (Array.isArray(source.marketing.items) ? clone(source.marketing.items) : clone(base.marketing.items)).slice(0, 5),
     } : clone(base.marketing),
     experience: Array.isArray(source.experience) ? clone(source.experience) : clone(base.experience),
     education: Array.isArray(source.education) ? clone(source.education) : clone(base.education),
