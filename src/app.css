@@ -1139,3 +1139,102 @@ html:not([data-theme="dark"]) .dial-spindle small { background: transparent; }
 html:not([data-theme="dark"]) .dialer-heading b,
 html:not([data-theme="dark"]) .dial-spindle small { color: #00c6d8; }
 html:not([data-theme="dark"]) .dial-spindle i { background: #00c6d8; }
+
+.mobile-dial-nav { display: none; }
+@media (max-width: 820px) {
+  /* On phones the build console becomes normal document flow, never a fixed obstruction. */
+  .cinematic-sequence.is-docked {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 12px 14px 22px;
+    overflow: visible;
+    transform: none;
+    background: #050608;
+    border: 0;
+    box-shadow: none;
+  }
+  .cinematic-sequence.is-docked .sequence-top { display: flex; width: min(390px, 100%); margin: 0 auto 8px; }
+  .cinematic-sequence.is-docked .dialer-dock { width: min(390px, 100%); margin: 0 auto; }
+  .cinematic-sequence.is-docked ~ .site-content main { padding: 0; }
+  .site-header { grid-template-columns: auto 1fr auto; }
+  .header-channel { display: none; }
+  .mobile-dial-nav { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-left: auto; }
+  .mobile-dial-nav button { display: grid; width: 28px; height: 28px; place-items: center; color: var(--muted); background: transparent; border: 1px solid var(--line-strong); border-radius: 50%; font: 700 7px var(--mono); }
+  .mobile-dial-nav button.active { color: #000; background: #00c6d8; border-color: #00c6d8; }
+  .header-tools { margin-left: 8px; }
+}
+@media (max-width: 520px) {
+  .cinematic-sequence.is-docked { padding-inline: 10px; }
+  .cinematic-sequence.is-docked .sequence-top { display: flex; }
+  .cinematic-sequence.is-docked .dialer-dock { padding: 8px; }
+  .mobile-dial-nav button { width: 25px; height: 25px; font-size: 6px; }
+}
+
+/* Mobile: keep the dial as a transparent corner widget, never a full-screen panel. */
+@media (max-width: 820px) {
+  .cinematic-sequence.is-docked {
+    position: fixed;
+    z-index: 80;
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: auto;
+    display: block;
+    width: 126px;
+    height: 126px;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    transform: none;
+    pointer-events: none;
+  }
+  .cinematic-sequence.is-docked .sequence-top,
+  .cinematic-sequence.is-docked .sequence-center,
+  .cinematic-sequence.is-docked .sequence-bottom,
+  .cinematic-sequence.is-docked .sequence-stages,
+  .cinematic-sequence.is-docked .dialer-heading,
+  .cinematic-sequence.is-docked .dialer-readout,
+  .cinematic-sequence.is-docked .dev-process { display: none !important; }
+  .cinematic-sequence.is-docked .dialer-dock { display: block; width: 126px; height: 126px; padding: 0; background: transparent; border: 0; box-shadow: none; pointer-events: auto; }
+  .cinematic-sequence.is-docked .rotary-dial { width: 116px; height: 116px; margin: 5px; background: radial-gradient(circle, rgba(255, 255, 255, .09) 0 31%, transparent 31.5%), repeating-conic-gradient(from -18deg, rgba(255, 255, 255, .18) 0 1deg, transparent 1deg 18deg), rgba(5, 6, 8, .84); box-shadow: inset 0 0 0 5px rgba(0, 0, 0, .26), inset 0 0 0 6px rgba(255, 255, 255, .12), 0 5px 14px rgba(0, 0, 0, .28); backdrop-filter: blur(6px); }
+  .cinematic-sequence.is-docked .rotary-dial::before { inset: 14px; }
+  .cinematic-sequence.is-docked .rotary-dial::after { inset: 6px; }
+  .cinematic-sequence.is-docked .dial-button { width: 27px; height: 27px; background: rgba(23, 25, 28, .9); box-shadow: 1px 1px 0 #000; }
+  .cinematic-sequence.is-docked .dial-button span { font-size: 7px; }
+  .cinematic-sequence.is-docked .dial-button b { display: none; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(1) { top: 8px; left: 44px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(2) { top: 28px; right: 10px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(3) { right: 10px; bottom: 18px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(4) { bottom: 8px; left: 44px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(5) { bottom: 18px; left: 10px; }
+  .cinematic-sequence.is-docked .dial-spindle { width: 51px; height: 51px; box-shadow: 0 0 0 3px rgba(0, 0, 0, .42), inset 0 0 0 1px rgba(255, 255, 255, .13); }
+  .cinematic-sequence.is-docked .dial-spindle strong { font-size: 18px; }
+  .cinematic-sequence.is-docked .dial-spindle small { max-width: 42px; font-size: 4px; }
+  .cinematic-sequence.is-docked .dial-spindle i { width: 12px; }
+  .mobile-dial-nav { display: none; }
+  .cinematic-sequence.is-docked ~ .site-content main { padding-bottom: 0; }
+}
+@media (max-width: 380px) {
+  .cinematic-sequence.is-docked { right: 8px; bottom: 8px; width: 106px; height: 106px; }
+  .cinematic-sequence.is-docked .dialer-dock { width: 106px; height: 106px; }
+  .cinematic-sequence.is-docked .rotary-dial { width: 98px; height: 98px; margin: 4px; }
+  .cinematic-sequence.is-docked .dial-button { width: 24px; height: 24px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(1), .cinematic-sequence.is-docked .dial-button:nth-child(4) { left: 37px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(1) { top: 6px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(2) { top: 24px; right: 8px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(3) { right: 8px; bottom: 15px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(4) { bottom: 6px; }
+  .cinematic-sequence.is-docked .dial-button:nth-child(5) { bottom: 15px; left: 8px; }
+  .cinematic-sequence.is-docked .dial-spindle { width: 44px; height: 44px; }
+  .cinematic-sequence.is-docked .dial-spindle strong { font-size: 16px; }
+}
