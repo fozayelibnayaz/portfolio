@@ -245,3 +245,20 @@ body { background-color: #050608; background-image: url('/assets/build-room-back
 html:not([data-theme="dark"]) body { background-color: #f4f4f1; background-image: linear-gradient(rgba(244, 244, 241, .72), rgba(244, 244, 241, .72)), url('/assets/build-room-background.png'); background-blend-mode: normal, multiply; }
 html:not([data-theme="dark"]) .cms-login { background: linear-gradient(90deg, rgba(244, 244, 241, .94), rgba(244, 244, 241, .68)), url('/assets/build-room-background.png') top right / min(58vw, 820px) auto no-repeat; }
 html:not([data-theme="dark"]) .cms-editor { background: linear-gradient(90deg, rgba(244, 244, 241, .76), rgba(244, 244, 241, .38)), url('/assets/build-room-background.png') top right / min(58vw, 820px) auto no-repeat; background-attachment: fixed; }
+
+/* CMS dial-up control room treatment. */
+.cms-header { min-height: 68px; background: rgba(5, 6, 8, .88); }
+.cms-sidebar { background: rgba(12, 14, 17, .86); }
+.cms-side-label { letter-spacing: .16em; }
+.cms-tab { grid-template-columns: 31px minmax(0, 1fr); align-items: center; min-height: 43px; border-left: 0; border-right: 1px solid transparent; }
+.cms-tab span { display: grid; width: 24px; height: 24px; place-items: center; color: var(--quiet); border: 1px solid var(--line-strong); border-radius: 50%; font-size: 7px; }
+.cms-tab:hover, .cms-tab.active { background: rgba(0, 229, 255, .08); border-right-color: var(--accent); }
+.cms-tab.active span { color: #000; background: var(--accent); border-color: var(--accent); }
+.cms-login-card { box-shadow: 8px 8px 0 rgba(0, 0, 0, .35), 0 0 0 1px rgba(0, 229, 255, .12); }
+.cms-login-card::after { border-radius: 50%; box-shadow: 0 0 0 16px rgba(0, 229, 255, .06), 0 0 0 32px rgba(255, 255, 255, .04); }
+.cms-panel-heading h2 { letter-spacing: -.07em; }
+.cms-notice { border-left-color: var(--accent); }
+@media (max-width: 820px) {
+  .cms-sidebar { background: rgba(5, 6, 8, .94); }
+  .cms-tab { min-width: 128px; border-right: 0; }
+}

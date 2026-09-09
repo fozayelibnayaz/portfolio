@@ -179,15 +179,32 @@ function setupLiveSync() {
   });
 }
 
+function updateDialer(index) {
+  const safeIndex = Math.max(0, Math.min(sectionLabels.length - 1, Number(index) || 0));
+  const label = sectionLabels[safeIndex] || sectionLabels[0];
+  const dial = $('#rotaryDial');
+  if (dial) {
+    dial.dataset.index = String(safeIndex);
+    dial.style.setProperty('--dial-rotation', `${safeIndex * -72}deg`);
+  }
+  $$('[data-section-link]').forEach((button) => button.classList.toggle('active', Number(button.dataset.sectionLink) === safeIndex));
+  $('#dialNumber').textContent = String(safeIndex + 1).padStart(2, '0');
+  $('#dialLabel').textContent = label;
+  $('#dialState').textContent = `${String(safeIndex + 1).padStart(2, '0')} / ${label} CONNECTED`;
+  $('#dialHint').textContent = safeIndex === 0 ? 'Turn the dial to move through the work.' : `Line ${String(safeIndex + 1).padStart(2, '0')} is open.`;
+  $('#headerChannel')?.replaceChildren(document.createTextNode(`LINE ${String(safeIndex + 1).padStart(2, '0')} / ONLINE`));
+}
+
 function updateSectionUI(index) {
   const label = sectionLabels[index] || sectionLabels[0];
   $('#headerSection').textContent = `${String(index).padStart(2, '0')} / ${label}`;
-  $$('.top-nav a').forEach((link) => {
+  $$('[data-section-link]').forEach((link) => {
     const active = Number(link.dataset.sectionLink) === index;
     link.classList.toggle('active', active);
     if (active) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
+  updateDialer(index);
 }
 
 function syncBuildToSection(index) {
@@ -411,9 +428,9 @@ function setupEntrance() {
   }, { passive: true });
   sequence.addEventListener('click', (event) => {
     if (event.target.closest('#skipSequence, [data-build-stage]')) return;
-    if (event.target.closest('#buildPreview, .sequence-center')) advanceFromInput();
+    if (event.target.closest('.app-preview-scene, .sequence-center')) advanceFromInput();
   });
-  $('#buildPreview').addEventListener('click', advanceFromInput);
+  $('#buildPreview')?.addEventListener('click', advanceFromInput);
   $$('[data-build-stage]').forEach((button) => button.addEventListener('click', () => handleBuildStage(Number(button.dataset.buildStage))));
   window.addEventListener('keydown', (event) => {
     if (!entranceOpen && $('#cinematicSequence').classList.contains('is-active')) {

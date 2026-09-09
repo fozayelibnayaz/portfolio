@@ -13,9 +13,9 @@ The unified **Build Room** direction uses a high-contrast black, white, and grap
 ## Included
 
 - A Three.js double-door threshold with three knocks, black-and-white room lighting, corridor markers, path lights, camera walk-through, and reduced-motion support.
-- A five-stage build monitor that remains visible beside the portfolio after the walk: HOME, EXPERIENCE, WHAT I BRING, PROJECTS, and CONTACT each advance the corresponding build stage.
-- A compact frontend-app visual inside the monitor: a Figma-like wireframe appears first, then the design takes shape, the interface is developed, real content is implemented, and the complete app output finishes the sequence. The monitor shows the interface itself rather than code or backend details, and the preview/pipeline animate whenever navigation advances.
-- Clicks, scrolls, touch swipes, and keyboard navigation remain available. A skip/minimize control and reduced-motion path remain available.
+- A rotary dial-up navigation dock that remains beside the portfolio after the walk: HOME, EXPERIENCE, WHAT I BRING, PROJECTS, and CONTACT each rotate the numbered dial to the corresponding chapter.
+- A compact frontend-app window inside the dial dock: a Figma-like wireframe appears first, then the design takes shape, the interface is developed, real content is implemented, and the complete app output finishes the sequence. It shows the interface itself rather than code or backend details.
+- Clicks, scrolls, touch swipes, dial buttons, and keyboard navigation remain available. A skip/minimize control and reduced-motion path remain available.
 - A portfolio flow covering introduction, experience, capabilities, projects, and contact.
 - Six project stories with readable summaries, contribution, approach, stack, and why each build matters.
 - Identity, role, location, portrait, CV, phone, GitHub, Gmail, experience, education, and digital-marketing content.
