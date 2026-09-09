@@ -3,24 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#070b14" />
+    <meta name="theme-color" content="#000000" />
     <meta name="robots" content="noindex, nofollow, noarchive" />
     <link rel="icon" type="image/png" href="../avatar.png" />
     <link rel="stylesheet" href="/src/cms.css" />
-    <title>Portfolio CMS — Fozayel Ibn Ayaz</title>
+    <title>Build Room — Fozayel Ibn Ayaz</title>
   </head>
   <body>
     <main class="cms-shell">
       <section class="cms-login" id="loginView">
         <div class="cms-login-card">
           <a class="cms-back" href="../">← Back to the portfolio</a>
-          <div class="cms-kicker"><span></span> FOZAYEL'S PORTFOLIO / CMS</div>
-          <h1>Keep the work<br /><em>alive.</em></h1>
-          <p class="cms-lede">Edit the words, projects, skills, experience, contact details, portrait, and CV from one place.</p>
+          <div class="cms-kicker"><span></span> FOZAYEL / BUILD ROOM</div>
+          <h1>Build the<br /><em>next version.</em></h1>
+          <p class="cms-lede">A live control room for the words, work, assets, and next release.</p>
           <form id="loginForm" class="cms-login-form">
-            <label for="loginPassword">CMS password</label>
-            <div class="cms-password-row"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter your CMS password" required /><button type="submit">ENTER <b>↗</b></button></div>
-            <p class="cms-hint">The initial password is the one you provided: <strong>amarportfolio</strong>.</p>
+            <label for="loginPassword">PRIVATE ACCESS</label>
+            <div class="cms-password-row"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Enter access key" required /><button type="submit">ENTER <b>↗</b></button></div>
             <p class="cms-error" id="loginError" role="alert"></p>
           </form>
         </div>
@@ -28,12 +27,12 @@
 
       <section class="cms-editor" id="editorView" hidden>
         <header class="cms-header">
-          <a class="cms-brand" href="../"><span>FA</span><strong>PORTFOLIO CMS</strong></a>
-          <div class="cms-header-actions"><span id="saveStatus">LOCAL DRAFT</span><button id="saveButton" class="cms-primary" type="button">SAVE CHANGES</button><button id="logoutButton" class="cms-quiet-button" type="button">LOCK</button></div>
+          <a class="cms-brand" href="../"><span>FA</span><strong>BUILD ROOM</strong></a>
+          <div class="cms-header-actions"><span id="saveStatus">LOCAL DRAFT</span><button id="saveButton" class="cms-primary" type="button">SAVE CHANGES</button><button id="logoutButton" class="cms-quiet-button" type="button">LOCK</button><button id="cmsThemeToggle" class="cms-quiet-button" type="button" aria-label="Switch CMS theme">LIGHT MODE</button></div>
         </header>
         <div class="cms-layout">
           <aside class="cms-sidebar">
-            <div class="cms-side-label">EDIT THE WORLD</div>
+            <div class="cms-side-label">SHIP THE WORK</div>
             <button class="cms-tab active" data-tab="overview" type="button"><span>00</span>Overview</button>
             <button class="cms-tab" data-tab="identity" type="button"><span>01</span>Identity</button>
             <button class="cms-tab" data-tab="projects" type="button"><span>02</span>Projects</button>
@@ -42,12 +41,12 @@
             <button class="cms-tab" data-tab="assets" type="button"><span>05</span>Portrait + CV</button>
             <button class="cms-tab" data-tab="content" type="button"><span>06</span>Full content JSON</button>
             <button class="cms-tab" data-tab="settings" type="button"><span>07</span>Settings</button>
-            <div class="cms-side-foot">SAVES TO THIS BROWSER<br />OR PUBLISHES TO GITHUB</div>
+            <div class="cms-side-foot">DRAFTS IN THIS BROWSER<br />PUBLISH WHEN READY</div>
           </aside>
 
           <div class="cms-main">
             <section class="cms-panel active" data-panel="overview">
-              <div class="cms-panel-heading"><div><span>00 / START HERE</span><h2>Your small control room.</h2></div><div class="cms-live-dot"><i></i> DRAFT READY</div></div>
+              <div class="cms-panel-heading"><div><span>00 / START HERE</span><h2>Build the next version.</h2></div><div class="cms-live-dot"><i></i> DRAFT READY</div></div>
               <div class="cms-notice cms-notice-blue"><strong>How this CMS works</strong><p>Make edits, click <b>Save changes</b>, then open the portfolio in this same browser. The free version stores a private draft in this browser. To make it public for everyone, export the files or use the optional GitHub publish box in Settings.</p></div>
               <div class="cms-overview-grid"><article><span>EDIT</span><strong>Every visible chapter</strong><p>Identity, six case files, all skill groups, digital marketing, experience, education, and contact details.</p></article><article><span>UPLOAD</span><strong>Portrait and CV</strong><p>Upload a new CV whenever you need. The local preview uses it immediately.</p></article><article><span>PUBLISH</span><strong>GitHub Pages</strong><p>Enter a short-lived fine-grained GitHub token in Settings only when you want to publish a draft.</p></article></div>
               <div class="cms-actions"><button class="cms-primary" type="button" data-action="save">SAVE THIS DRAFT</button><button class="cms-secondary" type="button" data-action="download-json">DOWNLOAD CONTENT JSON</button><button class="cms-secondary" type="button" data-action="reset">RESET LOCAL DRAFT</button></div>
@@ -100,7 +99,7 @@
 
             <section class="cms-panel" data-panel="settings" hidden>
               <div class="cms-panel-heading"><div><span>07 / SETTINGS</span><h2>Lock it. Publish it.</h2></div></div>
-              <div class="cms-settings-block"><h3>Change CMS password</h3><p>The password is stored locally in this browser. The initial value is <code>amarportfolio</code>.</p><form id="passwordForm" class="cms-password-change"><input id="newPassword" type="password" minlength="8" placeholder="New password" required /><input id="confirmPassword" type="password" minlength="8" placeholder="Confirm new password" required /><button class="cms-secondary" type="submit">CHANGE PASSWORD</button></form></div>
+              <div class="cms-settings-block"><h3>Change CMS password</h3><p>The password is stored locally in this browser. Change it here whenever you need to.</p><form id="passwordForm" class="cms-password-change"><input id="newPassword" type="password" minlength="8" placeholder="New password" required /><input id="confirmPassword" type="password" minlength="8" placeholder="Confirm new password" required /><button class="cms-secondary" type="submit">CHANGE PASSWORD</button></form></div>
               <div class="cms-settings-block"><h3>Publish to GitHub Pages</h3><p>Optional free publishing: create a fine-grained GitHub token with <b>Contents: Read and write</b> for <code>fozayelibnayaz/portfolio</code>. The token stays in memory and is never saved by this page.</p><div class="cms-publish-grid"><label>GitHub token<input id="githubToken" type="password" autocomplete="off" placeholder="ghp_… or github_pat_…" /></label><label>Commit message<input id="commitMessage" type="text" value="Update portfolio from CMS" /></label></div><button id="publishButton" class="cms-primary" type="button">PUBLISH DRAFT TO GITHUB</button><p class="cms-publish-status" id="publishStatus"></p></div>
               <div class="cms-settings-block"><h3>Data transfer</h3><p>Use JSON export/import to move content between browsers. Asset uploads are kept in the current browser until published.</p><div class="cms-actions"><button class="cms-secondary" type="button" data-action="download-json">DOWNLOAD CONTENT JSON</button><button class="cms-danger" type="button" data-action="reset">RESET ALL LOCAL DRAFT DATA</button></div></div>
             </section>

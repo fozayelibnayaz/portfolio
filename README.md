@@ -1,26 +1,27 @@
-# Fozayel Ibn Ayaz — Come In
+# Fozayel Ibn Ayaz — Build Room
 
-A from-scratch portfolio built around one simple invitation: arrive, knock, and come in. The public site opens with an interactive Three.js double door. The visitor starts three deliberate knocks, the door opens, and the site reveals a calm story about Fozayel's experience, projects, skills, and contact details.
+A story-based portfolio built around an arrival sequence. The visitor knocks on the doorway, the doors open, and the site becomes a small live build room: five stage controls turn the portfolio on one section at a time before the completed work appears.
 
-The public entry point is `index.html`. The story is intentionally clear for a non-technical visitor:
+The unified **Build Room** direction uses a high-contrast black, white, and graphite system across the public portfolio and CMS. After the knock, the build monitor stays beside the site while navigation and scrolling advance each corresponding stage:
 
-1. Introduction — who Fozayel is and what he makes.
-2. Experience — roles, responsibilities, and education.
-3. What I Bring — practical capabilities and digital marketing.
-4. Projects — six project stories with contribution, approach, stack, and why each one matters.
-5. Contact — direct ways to start a conversation.
+1. Opening — start with the person.
+2. Experience — follow the thread.
+3. What I Bring — make it useful.
+4. Projects — see what moved.
+5. Contact — leave with a next step and complete the build.
 
 ## Included
 
-- A meaningful Three.js threshold scene with a double door, frame, room light, knock feedback, opening animation, cinematic camera walk-through, and a three-frame arrival film before the portfolio appears.
-- The arrival film moves through Experience, Making, and Projects with animated typography, progress cues, a skip control, reduced-motion support, and a CSS fallback when WebGL is unavailable.
-- An arrival gate that can be entered by clicking the door or button, pressing Enter, or pressing Space.
-- A linear story with dedicated Experience and Projects sections instead of mixing project work into an experience timeline.
+- A Three.js double-door threshold with three knocks, black-and-white room lighting, corridor markers, path lights, camera walk-through, and reduced-motion support.
+- A five-stage build monitor that remains visible beside the portfolio after the walk: HOME, EXPERIENCE, WHAT I BRING, PROJECTS, and CONTACT each advance the corresponding build stage.
+- A compact frontend-app visual inside the monitor: a Figma-like wireframe appears first, then the design takes shape, the interface is developed, real content is implemented, and the complete app output finishes the sequence. The monitor shows the interface itself rather than code or backend details, and the preview/pipeline animate whenever navigation advances.
+- Clicks, scrolls, touch swipes, and keyboard navigation remain available. A skip/minimize control and reduced-motion path remain available.
+- A portfolio flow covering introduction, experience, capabilities, projects, and contact.
 - Six project stories with readable summaries, contribution, approach, stack, and why each build matters.
 - Identity, role, location, portrait, CV, phone, GitHub, Gmail, experience, education, and digital-marketing content.
 - Four skills groups plus exactly five digital-marketing practice items.
-- Light and dark themes, responsive layouts, accessible buttons and links, keyboard section shortcuts (`1`–`5`), and project detail dialogs.
-- A password-protected admin CMS at `/cms.html`. The legacy `/cms/` path remains available as a compatibility route. Neither route is linked from the public portfolio, and both CMS pages are marked `noindex,nofollow`.
+- Black-and-white visual styling, responsive layouts, accessible controls, keyboard stage/section shortcuts (`1`–`5`), and project detail dialogs.
+- Password-protected admin CMS at `/cms.html`. The legacy `/cms/` path remains available. Neither route is linked from the public portfolio, and both are marked `noindex,nofollow`.
 
 ## Local development
 
@@ -29,7 +30,7 @@ npm install
 npm run dev
 ```
 
-Open the Vite URL shown in the terminal. The dev server is configured for a network-accessible live preview:
+For a network-accessible preview:
 
 ```bash
 npm run dev -- --host 0.0.0.0
@@ -44,53 +45,43 @@ npm run preview -- --host 0.0.0.0
 
 ## Admin CMS
 
-Open the primary admin path:
+Primary admin URL:
 
 ```text
 http://localhost:4174/cms.html
 ```
 
-The compatibility route is also available:
+Compatibility URL:
 
 ```text
 http://localhost:4174/cms/
 ```
 
-or, after deployment:
+The CMS edits identity, projects, skills, digital marketing, experience, education, portrait, CV, and complete content JSON. Local drafts are saved in the current browser. Open portfolio tabs receive content, portrait, and CV changes through the browser’s live sync channel; a newly selected CV updates the portfolio’s CV link without a page refresh.
 
-```text
-https://fozayelibnayaz.github.io/portfolio/cms.html
-```
-
-The initial password is `amarportfolio`. The CMS edits identity, projects, skills, digital marketing, experience, education, portrait, CV, and the complete content JSON. Local drafts are saved in the current browser.
-
-GitHub Pages is static, so the password gate is a browser-level editor lock rather than server authentication. To publish a draft publicly from the CMS, use a fine-grained GitHub token with **Contents: Read and write** access to `fozayelibnayaz/portfolio`. The CMS keeps that token in memory only. You can also download the JSON and commit it manually.
+GitHub Pages is static, so the editor lock is browser-level protection rather than server authentication. The CMS keeps GitHub tokens in memory only.
 
 ## Deploy to GitHub Pages
 
-The repository includes `deploy.sh`. It installs dependencies, builds the production site, stages the source, creates a commit, and pushes to the `main` branch without a force push. It also works when this folder was downloaded without `.git`: the script creates a temporary clone, copies the current workspace into it, and pushes the update.
+The included `deploy.sh` works both inside a Git clone and from a downloaded workspace without `.git`. When `.git` is missing, it creates a temporary clone of the target repository, copies the current workspace into it, builds, commits, and pushes without force-pushing.
+
+Run:
 
 ```bash
-chmod +x deploy.sh
-./deploy.sh
+chmod +x deploy.sh && ./deploy.sh
 ```
 
-The script assumes the repository remote is:
+Target repository:
 
 ```text
 https://github.com/fozayelibnayaz/portfolio.git
 ```
 
-After the push, GitHub Actions should rebuild the site. The public portfolio will be available at:
+Published URLs:
 
 ```text
 https://fozayelibnayaz.github.io/portfolio/
-```
-
-The CMS will be available at:
-
-```text
 https://fozayelibnayaz.github.io/portfolio/cms.html
 ```
 
-Generated `dist/` files are intentionally ignored by Git. Do not put a GitHub token in the script or commit it to the repository.
+If Git needs an identity on the computer, configure it once with `git config --global user.name` and `git config --global user.email`. GitHub authentication may require a credential manager or personal access token. Never commit a token to the project.

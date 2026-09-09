@@ -8,7 +8,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REMOTE_URL="${REMOTE_URL:-https://github.com/fozayelibnayaz/portfolio.git}"
 BRANCH="${BRANCH:-main}"
-COMMIT_MESSAGE="${COMMIT_MESSAGE:-Update portfolio: cinematic doorway experience}"
+COMMIT_MESSAGE="${COMMIT_MESSAGE:-Update portfolio: frontend app build overlay and CMS theme}"
 TEMP_DIR=""
 
 cleanup() {

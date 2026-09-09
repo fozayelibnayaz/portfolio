@@ -2,9 +2,10 @@ import { defaultContent, mergeContent, readLocalContent, saveLocalContent, clear
 
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
-const DEFAULT_PASSWORD = 'amarportfolio';
+const DEFAULT_PASSWORD_DIGEST = 'a6b93b788eca1e35f75c9d9723438959455cd89a1bb78d6df3263469b64f218b';
 const PASSWORD_KEY = 'fozay-cms-password';
 const SESSION_KEY = 'fozay-cms-unlocked';
+const CMS_THEME_KEY = 'fozay-cms-theme-mono';
 const API_ROOT = 'https://api.github.com/repos/fozayelibnayaz/portfolio/contents';
 
 const state = {
@@ -12,6 +13,11 @@ const state = {
   fullJsonDirty: false,
 };
 let githubToken = '';
+const liveChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('fozay-portfolio-live') : null;
+
+function announcePortfolioSync(reason = 'content') {
+  liveChannel?.postMessage({ type: 'portfolio-sync', reason, at: Date.now() });
+}
 
 const loginView = $('#loginView');
 const editorView = $('#editorView');
@@ -19,13 +25,26 @@ const saveStatus = $('#saveStatus');
 const loginError = $('#loginError');
 const fullJson = $('#fullContentJson');
 
-function currentPassword() {
-  return localStorage.getItem(PASSWORD_KEY) || DEFAULT_PASSWORD;
+async function passwordMatches(value) {
+  const stored = localStorage.getItem(PASSWORD_KEY);
+  if (stored) return value === stored;
+  const bytes = new TextEncoder().encode(value);
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  const actual = [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+  return actual === DEFAULT_PASSWORD_DIGEST;
 }
 
 function setStatus(message, isError = false) {
   saveStatus.textContent = message;
   saveStatus.style.color = isError ? 'var(--danger)' : 'var(--cyan)';
+}
+
+function setCmsTheme(theme) {
+  const next = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem(CMS_THEME_KEY, next);
+  const toggle = $('#cmsThemeToggle');
+  if (toggle) toggle.textContent = next === 'dark' ? 'LIGHT MODE' : 'DARK MODE';
 }
 
 function pretty(value) {
@@ -71,10 +90,11 @@ function fillFields() {
   $('#educationJson').value = pretty(state.content.education);
   fullJson.value = pretty(state.content);
   state.fullJsonDirty = false;
-  const avatar = localStorage.getItem('fozay-avatar-data') || '../avatar.png';
+  const fallbackAvatar = location.pathname.endsWith('/cms/') ? '../avatar.png' : './avatar.png';
+  const avatar = localStorage.getItem('fozay-avatar-data') || fallbackAvatar;
   $('#cmsPortraitPreview').src = avatar;
   const cv = localStorage.getItem('fozay-cv-data');
-  $('#cvStatus').textContent = cv ? 'A local uploaded CV is active.' : 'Using the repository CV.';
+  $('#cvStatus').textContent = cv ? 'A local uploaded CV is active — open portfolio links update live.' : 'Using the repository CV — live link ready.';
 }
 
 function collectFields() {
@@ -110,6 +130,7 @@ function saveDraft({ quiet = false } = {}) {
   try {
     const next = collectFields();
     saveLocalContent(next);
+    announcePortfolioSync('content');
     if (!quiet) setStatus(`SAVED ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`);
     return next;
   } catch (error) {
@@ -175,16 +196,18 @@ async function savePortrait(file) {
   const avatar = avatarCanvas.toDataURL('image/png');
   localStorage.setItem('fozay-portrait-data', portrait);
   localStorage.setItem('fozay-avatar-data', avatar);
+  announcePortfolioSync('portrait');
   $('#cmsPortraitPreview').src = avatar;
-  setStatus('PORTRAIT READY — SAVE THE DRAFT');
+  setStatus('PORTRAIT READY — LIVE PREVIEW UPDATED');
 }
 
 async function saveCv(file) {
   if (file.type !== 'application/pdf') throw new Error('Please choose a PDF file for the CV.');
   const dataUrl = await fileToDataUrl(file);
   localStorage.setItem('fozay-cv-data', dataUrl);
-  $('#cvStatus').textContent = `${file.name} is ready in this browser.`;
-  setStatus('CV READY — SAVE THE DRAFT');
+  announcePortfolioSync('cv');
+  $('#cvStatus').textContent = `${file.name} is ready — open portfolio links update live.`;
+  setStatus('CV READY — LIVE PORTFOLIO LINK UPDATED');
 }
 
 function resetDraft() {
@@ -193,6 +216,7 @@ function resetDraft() {
   localStorage.removeItem('fozay-portrait-data');
   localStorage.removeItem('fozay-avatar-data');
   localStorage.removeItem('fozay-cv-data');
+  announcePortfolioSync('reset');
   state.content = mergeContent({}, defaultContent);
   fillFields();
   setStatus('LOCAL DRAFT RESET');
@@ -272,14 +296,14 @@ function switchTab(tab) {
   $$('[data-panel]').forEach((panel) => { panel.hidden = panel.dataset.panel !== tab; });
 }
 
-$('#loginForm').addEventListener('submit', (event) => {
+$('#loginForm').addEventListener('submit', async (event) => {
   event.preventDefault();
-  if ($('#loginPassword').value === currentPassword()) {
+  if (await passwordMatches($('#loginPassword').value)) {
     sessionStorage.setItem(SESSION_KEY, 'true');
     loginError.textContent = '';
     showEditor();
   } else {
-    loginError.textContent = 'That password did not open the control room.';
+    loginError.textContent = 'ACCESS NOT RECOGNIZED.';
   }
 });
 
@@ -303,6 +327,8 @@ $('#passwordForm').addEventListener('submit', (event) => {
   setStatus('CMS PASSWORD CHANGED');
 });
 $('#publishButton').addEventListener('click', publishGithub);
+$('#cmsThemeToggle')?.addEventListener('click', () => setCmsTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+setCmsTheme(localStorage.getItem(CMS_THEME_KEY) || document.documentElement.dataset.theme || 'dark');
 
 if (sessionStorage.getItem(SESSION_KEY) === 'true') showEditor();
 else $('#loginPassword').focus();

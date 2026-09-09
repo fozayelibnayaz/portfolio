@@ -45,7 +45,12 @@ export class ThresholdScene {
     this.walking = false;
     this.walkProgress = 0;
     this.walkStartZ = 7.8;
-    this.walkEndZ = -1.2;
+    this.walkEndZ = -3.9;
+    this.stageIndex = 0;
+    this.stageColors = [0x000000, 0x101010, 0x1e1e1e, 0x2a2a2a, 0x151515];
+    this.stageLightColors = [0xffffff, 0xd8d8d8, 0xbdbdbd, 0xffffff, 0xffffff];
+    this.stageColor = new THREE.Color(this.stageColors[0]);
+    this.stageTargetColor = new THREE.Color(this.stageColors[0]);
     this.theme = 'light';
     this.reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
     this.clock = new THREE.Clock();
@@ -65,15 +70,17 @@ export class ThresholdScene {
     }
 
     this.scene = new THREE.Scene();
+    this.scene.background = this.stageColor;
+    this.scene.fog = new THREE.FogExp2(this.stageColors[0], .035);
     this.camera = new THREE.PerspectiveCamera(32, 1, .1, 30);
     this.camera.position.set(0, .1, 7.8);
     this.camera.lookAt(0, .1, 0);
-    this.scene.add(new THREE.HemisphereLight(0xe6e0d4, 0x201c1a, 1.4));
-    const key = new THREE.DirectionalLight(0xffead0, 2.2);
+    this.scene.add(new THREE.HemisphereLight(0xffffff, 0x000000, 1.4));
+    const key = new THREE.DirectionalLight(0xffffff, 2.2);
     key.position.set(-3, 5, 5);
     key.castShadow = true;
     this.scene.add(key);
-    this.roomLight = new THREE.PointLight(0xd47b5d, 0, 9, 2);
+    this.roomLight = new THREE.PointLight(0xffffff, 0, 9, 2);
     this.roomLight.position.set(0, .7, 1.5);
     this.scene.add(this.roomLight);
     this.createRoom();
@@ -84,51 +91,75 @@ export class ThresholdScene {
 
   createRoom() {
     const room = new THREE.Group();
-    const floor = box(7.2, .12, 4.6, 0x847c71, { roughness: .88, metalness: .08 });
-    floor.position.set(0, -2.18, .2);
+    const floor = box(7.2, .12, 10.5, 0x111111, { roughness: .88, metalness: .08 });
+    floor.position.set(0, -2.18, -1.2);
     room.add(floor);
-    const back = box(7.2, 5.2, .12, 0x252f2c, { roughness: .82, metalness: .08 });
-    back.position.set(0, .35, -1.55);
+    const back = box(7.2, 5.2, .12, 0x000000, { roughness: .82, metalness: .08 });
+    back.position.set(0, .35, -5.25);
     room.add(back);
-    const ceiling = box(7.2, .1, 4.6, 0x34302b, { roughness: .75, metalness: .16 });
-    ceiling.position.set(0, 2.72, .2);
+    const ceiling = box(7.2, .1, 10.5, 0x111111, { roughness: .75, metalness: .16 });
+    ceiling.position.set(0, 2.72, -1.2);
     room.add(ceiling);
-    const threshold = box(3.6, .08, .42, 0xb39476, { roughness: .56, metalness: .24 });
+    const sideWallLeft = box(.1, 5.2, 10.5, 0x111111, { roughness: .82, metalness: .08 });
+    sideWallLeft.position.set(-3.6, .35, -1.2);
+    const sideWallRight = sideWallLeft.clone();
+    sideWallRight.position.x = 3.6;
+    room.add(sideWallLeft, sideWallRight);
+    const threshold = box(3.6, .08, .42, 0xbdbdbd, { roughness: .56, metalness: .24 });
     threshold.position.set(0, -2.1, .2);
     room.add(threshold);
-    const glow = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 3.7), new THREE.MeshBasicMaterial({ color: 0xd98768, transparent: true, opacity: 0 }));
+    const glow = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 3.7), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0 }));
     glow.position.set(0, .08, -1.47);
     room.add(glow);
     this.glow = glow;
-    const frameTop = box(3.55, .18, .22, 0xaaa39a, { roughness: .34, metalness: .55 });
+    const frameTop = box(3.55, .18, .22, 0xaaaaaa, { roughness: .34, metalness: .55 });
     frameTop.position.set(0, 2.35, -.98);
     room.add(frameTop);
-    const frameLeft = box(.17, 4.0, .22, 0xaaa39a, { roughness: .34, metalness: .55 });
+    const frameLeft = box(.17, 4.0, .22, 0xaaaaaa, { roughness: .34, metalness: .55 });
     frameLeft.position.set(-1.7, .35, -.98);
     const frameRight = frameLeft.clone();
     frameRight.position.x = 1.7;
     room.add(frameLeft, frameRight);
 
+    this.pathLights = [];
+    [-1.4, -2.7, -4.05].forEach((z, index) => {
+      const color = index % 2 === 0 ? 0xffffff : 0xd8d8d8;
+      const light = new THREE.PointLight(color, 0, 4.5, 2);
+      light.position.set(0, 1.05, z);
+      room.add(light);
+      this.pathLights.push(light);
+      const marker = new THREE.Group();
+      const top = box(2.85, .035, .035, color, { emissive: color, emissiveIntensity: .8, roughness: .3, metalness: .2 });
+      top.position.y = 1.95;
+      const left = box(.035, 3.3, .035, color, { emissive: color, emissiveIntensity: .8, roughness: .3, metalness: .2 });
+      left.position.set(-1.42, .3, 0);
+      const right = left.clone();
+      right.position.x = 1.42;
+      marker.position.z = z;
+      marker.add(top, left, right);
+      room.add(marker);
+    });
+
     const leftPivot = new THREE.Group();
     leftPivot.position.set(-1.7, .35, -.83);
-    const leftDoor = box(1.68, 3.92, .18, 0x56615b, { roughness: .42, metalness: .42 });
+    const leftDoor = box(1.68, 3.92, .18, 0x333333, { roughness: .42, metalness: .42 });
     leftDoor.position.x = .84;
     leftPivot.add(leftDoor);
-    const leftInset = box(1.28, 3.48, .025, 0x35433e, { roughness: .52, metalness: .24 });
+    const leftInset = box(1.28, 3.48, .025, 0x151515, { roughness: .52, metalness: .24 });
     leftInset.position.set(.84, 0, .105);
     leftPivot.add(leftInset);
-    const leftHandle = box(.04, .52, .04, 0xc3a77d, { roughness: .24, metalness: .75 });
+    const leftHandle = box(.04, .52, .04, 0xbdbdbd, { roughness: .24, metalness: .75 });
     leftHandle.position.set(1.45, 0, .16);
     leftPivot.add(leftHandle);
     const rightPivot = new THREE.Group();
     rightPivot.position.set(1.7, .35, -.83);
-    const rightDoor = box(1.68, 3.92, .18, 0x56615b, { roughness: .42, metalness: .42 });
+    const rightDoor = box(1.68, 3.92, .18, 0x333333, { roughness: .42, metalness: .42 });
     rightDoor.position.x = -.84;
     rightPivot.add(rightDoor);
-    const rightInset = box(1.28, 3.48, .025, 0x35433e, { roughness: .52, metalness: .24 });
+    const rightInset = box(1.28, 3.48, .025, 0x151515, { roughness: .52, metalness: .24 });
     rightInset.position.set(-.84, 0, .105);
     rightPivot.add(rightInset);
-    const rightHandle = box(.04, .52, .04, 0xc3a77d, { roughness: .24, metalness: .75 });
+    const rightHandle = box(.04, .52, .04, 0xbdbdbd, { roughness: .24, metalness: .75 });
     rightHandle.position.set(-1.45, 0, .16);
     rightPivot.add(rightHandle);
     room.add(leftPivot, rightPivot);
@@ -198,9 +229,10 @@ export class ThresholdScene {
 
   updateDoors() {
     const value = ease(this.progress);
-    this.leftDoor.rotation.y = -value * .88;
-    this.rightDoor.rotation.y = value * .88;
+    if (this.leftDoor) this.leftDoor.rotation.y = -value * .88;
+    if (this.rightDoor) this.rightDoor.rotation.y = value * .88;
     if (this.roomLight) this.roomLight.intensity = value * (this.theme === 'dark' ? 3.2 : 2.4);
+    this.pathLights?.forEach((light, index) => { light.intensity = value * (this.theme === 'dark' ? 1.25 : .85) * (1 - index * .12); });
     if (this.glow) this.glow.material.opacity = value * .18;
   }
 
@@ -210,9 +242,18 @@ export class ThresholdScene {
     this.camera.position.z = THREE.MathUtils.lerp(this.walkStartZ, this.walkEndZ, value);
     this.camera.position.y = .1 + Math.sin(value * Math.PI) * .07;
     this.camera.position.x = Math.sin(value * Math.PI * 2) * .025;
-    this.camera.fov = 32 + value * 5;
-    this.camera.lookAt(0, .08, -.75 - value * .16);
+    this.camera.fov = 32 + value * 7;
+    this.camera.lookAt(0, .08, -.75 - value * 2.75);
     this.camera.updateProjectionMatrix();
+  }
+
+  setStage(index) {
+    const next = Math.max(0, Math.min(this.stageColors.length - 1, Number(index) || 0));
+    this.stageIndex = next;
+    this.stageTargetColor.setHex(this.stageColors[next]);
+    const lightColor = this.stageLightColors[next];
+    if (this.roomLight) this.roomLight.color.setHex(lightColor);
+    this.pathLights?.forEach((light, pathIndex) => light.color.setHex(pathIndex % 2 ? lightColor : this.stageLightColors[(next + 1) % this.stageLightColors.length]));
   }
 
   setTheme(theme) {
@@ -234,13 +275,15 @@ export class ThresholdScene {
     requestAnimationFrame(() => this.animate());
     const dt = Math.min(this.clock.getDelta(), .05);
     this.time += dt;
+    this.stageColor.lerp(this.stageTargetColor, 1 - Math.exp(-dt * 4));
+    if (this.scene.fog) this.scene.fog.color.copy(this.stageColor);
     if (!this.reducedMotion) this.progress += (this.target - this.progress) * Math.min(1, dt * 3.8);
     else this.progress = this.target;
     if (this.progress > .985 && this.target === 1 && !this.didOpen) this.startWalkthrough();
     this.updateDoors();
 
     if (this.walking) {
-      this.walkProgress += dt * 1.15;
+      this.walkProgress += dt * .78;
       this.updateWalkCamera();
       if (this.walkProgress >= 1) {
         this.walkProgress = 1;

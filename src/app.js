@@ -15,11 +15,24 @@ let thresholdScene;
 let thresholdArrived = false;
 let cinematicDone = false;
 let cinematicTimer;
+let cinematicWheelLock = false;
+let cinematicClicks = 0;
 const cinematicReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+const liveChannel = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('fozay-portfolio-live') : null;
+const THEME_KEY = 'fozay-theme-mono-studio';
 const cinematicFrames = [
-  { kicker: '01 / EXPERIENCE', title: 'What happens<br /><em>after launch.</em>', text: 'Support, analysis, implementation — the part of work people rely on.' },
-  { kicker: '02 / MAKING', title: 'Ideas become<br /><em>useful.</em>', text: 'Code, content, data, and care moving in the same direction.' },
-  { kicker: '03 / PROJECTS', title: 'Now, come<br /><em>further in.</em>', text: 'The rooms are ready. Start with the experience behind them.' },
+  { kicker: 'BUILD 01 / OPENING', title: 'Start with<br /><em>the person.</em>', text: 'The site is coming together one useful section at a time.' },
+  { kicker: 'BUILD 02 / EXPERIENCE', title: 'Follow the<br /><em>thread.</em>', text: 'Roles, responsibility, and the lessons that stay after launch.' },
+  { kicker: 'BUILD 03 / WHAT I BRING', title: 'Make it<br /><em>useful.</em>', text: 'Build, measure, shape, and ship — together, not in separate rooms.' },
+  { kicker: 'BUILD 04 / PROJECTS', title: 'See what<br /><em>moved.</em>', text: 'Six projects, each with a real question behind the interface.' },
+  { kicker: 'BUILD 05 / CONTACT', title: 'Leave with<br /><em>a next step.</em>', text: 'The build is complete. There is a room ready for your problem.' },
+];
+const developmentPhases = [
+  { name: 'WIREFRAME', note: 'Figma-style frames set the page proportions.', visual: ['01 / WIREFRAME', 'STRUCTURE', 'Empty frames establish the app before any content is added.', 'FRAME'], lines: [] },
+  { name: 'DESIGN', note: 'The visual system and content shape the screen.', visual: ['02 / DESIGN', 'DESIGNING', 'Type, content, spacing, and visual direction enter the frames.', 'DESIGN'], lines: [] },
+  { name: 'DEVELOP', note: 'The designed screen becomes a working frontend.', visual: ['03 / DEVELOP', 'DEVELOPING', 'Navigation, cards, buttons, and responsive UI become real.', 'BUILD'], lines: [] },
+  { name: 'CONTENT', note: 'Real content is implemented and checked in the interface.', visual: ['04 / CONTENT', 'IMPLEMENT CONTENT', 'Project cards, copy, labels, and real page details fill the designed system.', 'CONTENT'], lines: [] },
+  { name: 'FINAL', note: 'The complete app is ready to use.', visual: ['05 / FINAL OUTPUT', 'FINAL LOOK', 'A complete product screen is ready to use, share, and ship.', 'OUTPUT'], lines: [] },
 ];
 
 function esc(value) {
@@ -69,7 +82,7 @@ function renderPerson() {
   $('#heroLonger').textContent = profile.longerSummary || '';
   $('#contactName').textContent = name;
   $('#heroPortrait').alt = `Portrait of ${profile.name || 'Fozayel Ibn Ayaz'}`;
-  document.title = `${profile.name || 'Fozayel Ibn Ayaz'} — Come In`;
+  document.title = `${profile.name || 'Fozayel Ibn Ayaz'} — Build Room`;
 }
 
 function renderFeatured() {
@@ -119,7 +132,7 @@ function renderExperience() {
 
 function renderContact() {
   const profile = content.portfolio;
-  $('#contactActions').innerHTML = `<a class="primary-action" href="${gmail(profile.email, 'Portfolio contact')}" target="_blank" rel="noreferrer">EMAIL FOZAYEL <b>↗</b></a><a class="text-action" href="tel:${esc(profile.phone)}">${esc(profile.phone)} <b>↗</b></a><a class="text-action" href="${esc(profile.github)}" target="_blank" rel="noreferrer">GITHUB <b>↗</b></a><a class="text-action" href="${cv()}" target="_blank" rel="noreferrer">READ THE CV <b>↗</b></a>`;
+  $('#contactActions').innerHTML = `<a class="primary-action" href="${gmail(profile.email, 'Portfolio contact')}" target="_blank" rel="noreferrer">EMAIL FOZAYEL <b>↗</b></a><a class="text-action" href="tel:${esc(profile.phone)}">${esc(profile.phone)} <b>↗</b></a><a class="text-action" href="${esc(profile.github)}" target="_blank" rel="noreferrer">GITHUB <b>↗</b></a><a class="text-action" id="portfolioCvLink" href="${cv()}" target="_blank" rel="noreferrer">READ THE CV <b>↗</b></a>`;
 }
 
 function updateAssets() {
@@ -140,6 +153,30 @@ function updateAssets() {
     link.rel = 'noreferrer';
   });
   $('#footerEmail').textContent = `${content.portfolio.email.toUpperCase()} ↗`;
+  const cvLink = $('#portfolioCvLink');
+  if (cvLink) cvLink.href = cv();
+}
+
+function refreshPortfolioFromDraft() {
+  content = mergeContent(readLocalContent() || {}, defaultContent);
+  renderPerson();
+  renderFeatured();
+  renderProjects();
+  renderMethod();
+  renderExperience();
+  renderContact();
+  updateAssets();
+}
+
+function setupLiveSync() {
+  const sync = () => refreshPortfolioFromDraft();
+  window.addEventListener('storage', (event) => {
+    if (['fozay-content', 'fozay-cv-data', 'fozay-portrait-data', 'fozay-avatar-data'].includes(event.key)) sync();
+  });
+  window.addEventListener('focus', sync, { passive: true });
+  liveChannel?.addEventListener('message', (event) => {
+    if (event.data?.type === 'portfolio-sync') sync();
+  });
 }
 
 function updateSectionUI(index) {
@@ -153,10 +190,28 @@ function updateSectionUI(index) {
   });
 }
 
+function syncBuildToSection(index) {
+  if (!entranceOpen) return;
+  const next = Math.max(0, Math.min(cinematicFrames.length - 1, Number(index) || 0));
+  if (cinematicDone) {
+    setCinematicFrame(next, Math.max(cinematicClicks, next + 1));
+    updateBuildWorkbench(next);
+    updateStageButtons();
+    return;
+  }
+  while (!cinematicDone && cinematicClicks <= next) handleBuildStage(cinematicClicks);
+  if (!cinematicDone && cinematicClicks > next) {
+    setCinematicFrame(next, cinematicClicks);
+    updateBuildWorkbench(next);
+    updateStageButtons();
+  }
+}
+
 function goToSection(index, { scroll = false } = {}) {
   const next = Math.max(0, Math.min(sections.length - 1, Number(index) || 0));
   currentSection = next;
   updateSectionUI(next);
+  syncBuildToSection(next);
   if (scroll) document.getElementById(sections[next])?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -171,7 +226,46 @@ function setupScrollState() {
   sections.forEach((id) => observer.observe(document.getElementById(id)));
 }
 
-function setCinematicFrame(index) {
+function updateStageButtons() {
+  $$('[data-build-stage]').forEach((button, index) => {
+    const complete = index < cinematicClicks;
+    const current = !cinematicDone && index === cinematicClicks;
+    button.disabled = !current;
+    button.classList.toggle('is-complete', complete);
+    button.classList.toggle('is-current', current);
+    button.setAttribute('aria-current', current ? 'step' : 'false');
+  });
+}
+
+function updateDevelopmentProcess(stageIndex = 0) {
+  const index = Math.max(0, Math.min(developmentPhases.length - 1, Number(stageIndex) || 0));
+  const phase = developmentPhases[index];
+  const windowElement = $('#devWindow');
+  if (windowElement) {
+    windowElement.dataset.phase = String(index + 1);
+    windowElement.classList.remove('is-refreshing');
+    void windowElement.offsetWidth;
+    windowElement.classList.add('is-refreshing');
+  }
+  $('#devPhase').textContent = phase.name;
+  $('#devPhaseNote').textContent = phase.note;
+  const visibleProgress = cinematicClicks === 0 && index === 0 ? 0 : (index + 1) * 20;
+  $('#devPercent').textContent = `${String(visibleProgress).padStart(2, '0')}%`;
+  $('#devVisualLabel').textContent = phase.visual[0];
+  $('#devVisualTitle').textContent = phase.visual[1];
+  $('#devVisualDescription').textContent = phase.visual[2];
+  $('#devVisualAction').textContent = phase.visual[3];
+  $$('[data-dev-step]').forEach((step, stepIndex) => {
+    step.classList.toggle('is-active', stepIndex === index);
+    step.classList.toggle('is-complete', stepIndex < cinematicClicks || (cinematicDone && stepIndex <= index));
+  });
+}
+
+function updateBuildWorkbench(stageIndex = -1) {
+  updateDevelopmentProcess(stageIndex < 0 ? 0 : stageIndex);
+}
+
+function setCinematicFrame(index, completed = cinematicClicks) {
   const frame = cinematicFrames[index];
   if (!frame) return;
   const center = $('.sequence-center');
@@ -180,41 +274,66 @@ function setCinematicFrame(index) {
   $('#sequenceKicker').textContent = frame.kicker;
   $('#sequenceTitle').innerHTML = frame.title;
   $('#sequenceText').textContent = frame.text;
-  $('#sequenceCount').textContent = `${String(index + 1).padStart(2, '0')} — 03`;
-  $('#sequenceProgress').style.width = `${((index + 1) / cinematicFrames.length) * 100}%`;
+  $('#sequenceCount').textContent = `${String(completed).padStart(2, '0')} — ${String(cinematicFrames.length).padStart(2, '0')}`;
+  $('#sequenceProgress').style.width = `${(completed / cinematicFrames.length) * 100}%`;
+  $('#cinematicSequence').dataset.stage = String(index + 1);
+  thresholdScene?.setStage(index);
   center.classList.add('is-changing');
+}
+
+function completeCinematicSequence() {
+  cinematicDone = true;
+  const sequence = $('#cinematicSequence');
+  sequence.classList.add('is-complete');
+  updateStageButtons();
+  updateBuildWorkbench(cinematicFrames.length - 1);
+  if (thresholdArrived) {
+    cinematicTimer = window.setTimeout(revealSite, 900);
+  }
+}
+
+function handleBuildStage(index) {
+  if (cinematicDone || index !== cinematicClicks) return;
+  const completed = index + 1;
+  setCinematicFrame(index, completed);
+  cinematicClicks = completed;
+  updateBuildWorkbench(index);
+  updateStageButtons();
+  if (completed === cinematicFrames.length) completeCinematicSequence();
 }
 
 function beginCinematicSequence() {
   const sequence = $('#cinematicSequence');
   sequence.classList.add('is-active');
+  sequence.classList.remove('is-complete');
   sequence.removeAttribute('inert');
   sequence.setAttribute('aria-hidden', 'false');
   cinematicDone = false;
-  setCinematicFrame(0);
+  cinematicClicks = 0;
+  setCinematicFrame(0, 0);
+  updateBuildWorkbench(-1);
+  updateStageButtons();
   if (cinematicReducedMotion) {
+    cinematicClicks = cinematicFrames.length;
     cinematicDone = true;
     return;
   }
-  let index = 0;
-  const advance = () => {
-    index += 1;
-    if (index >= cinematicFrames.length) {
-      cinematicTimer = window.setTimeout(() => {
-        cinematicDone = true;
-        if (thresholdArrived) revealSite();
-      }, 680);
-      return;
-    }
-    setCinematicFrame(index);
-    cinematicTimer = window.setTimeout(advance, 980);
-  };
-  cinematicTimer = window.setTimeout(advance, 980);
 }
 
 function skipCinematicSequence() {
+  if (entranceOpen) {
+    const sequence = $('#cinematicSequence');
+    const minimized = !sequence.classList.contains('is-minimized');
+    sequence.classList.toggle('is-minimized', minimized);
+    sequence.setAttribute('aria-hidden', minimized ? 'true' : 'false');
+    if (minimized) sequence.setAttribute('inert', '');
+    else sequence.removeAttribute('inert');
+    $('#skipSequence').innerHTML = minimized ? 'OPEN MONITOR <b>↗</b>' : 'MINIMIZE MONITOR <b>−</b>';
+    return;
+  }
   if (cinematicTimer) window.clearTimeout(cinematicTimer);
   cinematicTimer = null;
+  cinematicClicks = cinematicFrames.length;
   cinematicDone = true;
   const sequence = $('#cinematicSequence');
   sequence.classList.remove('is-active');
@@ -225,7 +344,7 @@ function skipCinematicSequence() {
 
 function handleSceneArrived() {
   thresholdArrived = true;
-  if (cinematicDone) revealSite();
+  if (!entranceOpen) revealSite();
 }
 
 function revealSite() {
@@ -236,9 +355,13 @@ function revealSite() {
   const site = $('#siteContent');
   if (cinematicTimer) window.clearTimeout(cinematicTimer);
   cinematicTimer = null;
-  sequence.classList.remove('is-active');
-  sequence.setAttribute('aria-hidden', 'true');
-  sequence.setAttribute('inert', '');
+  sequence.classList.remove('is-active', 'is-minimized');
+  sequence.classList.add('is-docked');
+  sequence.removeAttribute('inert');
+  sequence.setAttribute('aria-hidden', 'false');
+  $('#skipSequence').innerHTML = 'MINIMIZE MONITOR <b>−</b>';
+  updateBuildWorkbench(0);
+  updateStageButtons();
   $('#knockStatus').textContent = 'THE DOOR IS OPEN';
   gate.classList.add('is-opening');
   gate.setAttribute('aria-hidden', 'true');
@@ -253,7 +376,7 @@ function revealSite() {
 
 function setupEntrance() {
   thresholdScene = new ThresholdScene($('#thresholdCanvas'), {
-    onKnock: (count) => { $('#knockStatus').textContent = count < 3 ? `KNOCK ${count} / 3` : 'COME IN'; },
+    onKnock: (count) => { $('#knockStatus').textContent = count < 3 ? `KNOCK ${count} / 3` : 'BUILD ROOM OPEN'; },
     onDoorOpen: () => {
       $('#arrivalGate').classList.add('is-walking');
       $('#knockStatus').textContent = 'CROSSING THE THRESHOLD';
@@ -268,7 +391,36 @@ function setupEntrance() {
   $('#thresholdCanvas').addEventListener('click', () => thresholdScene.open());
   $('#enterButton').addEventListener('click', () => thresholdScene.open());
   $('#skipSequence').addEventListener('click', skipCinematicSequence);
+  const sequence = $('#cinematicSequence');
+  let touchStartY = 0;
+  const advanceFromInput = () => {
+    if (!sequence.classList.contains('is-active') || cinematicDone || cinematicWheelLock) return;
+    cinematicWheelLock = true;
+    handleBuildStage(cinematicClicks);
+    window.setTimeout(() => { cinematicWheelLock = false; }, 420);
+  };
+  sequence.addEventListener('wheel', (event) => {
+    if (Math.abs(event.deltaY) < 8) return;
+    event.preventDefault();
+    advanceFromInput();
+  }, { passive: false });
+  sequence.addEventListener('touchstart', (event) => { touchStartY = event.changedTouches[0]?.clientY || 0; }, { passive: true });
+  sequence.addEventListener('touchend', (event) => {
+    const endY = event.changedTouches[0]?.clientY || touchStartY;
+    if (Math.abs(endY - touchStartY) > 18) advanceFromInput();
+  }, { passive: true });
+  sequence.addEventListener('click', (event) => {
+    if (event.target.closest('#skipSequence, [data-build-stage]')) return;
+    if (event.target.closest('#buildPreview, .sequence-center')) advanceFromInput();
+  });
+  $('#buildPreview').addEventListener('click', advanceFromInput);
+  $$('[data-build-stage]').forEach((button) => button.addEventListener('click', () => handleBuildStage(Number(button.dataset.buildStage))));
   window.addEventListener('keydown', (event) => {
+    if (!entranceOpen && $('#cinematicSequence').classList.contains('is-active')) {
+      const buildIndex = ['1', '2', '3', '4', '5'].indexOf(event.key);
+      if (buildIndex >= 0) { event.preventDefault(); handleBuildStage(buildIndex); return; }
+      if (['ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); advanceFromInput(); return; }
+    }
     if (!entranceOpen && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); thresholdScene.open(); return; }
     if (entranceOpen) {
       const index = ['1', '2', '3', '4', '5'].indexOf(event.key);
@@ -287,11 +439,15 @@ async function init() {
   renderExperience();
   renderContact();
   updateAssets();
-  setTheme(localStorage.getItem('fozay-theme') || document.documentElement.dataset.theme || 'light');
-  $$('[data-section-link]').forEach((link) => link.addEventListener('click', () => goToSection(link.dataset.sectionLink)));
+  setTheme(localStorage.getItem(THEME_KEY) || document.documentElement.dataset.theme || 'light');
+  $$('[data-section-link]').forEach((link) => link.addEventListener('click', (event) => {
+    event.preventDefault();
+    goToSection(link.dataset.sectionLink, { scroll: true });
+  }));
   $('#themeToggle').addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light'));
   $$('[data-close-case]').forEach((button) => button.addEventListener('click', closeCase));
   setupScrollState();
+  setupLiveSync();
   updateSectionUI(0);
   setupEntrance();
 }
@@ -299,10 +455,10 @@ async function init() {
 function setTheme(theme) {
   const next = theme === 'dark' ? 'dark' : 'light';
   document.documentElement.dataset.theme = next;
-  localStorage.setItem('fozay-theme', next);
+  localStorage.setItem(THEME_KEY, next);
   const themeMeta = $('meta[name="theme-color"]');
-  if (themeMeta) themeMeta.content = next === 'light' ? '#f4f1eb' : '#111716';
-  $('#themeToggle b').textContent = next === 'light' ? 'DARK' : 'LIGHT';
+  if (themeMeta) themeMeta.content = next === 'light' ? '#f4f4f1' : '#050608';
+  $('#themeToggle b').textContent = next === 'light' ? 'MONO' : 'BLACK';
   $('#themeToggle span').textContent = next === 'light' ? '◐' : '◑';
   thresholdScene?.setTheme(next);
 }
