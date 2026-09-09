@@ -262,3 +262,28 @@ html:not([data-theme="dark"]) .cms-editor { background: linear-gradient(90deg, r
   .cms-sidebar { background: rgba(5, 6, 8, .94); }
   .cms-tab { min-width: 128px; border-right: 0; }
 }
+
+/* CMS light mode must invert every control surface, not only the page background. */
+html:not([data-theme="dark"]) .cms-header { color: #111; background: rgba(244, 244, 241, .94); border-bottom-color: rgba(0, 0, 0, .2); }
+html:not([data-theme="dark"]) .cms-brand strong { color: #111; }
+html:not([data-theme="dark"]) .cms-brand span { color: #f4f4f1; background: #111; box-shadow: 3px 3px 0 rgba(0, 0, 0, .18); }
+html:not([data-theme="dark"]) .cms-sidebar { background: rgba(255, 255, 255, .86); border-right-color: rgba(0, 0, 0, .24); }
+html:not([data-theme="dark"]) .cms-tab { color: #3d3d3d; }
+html:not([data-theme="dark"]) .cms-tab span { color: #555; border-color: rgba(0, 0, 0, .3); }
+html:not([data-theme="dark"]) .cms-tab:hover,
+html:not([data-theme="dark"]) .cms-tab.active { color: #111; background: rgba(0, 0, 0, .06); border-right-color: #111; }
+html:not([data-theme="dark"]) .cms-tab.active span { color: #f4f4f1; background: #111; border-color: #111; }
+html:not([data-theme="dark"]) .cms-login-card { color: #111; background: rgba(255, 255, 255, .94); border-color: #111; box-shadow: 8px 8px 0 rgba(0, 0, 0, .16); }
+html:not([data-theme="dark"]) .cms-login-card::before { background: #111; }
+html:not([data-theme="dark"]) .cms-password-row input { color: #111; background: #fff; border-color: rgba(0, 0, 0, .42); }
+html:not([data-theme="dark"]) .cms-settings-block { background: rgba(255, 255, 255, .92); border-color: rgba(0, 0, 0, .35); box-shadow: 5px 5px 0 rgba(0, 0, 0, .12); }
+html:not([data-theme="dark"]) .cms-overview-grid,
+html:not([data-theme="dark"]) .asset-editor-grid { background: #111; border-color: #111; }
+html:not([data-theme="dark"]) .cms-overview-grid article,
+html:not([data-theme="dark"]) .asset-card { background: #fff; }
+html:not([data-theme="dark"]) .cms-overview-grid article:nth-child(2),
+html:not([data-theme="dark"]) .cms-overview-grid article:nth-child(3),
+html:not([data-theme="dark"]) .asset-card:nth-child(2) { background: #f0f0ed; }
+@media (max-width: 820px) {
+  html:not([data-theme="dark"]) .cms-sidebar { background: rgba(255, 255, 255, .96); border-bottom-color: rgba(0, 0, 0, .22); }
+}

@@ -1091,3 +1091,51 @@ html:not([data-theme="dark"]) .site-content { background-image: linear-gradient(
   .dialer-dock .app-site-hero p { font-size: 5px; }
   .dialer-dock .app-site-content article { min-height: 35px; padding: 5px; }
 }
+
+/* Light mode legibility pass: the page flips, the dark app/dial console stays intentionally high contrast. */
+html:not([data-theme="dark"]) .site-content { color: #101010; }
+html:not([data-theme="dark"]) .site-header { color: #0b0b0b; background: rgba(244, 244, 241, .94); border-bottom-color: rgba(0, 0, 0, .22); }
+html:not([data-theme="dark"]) .header-channel { color: #5c5c5c; }
+html:not([data-theme="dark"]) .header-channel i { background: #111; }
+html:not([data-theme="dark"]) .header-tools { color: #0b0b0b; }
+html:not([data-theme="dark"]) .theme-toggle { color: #0b0b0b; background: #fff; border-color: rgba(0, 0, 0, .4); }
+html:not([data-theme="dark"]) .theme-toggle span { color: #111; }
+html:not([data-theme="dark"]) .brand-copy b,
+html:not([data-theme="dark"]) .brand-copy small { color: #111; }
+html:not([data-theme="dark"]) .brand-mark { color: #f4f4f1; background: #111; }
+html:not([data-theme="dark"]) .dial-button.active { color: #050505; background: #00c6d8; border-color: #00c6d8; box-shadow: 0 0 0 4px rgba(0, 135, 150, .18), 2px 2px 0 #000; }
+html:not([data-theme="dark"]) .dial-button.active b { color: #00c6d8; }
+html:not([data-theme="dark"]) .dialer-heading span i,
+html:not([data-theme="dark"]) .dialer-heading b,
+html:not([data-theme="dark"]) .dial-spindle small,
+html:not([data-theme="dark"]) .dial-spindle i { color: #00c6d8; background-color: #00c6d8; }
+html:not([data-theme="dark"]) .dialer-readout span { color: #fff; }
+html:not([data-theme="dark"]) .dialer-readout small { color: #aaa; }
+html:not([data-theme="dark"]) .featured-experience { color: #111; background: #fff; border-color: rgba(0, 0, 0, .3); box-shadow: 8px 8px 0 rgba(0, 0, 0, .16); }
+html:not([data-theme="dark"]) .featured-experience figcaption strong { color: #111; }
+html:not([data-theme="dark"]) .featured-experience figcaption small { color: #5d5d5d; }
+html:not([data-theme="dark"]) .home-note p,
+html:not([data-theme="dark"]) .home-identity strong,
+html:not([data-theme="dark"]) .project-row h3,
+html:not([data-theme="dark"]) .method-card h3,
+html:not([data-theme="dark"]) .marketing-head h3,
+html:not([data-theme="dark"]) .timeline-item h3,
+html:not([data-theme="dark"]) .education-box strong,
+html:not([data-theme="dark"]) .contact-section h2 { color: #111; }
+html:not([data-theme="dark"]) .eyebrow span { color: #f4f4f1; background: #111; }
+html:not([data-theme="dark"]) .primary-action { color: #f4f4f1; background: #111; }
+html:not([data-theme="dark"]) .primary-action b { color: #111; background: #f4f4f1; }
+html:not([data-theme="dark"]) .text-action,
+html:not([data-theme="dark"]) .project-open,
+html:not([data-theme="dark"]) .case-contact { color: #111; }
+html:not([data-theme="dark"]) .section-heading .section-lede,
+html:not([data-theme="dark"]) .home-lede,
+html:not([data-theme="dark"]) .project-row p,
+html:not([data-theme="dark"]) .method-card > p,
+html:not([data-theme="dark"]) .marketing-box > p,
+html:not([data-theme="dark"]) .timeline-item p { color: #444; }
+html:not([data-theme="dark"]) .dialer-heading b,
+html:not([data-theme="dark"]) .dial-spindle small { background: transparent; }
+html:not([data-theme="dark"]) .dialer-heading b,
+html:not([data-theme="dark"]) .dial-spindle small { color: #00c6d8; }
+html:not([data-theme="dark"]) .dial-spindle i { background: #00c6d8; }
