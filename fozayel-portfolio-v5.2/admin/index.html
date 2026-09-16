@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin — Fozayel Ibn Ayaz</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+  <link rel="stylesheet" href="admin.css?v=52">
+</head>
+<body>
+  <!-- ===== Login gate ===== -->
+  <div class="login-gate" id="login-gate">
+    <form class="login-card" id="login-form" autocomplete="off">
+      <img class="login-avatar" src="../img/avatar.jpg" alt="">
+      <h1>Portfolio Admin</h1>
+      <p class="login-sub">Enter the admin password to manage site content.</p>
+      <input type="password" id="login-pass" placeholder="Password" aria-label="Admin password" autocomplete="current-password" required>
+      <p class="login-error" id="login-error" role="alert" hidden>Wrong password. Try again.</p>
+      <button class="btn btn--primary btn--block" type="submit">Sign in</button>
+      <a class="login-back" href="../index.html">← Back to site</a>
+    </form>
+  </div>
+
+  <!-- ===== Dashboard ===== -->
+  <div class="dash" id="dash" hidden>
+    <aside class="sidebar">
+      <div class="side-brand">
+        <img src="../img/avatar.jpg" alt="">
+        <div>
+          <strong>Portfolio Admin</strong>
+          <span>fozayelibnayaz.github.io</span>
+        </div>
+      </div>
+      <nav class="side-nav" id="side-nav" aria-label="Admin sections"></nav>
+      <div class="side-foot">
+        <button class="btn btn--block" id="btn-preview-toggle" type="button">Toggle preview</button>
+        <a class="btn btn--ghost btn--block" href="../index.html" target="_blank" rel="noopener">Open site ↗</a>
+      </div>
+    </aside>
+
+    <main class="editor" id="editor">
+      <header class="editor-head">
+        <div>
+          <p class="crumb" id="crumb">Content</p>
+          <h1 id="sec-title">Content</h1>
+        </div>
+        <div class="editor-actions">
+          <span class="save-state" id="save-state" aria-live="polite"></span>
+          <button class="btn" id="btn-reset" type="button">Reset draft</button>
+          <button class="btn" id="btn-export" type="button">Export JSON</button>
+          <button class="btn" id="btn-import" type="button">Import JSON</button>
+          <button class="btn btn--primary" id="btn-publish" type="button">Publish ⤓</button>
+          <input type="file" id="file-import" accept="application/json,.json" hidden>
+        </div>
+      </header>
+      <div class="editor-body" id="editor-body"></div>
+    </main>
+
+    <aside class="preview-pane" id="preview-pane">
+      <div class="preview-bar">
+        <span class="dot"></span> Live preview
+        <button class="btn btn--mini" id="btn-preview-reload" type="button">Reload</button>
+      </div>
+      <iframe id="preview-frame" src="../index.html" title="Live site preview"></iframe>
+    </aside>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Publish modal -->
+  <div class="modal-backdrop" id="publish-modal">
+    <div class="modal">
+      <button class="icon-btn modal-close" type="button" aria-label="Close" id="pub-close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <h2>Publish <code>content.json</code></h2>
+      <p>Your content file has downloaded (check your browser downloads).</p>
+      <ol class="pub-steps">
+        <li>Go to your repo on GitHub: <code>fozayelibnayaz/portfolio</code></li>
+        <li><strong>Add file → Upload files</strong>, drop in <code>content.json</code></li>
+        <li>Commit — the live site updates in ~1 minute</li>
+      </ol>
+      <p class="pub-note">Draft stays saved in this browser until you clear it. The site prefers the draft while previewing; once the JSON is committed, everyone sees your changes.</p>
+      <button class="btn btn--primary" id="pub-ok" type="button">Done</button>
+    </div>
+  </div>
+
+  <script src="admin.js?v=52"></script>
+</body>
+</html>

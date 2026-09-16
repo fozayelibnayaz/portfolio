@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Fozayel Ibn Ayaz — Full-stack developer</title>
+  <meta name="description" content="Fozayel Ibn Ayaz — full-stack developer and data analyst in Dhaka. WordPress platforms, React/Next.js apps, analytics pipelines (GA4, GTM, Looker), and the ops that keep them running.">
+  <meta name="theme-color" content="#0d0d0d">
+  <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Fozayel Ibn Ayaz — Full-stack developer">
+  <meta property="og:description" content="WordPress platforms, React/Next.js apps, analytics pipelines — and the ops that keep them running. Dhaka, Bangladesh.">
+  <meta property="og:image" content="media/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Preload fonts -->
+  <link rel="preload" href="fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/jetbrains-mono-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Theme pre-paint (no flash). Dark is the default; light persists once chosen. -->
+  <script>
+    document.documentElement.classList.add("js");
+    (function () {
+      try {
+        var t = localStorage.getItem("fiy-theme") || "dark";
+        document.documentElement.setAttribute("data-theme", t);
+        if (t === "light") {
+          var m = document.querySelector('meta[name="theme-color"]');
+          if (m) m.setAttribute("content", "#fafafa");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <link rel="stylesheet" href="css/style.css?v=52">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Fozayel Ibn Ayaz",
+    "jobTitle": "Full-stack developer",
+    "email": "mailto:ibnayaz789@gmail.com",
+    "telephone": "+8801726611455",
+    "url": "https://fozayelibnayaz.github.io/portfolio/",
+    "sameAs": ["https://github.com/fozayelibnayaz"],
+    "address": { "@type": "PostalAddress", "addressLocality": "Dhaka", "addressCountry": "BD" }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===== Loading screen (Vintage-style: counter + curtain lift into hero) ===== -->
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-brand">
+      <span class="loader-name">FOZAYEL IBN AYAZ</span>
+      <span class="loader-sub">PORTFOLIO — DHAKA</span>
+    </div>
+    <div class="loader-count"><span id="loader-num">00</span><span class="loader-pct">%</span></div>
+    <div class="loader-bar"><span id="loader-fill"></span></div>
+  </div>
+
+  <!-- ===== Navbar (Raycast-style) ===== -->
+  <div class="nav-wrap">
+    <nav class="nav" aria-label="Primary">
+      <a href="#top" class="nav-home" aria-label="Home">
+        <img class="nav-avatar" src="img/avatar.jpg" alt="Fozayel Ibn Ayaz" width="28" height="28">
+      </a>
+      <div class="nav-links">
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#experience">Experience</a>
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle" type="button" aria-label="Switch theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M19.2 4.8l-1.7 1.7M6.5 17.5l-1.7 1.7"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <a class="btn btn--primary btn--cv" href="Fozayel_Ibn_Ayaz.pdf" download>Download CV</a>
+        <button class="icon-btn nav-burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile dropdown -->
+  <div class="nav-mobile" id="nav-mobile">
+    <a class="nav-link" href="#about">About <span class="idx">01</span></a>
+    <a class="nav-link" href="#experience">Experience <span class="idx">02</span></a>
+    <a class="nav-link" href="#projects">Projects <span class="idx">03</span></a>
+    <a class="nav-link" href="#contact">Contact <span class="idx">04</span></a>
+    <a class="btn btn--primary" href="Fozayel_Ibn_Ayaz.pdf" download>Download CV</a>
+  </div>
+
+  <main id="main">
+    <!-- ===== Hero (Vintage monochrome: wireframe stage + masked-line entrance) ===== -->
+    <section class="hero" id="top">
+      <canvas id="hero-wire" aria-hidden="true"></canvas>
+      <div class="container hero-inner">
+        <p class="hero-eyebrow line-fade" style="--d:60ms" data-cms="hero.eyebrow">Full-stack developer · Dhaka, Bangladesh</p>
+        <h1 data-cms="hero.name" data-hero-title>Fozayel Ibn Ayaz</h1>
+        <p class="hero-subline line-fade" style="--d:430ms" data-cms="hero.subline">
+          I build WordPress platforms and web apps, wire up the analytics behind them,
+          and keep the whole thing running in production.
+        </p>
+        <div class="hero-row line-fade" style="--d:550ms">
+          <span class="status-chip"><span class="dot"></span><span data-cms="hero.status">Open to work</span></span>
+          <a class="btn btn--primary" href="#projects">View projects</a>
+          <a class="btn btn--ghost" href="Fozayel_Ibn_Ayaz.pdf" download>Download CV ↓</a>
+        </div>
+      </div>
+      <div class="hero-corner hero-corner--bl line-fade" style="--d:760ms" aria-hidden="true">FOZAYEL IBN AYAZ<br>DEVELOPER · ANALYST<br>DHAKA, BANGLADESH</div>
+      <div class="hero-corner hero-corner--br line-fade" style="--d:840ms" aria-hidden="true">PORTFOLIO — 2026</div>
+    </section>
+
+    <!-- ===== About ===== -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker" data-cms="about.kicker">About</p>
+          <h2 data-cms="about.title">Developer, analyst, and the person who keeps it running</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <div data-list="about-paras">
+              <p>I'm a <strong>full-stack developer</strong> and <strong>data analyst</strong> based in Dhaka. Day to day that means JavaScript, React and Next.js on the front end, PHP and Node.js on the back end, and WordPress as a serious delivery platform — ACF architectures, WooCommerce, Core Web Vitals budgets.</p>
+              <p>On the data side I work with <strong>SQL, Python, GA4 and GTM</strong>, and build Looker Studio dashboards that teams actually use — including forecasting with Prophet, ARIMA and LSTM models.</p>
+              <p>Currently a WordPress developer at <strong>Ekomedia</strong> and IT administrator at <strong>Café Lavista</strong>; previously a data analyst at <strong>Eagle 3D Streaming</strong>. I care about measurable work: fast pages, clean tracking, and deployments that don't surprise anyone.</p>
+            </div>
+          </div>
+          <ul class="facts reveal" style="--d:80ms" data-list="about-facts">
+            <li><span class="k">LOCATION</span><span class="v">Dhaka, Bangladesh (GMT+6)</span></li>
+            <li><span class="k">CURRENT</span><span class="v">WordPress Developer @ Ekomedia</span></li>
+            <li><span class="k">FOCUS</span><span class="v">WordPress · React/Next.js · Analytics</span></li>
+            <li><span class="k">EXPERIENCE</span><span class="v">4+ years across dev, data &amp; IT</span></li>
+            <li><span class="k">STACK</span><span class="v">JS/TS · PHP · Python · SQL</span></li>
+            <li><span class="k">STATUS</span><span class="v"><span class="dot dot--inline"></span> Open to work</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Experience ===== -->
+    <section class="section section--soft" id="experience">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker" data-cms="experience.kicker">Experience</p>
+          <h2 data-cms="experience.title">Where I've worked</h2>
+        </div>
+        <ol class="timeline" data-list="experience">
+          <li class="tl-item reveal">
+            <div class="tl-period">12/2025 — Present</div>
+            <div class="tl-card">
+              <h3>WordPress Developer <span class="at">· Ekomedia</span></h3>
+              <p class="tl-summary">Building and maintaining client platforms end to end.</p>
+              <ul>
+                <li>ACF-based WordPress architectures with reusable block patterns</li>
+                <li>Technical SEO: JSON-LD schema, semantic markup, Core Web Vitals tuning</li>
+                <li>Own QA and deployment workflows across client sites</li>
+              </ul>
+              <div class="tags"><span class="tag">WordPress</span><span class="tag">ACF</span><span class="tag">PHP</span><span class="tag">SEO</span><span class="tag">Core Web Vitals</span></div>
+            </div>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-period">07/2024 — Present</div>
+            <div class="tl-card">
+              <h3>Digital Marketing &amp; IT Manager <span class="at">· Family business</span></h3>
+              <p class="tl-summary">Running the marketing, the website, and the tech for a family-run business.</p>
+              <ul>
+                <li>Digital marketing end to end: content calendar, social media posts, and seasonal promos</li>
+                <li>Local discovery: Google Business profile, local SEO, and review management</li>
+                <li>GA4 + GTM on the website — tracking what actually brings people in</li>
+                <li>Website uptime, security, backups and day-to-day tech support</li>
+              </ul>
+              <div class="tags"><span class="tag">WordPress</span><span class="tag">Digital marketing</span><span class="tag">Social media</span><span class="tag">Local SEO</span><span class="tag">GA4</span></div>
+            </div>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-period">07/2024 — Present</div>
+            <div class="tl-card">
+              <h3>IT Administrator <span class="at">· Cafe Lavista</span></h3>
+              <p class="tl-summary">Three business-critical WordPress properties, reliability, security, and remote support.</p>
+              <ul>
+                <li>Build and run three business-critical WordPress properties end to end</li>
+                <li>Reliability: uptime monitoring, core and plugin updates, scheduled backups</li>
+                <li>Security hardening: access control, safe plugins, malware sweeps</li>
+                <li>Remote support and fast fixes for day-to-day issues</li>
+              </ul>
+              <div class="tags"><span class="tag">WordPress</span><span class="tag">Security</span><span class="tag">Backups</span><span class="tag">IT support</span></div>
+            </div>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-period">07/2023 — 08/2026</div>
+            <div class="tl-card">
+              <h3>Data Analyst <span class="at">· Eagle 3D Streaming</span></h3>
+              <p class="tl-summary">Analytics implementation and decision support.</p>
+              <ul>
+                <li>GA4, GTM and YouTube Analytics implementation end to end</li>
+                <li>Looker Studio dashboards for KPIs, revenue and anomaly tracking</li>
+                <li>Forecasting with Prophet, ARIMA and LSTM models; marketing measurement across campaigns</li>
+              </ul>
+              <div class="tags"><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">GA4</span><span class="tag">GTM</span><span class="tag">Looker Studio</span></div>
+            </div>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-period">01/2023 — 06/2023</div>
+            <div class="tl-card">
+              <h3>IT Support Engineer <span class="at">· n2sys Technology</span></h3>
+              <p class="tl-summary">First response for hardware, networks and applications.</p>
+              <ul>
+                <li>Desktop, network and application support for business clients</li>
+                <li>Infrastructure health monitoring and incident response</li>
+              </ul>
+              <div class="tags"><span class="tag">Networking</span><span class="tag">Hardware</span><span class="tag">Support</span></div>
+            </div>
+          </li>
+          <li class="tl-item reveal">
+            <div class="tl-period">08/2022 — 12/2022</div>
+            <div class="tl-card">
+              <h3>Coding Teacher <span class="at">· Codingal</span></h3>
+              <p class="tl-summary">Programming fundamentals for school students.</p>
+              <ul>
+                <li>Taught Scratch, Python and web basics with individualized learning paths</li>
+              </ul>
+              <div class="tags"><span class="tag">Teaching</span><span class="tag">Python</span><span class="tag">Scratch</span></div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Skills ===== -->
+    <section class="section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker" data-cms="skills.kicker">Skills</p>
+          <h2 data-cms="skills.title">Tools I use to ship</h2>
+        </div>
+        <div class="skills-grid" data-list="skills">
+          <div class="skill-panel reveal">
+            <h3><span class="n">01</span>Frontend</h3>
+            <div class="chips"><span class="chip">JavaScript (ES6+)</span><span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Next.js</span><span class="chip">HTML5</span><span class="chip">CSS3</span></div>
+          </div>
+          <div class="skill-panel reveal">
+            <h3><span class="n">02</span>Backend &amp; Data</h3>
+            <div class="chips"><span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">PHP</span><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">MySQL</span><span class="chip">Supabase</span></div>
+          </div>
+          <div class="skill-panel reveal">
+            <h3><span class="n">03</span>CMS &amp; SEO</h3>
+            <div class="chips"><span class="chip">WordPress</span><span class="chip">WooCommerce</span><span class="chip">ACF</span><span class="chip">Technical SEO</span><span class="chip">JSON-LD</span><span class="chip">GA4</span><span class="chip">GTM</span><span class="chip">Looker Studio</span></div>
+          </div>
+          <div class="skill-panel reveal">
+            <h3><span class="n">04</span>DevOps &amp; QA</h3>
+            <div class="chips"><span class="chip">Docker</span><span class="chip">GCP</span><span class="chip">Kubernetes</span><span class="chip">Playwright</span><span class="chip">Postman</span><span class="chip">Git</span></div>
+          </div>
+          <div class="skill-panel skill-panel--wide reveal">
+            <h3><span class="n">05</span>Digital Marketing</h3>
+            <div class="chips"><span class="chip">Offer positioning</span><span class="chip">Content systems</span><span class="chip">Social media</span><span class="chip">Local SEO</span><span class="chip">Campaign tracking (GA4 / GTM)</span><span class="chip">Conversion basics</span></div>
+          </div>
+        </div>
+        <p class="skills-note reveal" data-cms="skills.note">Currently improving: <code>system design</code> and <code>data engineering</code>.</p>
+      </div>
+    </section>
+
+    <!-- ===== Projects ===== -->
+    <section class="section section--soft" id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker" data-cms="projects.kicker">Projects</p>
+          <h2 data-cms="projects.title">Things I've built</h2>
+          <p data-cms="projects.sub">Six projects, each with a short case study — click a card for the problem, the build, and the result.</p>
+        </div>
+        <div class="proj-grid" data-list="projects">
+          <button class="proj-card reveal" type="button" data-project="0" aria-haspopup="dialog">
+            <span class="proj-stack">Product · AI · Analytics</span>
+            <h3>AI YouTube Command Center</h3>
+            <p>Analytics command center for creators who want the story behind the numbers.</p>
+            <span class="proj-open">Case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12L12 4M6 4h6v6"/></svg></span>
+          </button>
+          <button class="proj-card reveal" type="button" data-project="1" aria-haspopup="dialog">
+            <span class="proj-stack">Data · BI · Automation</span>
+            <h3>Eagle 3D Streaming BI Hub</h3>
+            <p>One operational view for KPIs, customers, revenue and anomalies.</p>
+            <span class="proj-open">Case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12L12 4M6 4h6v6"/></svg></span>
+          </button>
+          <button class="proj-card reveal" type="button" data-project="2" aria-haspopup="dialog">
+            <span class="proj-stack">WordPress · IA</span>
+            <h3>EuroEdge Admission Group</h3>
+            <p>A clearer digital front door for a UK-based student consultancy.</p>
+            <span class="proj-open">Case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12L12 4M6 4h6v6"/></svg></span>
+          </button>
+          <button class="proj-card reveal" type="button" data-project="3" aria-haspopup="dialog">
+            <span class="proj-stack">WooCommerce · E-commerce</span>
+            <h3>AEG Fournitures Storefront</h3>
+            <p>French WooCommerce storefront for moving and packing supplies.</p>
+            <span class="proj-open">Case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12L12 4M6 4h6v6"/></svg></span>
+          </button>
+          <button class="proj-card reveal" type="button" data-project="4" aria-haspopup="dialog">
+            <span class="proj-stack">Next.js · Content</span>
+            <h3>Things Worth Buying</h3>
+            <p>Product-discovery site for recommendations that earn the click.</p>
+            <span class="proj-open">Case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12L12 4M6 4h6v6"/></svg></span>
+          </button>
+          <button class="proj-card reveal" type="button" data-project="5" aria-haspopup="dialog">
+            <span class="proj-stack">WordPress · Maintenance</span>
+            <h3>Moving &amp; Storage Sites</h3>
+            <p>Ongoing page development for two live businesses.</p>
+            <span class="proj-open">Case study <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12L12 4M6 4h6v6"/></svg></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact (rain loop + canvas + guaranteed-response buttons) ===== -->
+    <section class="section contact" id="contact">
+      <canvas id="rain-canvas" aria-hidden="true"></canvas>
+      <div class="contact-scene" aria-hidden="true">
+        <span class="walker-bubble"></span>
+        <div class="walker">
+          <svg viewBox="0 0 34 74" width="34" height="74" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="17" cy="8" r="5.2" fill="currentColor" stroke="none"/>
+            <path d="M17 14 L17 42"/>
+            <path class="arm arm-a" d="M17 20 L8 31"/>
+            <path class="arm arm-b" d="M17 20 L26 31"/>
+            <g class="leg leg-a"><path d="M17 42 L10 60 L9 72"/></g>
+            <g class="leg leg-b"><path d="M17 42 L24 60 L25 72"/></g>
+          </svg>
+        </div>
+      </div>
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker" data-cms="contact.kicker">Contact</p>
+          <h2 data-cms="contact.title">Let's build something.</h2>
+          <p data-cms="contact.sub">Tell me what you need built, fixed or measured. I usually reply within a day.</p>
+        </div>
+        <div class="contact-list reveal" data-list="contact-links">
+          <a class="btn btn--primary" href="mailto:ibnayaz789@gmail.com" data-contact="email" data-value="ibnayaz789@gmail.com" data-href="mailto:ibnayaz789@gmail.com">Email</a>
+          <a class="btn btn--ghost" href="tel:+8801726611455" data-contact="phone" data-value="+880 1726 611 455" data-href="tel:+8801726611455">Phone</a>
+          <a class="btn btn--ghost" href="https://github.com/fozayelibnayaz" target="_blank" rel="noopener" data-contact="github" data-value="github.com/fozayelibnayaz" data-href="https://github.com/fozayelibnayaz">GitHub</a>
+          <a class="btn btn--ghost" href="Fozayel_Ibn_Ayaz.pdf" download data-contact="cv" data-value="Fozayel_Ibn_Ayaz.pdf" data-href="Fozayel_Ibn_Ayaz.pdf">CV ↓</a>
+        </div>
+        <a class="contact-mail reveal" href="mailto:ibnayaz789@gmail.com" data-contact="email" data-value="ibnayaz789@gmail.com" data-href="mailto:ibnayaz789@gmail.com">ibnayaz789@gmail.com</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <p class="footer-wordmark">FOZAYEL<br>IBN AYAZ</p>
+          <p class="footer-tag">Full-stack developer · Data analyst<br>Dhaka, Bangladesh</p>
+        </div>
+        <nav class="footer-cols" aria-label="Footer">
+          <div class="footer-col">
+            <p class="footer-h">Navigate</p>
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+          </div>
+          <div class="footer-col">
+            <p class="footer-h">Elsewhere</p>
+            <a href="https://github.com/fozayelibnayaz" target="_blank" rel="noopener" data-contact="github" data-value="github.com/fozayelibnayaz" data-href="https://github.com/fozayelibnayaz">GitHub</a>
+            <a href="mailto:ibnayaz789@gmail.com" data-contact="email" data-value="ibnayaz789@gmail.com" data-href="mailto:ibnayaz789@gmail.com">Email</a>
+            <a href="tel:+8801726611455" data-contact="phone" data-value="+880 1726 611 455" data-href="tel:+8801726611455">Phone</a>
+            <a href="Fozayel_Ibn_Ayaz.pdf" download data-contact="cv" data-value="Fozayel_Ibn_Ayaz.pdf" data-href="Fozayel_Ibn_Ayaz.pdf">Download CV</a>
+          </div>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <span data-cms="contact.footerNote">© 2026 Fozayel Ibn Ayaz — Dhaka, Bangladesh</span>
+        <span class="footer-clock" id="local-time" aria-hidden="true">Dhaka · --:--:-- GMT+6</span>
+        <button class="to-top" id="to-top" type="button">Back to top ↑</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Project modal ===== -->
+  <div class="modal-backdrop" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-slot">
+    <div class="modal">
+      <button class="icon-btn modal-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <p class="proj-stack"></p>
+      <h3 id="modal-title-slot"></h3>
+      <ul class="story"></ul>
+      <div class="proj-ext"></div>
+    </div>
+  </div>
+
+  <!-- ===== Contact modal (every click responds — even where popups are blocked) ===== -->
+  <div class="modal-backdrop" id="contact-modal" role="dialog" aria-modal="true" aria-labelledby="cm-title">
+    <div class="modal modal--contact">
+      <button class="icon-btn modal-close" type="button" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+      <p class="proj-stack cm-title" id="cm-title">Email me</p>
+      <p class="cm-value">—</p>
+      <div class="cm-actions">
+        <button class="btn btn--primary cm-copy" type="button">Copy</button>
+        <a class="btn btn--ghost cm-open" href="#">Open</a>
+      </div>
+      <p class="cm-hint">If your browser blocks the app handoff, copy the address instead.</p>
+    </div>
+  </div>
+
+  <noscript>
+    <style>
+      #loader { display: none !important; }
+      html.js .hero .line-inner, html.js .hero .line-fade { opacity: 1 !important; transform: none !important; transition: none !important; }
+    </style>
+    <div style="max-width:720px;margin:24px auto;padding:16px;border:1px solid #444;border-radius:12px;font-family:sans-serif">
+      JavaScript is disabled — the site works, but animations, the project case-study popups and theme switching are off.
+      Reach me at <a href="mailto:ibnayaz789@gmail.com">ibnayaz789@gmail.com</a> or <a href="https://github.com/fozayelibnayaz">github.com/fozayelibnayaz</a>.
+    </div>
+  </noscript>
+
+  <script src="js/render.js?v=52" defer></script>
+  <script src="js/content.js?v=52" defer></script>
+  <script src="js/theme.js?v=52" defer></script>
+  <script src="js/nav.js?v=52" defer></script>
+  <script src="js/reveal.js?v=52" defer></script>
+  <script src="js/loader.js?v=52" defer></script>
+  <script src="js/hero.js?v=52" defer></script>
+  <script src="js/wireframe.js?v=52" defer></script>
+  <script src="js/rain.js?v=52" defer></script>
+  <script src="js/projects.js?v=52" defer></script>
+  <script src="js/contact.js?v=52" defer></script>
+  <script src="js/contact-scene.js?v=52" defer></script>
+  <script src="js/main.js?v=52" defer></script>
+</body>
+</html>

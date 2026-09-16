@@ -1,0 +1,307 @@
+{
+  "site": {
+    "title": "Fozayel Ibn Ayaz — Full-stack developer",
+    "description": "Fozayel Ibn Ayaz — full-stack developer and data analyst in Dhaka. WordPress platforms, React/Next.js apps, analytics pipelines (GA4, GTM, Looker), and the ops that keep them running."
+  },
+  "hero": {
+    "eyebrow": "Full-stack developer · Dhaka, Bangladesh",
+    "name": "Fozayel Ibn Ayaz",
+    "subline": "I build WordPress platforms and web apps, wire up the analytics behind them, and keep the whole thing running in production.",
+    "status": "Open to work"
+  },
+  "about": {
+    "kicker": "About",
+    "title": "Developer, analyst, and the person who keeps it running",
+    "paragraphs": [
+      "I'm a full-stack developer and data analyst based in Dhaka. Day to day that means JavaScript, React and Next.js on the front end, PHP and Node.js on the back end, and WordPress as a serious delivery platform — ACF architectures, WooCommerce, Core Web Vitals budgets.",
+      "On the data side I work with SQL, Python, GA4 and GTM, and build Looker Studio dashboards that teams actually use — including forecasting with Prophet, ARIMA and LSTM models.",
+      "Currently a WordPress developer at Ekomedia and IT administrator at Café Lavista; previously a data analyst at Eagle 3D Streaming. I care about measurable work: fast pages, clean tracking, and deployments that don't surprise anyone."
+    ],
+    "facts": [
+      {
+        "k": "LOCATION",
+        "v": "Dhaka, Bangladesh (GMT+6)"
+      },
+      {
+        "k": "CURRENT",
+        "v": "WordPress Developer @ Ekomedia"
+      },
+      {
+        "k": "FOCUS",
+        "v": "WordPress · React/Next.js · Analytics"
+      },
+      {
+        "k": "EXPERIENCE",
+        "v": "4+ years across dev, data & IT"
+      },
+      {
+        "k": "STACK",
+        "v": "JS/TS · PHP · Python · SQL"
+      },
+      {
+        "k": "STATUS",
+        "v": "Open to work"
+      }
+    ]
+  },
+  "experience": {
+    "kicker": "Experience",
+    "title": "Where I've worked",
+    "roles": [
+      {
+        "period": "12/2025 — Present",
+        "title": "WordPress Developer",
+        "company": "Ekomedia",
+        "summary": "Building and maintaining client platforms end to end.",
+        "bullets": [
+          "ACF-based WordPress architectures with reusable block patterns",
+          "Technical SEO: JSON-LD schema, semantic markup, Core Web Vitals tuning",
+          "Own QA and deployment workflows across client sites"
+        ],
+        "tags": [
+          "WordPress",
+          "ACF",
+          "PHP",
+          "SEO",
+          "Core Web Vitals"
+        ]
+      },
+      {
+        "period": "07/2024 — Present",
+        "title": "Digital Marketing & IT Manager",
+        "company": "Family business",
+        "summary": "Running the marketing, the website, and the tech for a family-run business.",
+        "bullets": [
+          "Digital marketing end to end: content calendar, social media posts, and seasonal promos",
+          "Local discovery: Google Business profile, local SEO, and review management",
+          "GA4 + GTM on the website — tracking what actually brings people in",
+          "Website uptime, security, backups and day-to-day tech support"
+        ],
+        "tags": [
+          "WordPress",
+          "Digital marketing",
+          "Social media",
+          "Local SEO",
+          "GA4"
+        ]
+      },
+      {
+        "period": "07/2024 — Present",
+        "title": "IT Administrator",
+        "company": "Cafe Lavista",
+        "summary": "Three business-critical WordPress properties, reliability, security, and remote support.",
+        "bullets": [
+          "Build and run three business-critical WordPress properties end to end",
+          "Reliability: uptime monitoring, core and plugin updates, scheduled backups",
+          "Security hardening: access control, safe plugins, malware sweeps",
+          "Remote support and fast fixes for day-to-day issues"
+        ],
+        "tags": [
+          "WordPress",
+          "Security",
+          "Backups",
+          "IT support"
+        ]
+      },
+      {
+        "period": "07/2023 — 08/2026",
+        "title": "Data Analyst",
+        "company": "Eagle 3D Streaming",
+        "summary": "Analytics implementation and decision support.",
+        "bullets": [
+          "GA4, GTM and YouTube Analytics implementation end to end",
+          "Looker Studio dashboards for KPIs, revenue and anomaly tracking",
+          "Forecasting with Prophet, ARIMA and LSTM models; marketing measurement across campaigns"
+        ],
+        "tags": [
+          "SQL",
+          "Python",
+          "GA4",
+          "GTM",
+          "Looker Studio"
+        ]
+      },
+      {
+        "period": "01/2023 — 06/2023",
+        "title": "IT Support Engineer",
+        "company": "n2sys Technology",
+        "summary": "First response for hardware, networks and applications.",
+        "bullets": [
+          "Desktop, network and application support for business clients",
+          "Infrastructure health monitoring and incident response"
+        ],
+        "tags": [
+          "Networking",
+          "Hardware",
+          "Support"
+        ]
+      },
+      {
+        "period": "08/2022 — 12/2022",
+        "title": "Coding Teacher",
+        "company": "Codingal",
+        "summary": "Programming fundamentals for school students.",
+        "bullets": [
+          "Taught Scratch, Python and web basics with individualized learning paths"
+        ],
+        "tags": [
+          "Teaching",
+          "Python",
+          "Scratch"
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "kicker": "Skills",
+    "title": "Tools I use to ship",
+    "note": "Currently improving: <code>system design</code> and <code>data engineering</code>.",
+    "groups": [
+      {
+        "name": "Frontend",
+        "items": [
+          "JavaScript (ES6+)",
+          "TypeScript",
+          "React",
+          "Next.js",
+          "HTML5",
+          "CSS3"
+        ]
+      },
+      {
+        "name": "Backend & Data",
+        "items": [
+          "Node.js",
+          "Express",
+          "PHP",
+          "Python",
+          "SQL",
+          "MySQL",
+          "Supabase"
+        ]
+      },
+      {
+        "name": "CMS & SEO",
+        "items": [
+          "WordPress",
+          "WooCommerce",
+          "ACF",
+          "Technical SEO",
+          "JSON-LD",
+          "GA4",
+          "GTM",
+          "Looker Studio"
+        ]
+      },
+      {
+        "name": "DevOps & QA",
+        "items": [
+          "Docker",
+          "GCP",
+          "Kubernetes",
+          "Playwright",
+          "Postman",
+          "Git"
+        ]
+      },
+      {
+        "name": "Digital Marketing",
+        "items": [
+          "Offer positioning",
+          "Content systems",
+          "Social media",
+          "Local SEO",
+          "Campaign tracking (GA4 / GTM)",
+          "Conversion basics"
+        ]
+      }
+    ]
+  },
+  "projects": {
+    "kicker": "Projects",
+    "title": "Things I've built",
+    "sub": "Six projects, each with a short case study — click a card for the problem, the build, and the result.",
+    "items": [
+      {
+        "name": "AI YouTube Command Center",
+        "stack": "Product · AI · Analytics",
+        "blurb": "Analytics command center for creators who want the story behind the numbers.",
+        "link": "",
+        "bullets": [
+          "Creators had data scattered across YouTube Studio, sheets and guesswork.",
+          "Built a dashboard that ingests YouTube Analytics and generates plain-language insights.",
+          "Faster content decisions; weekly review time cut from hours to minutes."
+        ]
+      },
+      {
+        "name": "Eagle 3D Streaming BI Hub",
+        "stack": "Data · BI · Automation",
+        "blurb": "One operational view for KPIs, customers, revenue and anomalies.",
+        "link": "",
+        "bullets": [
+          "Reporting lived in five tools; nobody trusted a single number.",
+          "Consolidated GA4, GTM, billing and product events into Looker Studio with automated refresh.",
+          "Anomaly alerts reached the team the same day; leadership ran Monday reviews from one link."
+        ]
+      },
+      {
+        "name": "EuroEdge Admission Group",
+        "stack": "WordPress · IA",
+        "blurb": "A clearer digital front door for a UK-based student consultancy.",
+        "link": "",
+        "bullets": [
+          "The old site buried services and programs three levels deep.",
+          "Rebuilt information architecture on WordPress with ACF; added JSON-LD for programs and FAQs.",
+          "Contact conversions up; editors publish new program pages without a developer."
+        ]
+      },
+      {
+        "name": "AEG Fournitures Storefront",
+        "stack": "WooCommerce · E-commerce",
+        "blurb": "French WooCommerce storefront for moving and packing supplies.",
+        "link": "",
+        "bullets": [
+          "Solo build: catalog, shipping zones and French-language checkout.",
+          "WooCommerce with tuned checkout flow, payment integration and schema markup.",
+          "Live and processing real orders; admins manage the catalog themselves."
+        ]
+      },
+      {
+        "name": "Things Worth Buying",
+        "stack": "Next.js · Content",
+        "blurb": "Product-discovery site for recommendations that earn the click.",
+        "link": "",
+        "bullets": [
+          "Wanted a fast, honest review format instead of endless listicles.",
+          "Next.js static site with structured data and a repeatable content pipeline.",
+          "Pages pass Core Web Vitals; organic impressions grew month over month."
+        ]
+      },
+      {
+        "name": "Moving & Storage Sites",
+        "stack": "WordPress · Maintenance",
+        "blurb": "Ongoing page development for two live businesses.",
+        "link": "",
+        "bullets": [
+          "Two businesses needed steady page work, not another rebuild.",
+          "Reusable page systems, local SEO pages and monthly maintenance.",
+          "Zero downtime handovers; new landing pages ship within days."
+        ]
+      }
+    ]
+  },
+  "contact": {
+    "kicker": "Contact",
+    "title": "Let's build something.",
+    "sub": "Tell me what you need built, fixed or measured. I usually reply within a day.",
+    "email": "ibnayaz789@gmail.com",
+    "phone": "+8801726611455",
+    "github": "https://github.com/fozayelibnayaz",
+    "cv": "Fozayel_Ibn_Ayaz.pdf",
+    "footerNote": "© 2026 Fozayel Ibn Ayaz — Dhaka, Bangladesh"
+  },
+  "settings": {
+    "accent": "#ff6363",
+    "rain": true
+  }
+}
