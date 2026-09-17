@@ -263,7 +263,7 @@ h1, h2, h3, h4 { line-height: 1.15; letter-spacing: -0.022em; font-weight: 650; 
 .nav-mobile .nav-link .idx { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); }
 .nav-mobile .btn { margin-top: 6px; justify-content: center; }
 
-/* ---------- Hero (window onto the whole-site wireframe world) ---------- */
+/* ---------- Hero (Vintage monochrome stage — black in BOTH themes) ---------- */
 .hero {
   position: relative;
   min-height: 100svh;
@@ -271,17 +271,15 @@ h1, h2, h3, h4 { line-height: 1.15; letter-spacing: -0.022em; font-weight: 650; 
   align-items: center;
   isolation: isolate;
   overflow: clip;
-  background: transparent;
+  background: #050507;
 }
-#fiy-bg {
-  position: fixed;
+#hero-wire {
+  position: absolute;
   inset: 0;
   z-index: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
 }
-main, .footer { position: relative; z-index: 1; }
 .hero .container { position: relative; z-index: 1; }
 .hero-corner {
   position: absolute;
@@ -787,7 +785,13 @@ body.modal-locked { overflow: hidden; }
   position: relative;
   isolation: isolate;
   overflow: clip;
-  background: transparent;
+  background: #0a0a0c;
+}
+#rain-canvas {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  opacity: .35;
 }
 
 /* --- walking character --- */
@@ -981,15 +985,15 @@ body.modal-locked { overflow: hidden; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js .reveal { opacity: 1; transform: none; }
-  #fiy-bg { display: none; } /* reduced-motion: the world steps aside entirely */
+  #rain-canvas { display: none; }
   .contact-scene { display: none; }
   .hero h1.glitch .line-inner { animation: none; text-shadow: none; }
   .js .loader { display: none; }
   .js .hero .line-inner, .js .hero .line-fade { transform: none; opacity: 1; transition: none; }
 }
 
-/* ---------- v6: stages are transparent — the wireframe world carries the theme ---------- */
-:root[data-theme="light"] .hero { background: transparent; }
+/* ---------- v5.2: hero & contact FOLLOW the theme + guaranteed reveal ---------- */
+:root[data-theme="light"] .hero { background: #f6f6f4; }
 :root[data-theme="light"] .hero h1 { color: #161616; }
 :root[data-theme="light"] .hero-eyebrow { color: rgba(0,0,0,.62); }
 :root[data-theme="light"] .hero-eyebrow::before { background: rgba(0,0,0,.4); }
@@ -1002,7 +1006,7 @@ body.modal-locked { overflow: hidden; }
 :root[data-theme="light"] .hero .btn--ghost:hover { background: rgba(0,0,0,.1); }
 :root[data-theme="light"] .hero h1.glitch .line-inner { text-shadow: 2px 0 rgba(0,0,0,.28), -2px 0 rgba(0,0,0,.2); }
 
-:root[data-theme="light"] .contact { background: transparent; }
+:root[data-theme="light"] .contact { background: #f3f3f1; }
 :root[data-theme="light"] .contact .section-head h2 { color: #161616; }
 :root[data-theme="light"] .contact .section-head p { color: rgba(0,0,0,.7); }
 :root[data-theme="light"] .contact .kicker { color: rgba(0,0,0,.55); }

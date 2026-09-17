@@ -231,6 +231,7 @@
     },
     settings: {
       accent: "#ff6363",
+      rain: true
     }
   };
 
@@ -326,6 +327,7 @@
       id: "settings", label: "Settings", icon: "⚙", title: "Appearance & media",
       fields: [
         { key: "accent", label: "Accent color", type: "color" },
+        { key: "rain", label: "Contact particles", type: "toggle" }
       ]
     }
   ];

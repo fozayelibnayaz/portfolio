@@ -54,6 +54,7 @@
   function boot() {
     if (window.FIYTheme) window.FIYTheme.init();
     if (window.FIYProjects) window.FIYProjects.init();
+    if (window.FIYRain) window.FIYRain.init();
 
     var apply = function (overlay) {
       if (overlay && window.FIYContent) window.FIYContent.applyOverlay(overlay);

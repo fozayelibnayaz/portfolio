@@ -34,7 +34,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="css/style.css?v=53">
+  <link rel="stylesheet" href="css/style.css?v=52">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,7 +50,6 @@
   </script>
 </head>
 <body>
-  <canvas id="fiy-bg" aria-hidden="true"></canvas>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- ===== Loading screen (Vintage-style: counter + curtain lift into hero) ===== -->
@@ -100,6 +99,7 @@
   <main id="main">
     <!-- ===== Hero (Vintage monochrome: wireframe stage + masked-line entrance) ===== -->
     <section class="hero" id="top">
+      <canvas id="hero-wire" aria-hidden="true"></canvas>
       <div class="container hero-inner">
         <p class="hero-eyebrow line-fade" style="--d:60ms" data-cms="hero.eyebrow">Full-stack developer · Dhaka, Bangladesh</p>
         <h1 data-cms="hero.name" data-hero-title>Fozayel Ibn Ayaz</h1>
@@ -315,8 +315,9 @@
       </div>
     </section>
 
-    <!-- ===== Contact (walker scene + guaranteed-response buttons) ===== -->
+    <!-- ===== Contact (rain loop + canvas + guaranteed-response buttons) ===== -->
     <section class="section contact" id="contact">
+      <canvas id="rain-canvas" aria-hidden="true"></canvas>
       <div class="contact-scene" aria-hidden="true">
         <span class="walker-bubble"></span>
         <div class="walker">
@@ -420,17 +421,18 @@
     </div>
   </noscript>
 
-  <script src="js/render.js?v=53" defer></script>
-  <script src="js/content.js?v=53" defer></script>
-  <script src="js/theme.js?v=53" defer></script>
-  <script src="js/nav.js?v=53" defer></script>
-  <script src="js/reveal.js?v=53" defer></script>
-  <script src="js/loader.js?v=53" defer></script>
-  <script src="js/hero.js?v=53" defer></script>
-  <script src="js/wireframe.js?v=53" defer></script>
-  <script src="js/projects.js?v=53" defer></script>
-  <script src="js/contact.js?v=53" defer></script>
-  <script src="js/contact-scene.js?v=53" defer></script>
-  <script src="js/main.js?v=53" defer></script>
+  <script src="js/render.js?v=52" defer></script>
+  <script src="js/content.js?v=52" defer></script>
+  <script src="js/theme.js?v=52" defer></script>
+  <script src="js/nav.js?v=52" defer></script>
+  <script src="js/reveal.js?v=52" defer></script>
+  <script src="js/loader.js?v=52" defer></script>
+  <script src="js/hero.js?v=52" defer></script>
+  <script src="js/wireframe.js?v=52" defer></script>
+  <script src="js/rain.js?v=52" defer></script>
+  <script src="js/projects.js?v=52" defer></script>
+  <script src="js/contact.js?v=52" defer></script>
+  <script src="js/contact-scene.js?v=52" defer></script>
+  <script src="js/main.js?v=52" defer></script>
 </body>
 </html>

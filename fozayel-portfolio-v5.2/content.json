@@ -301,6 +301,7 @@
     "footerNote": "© 2026 Fozayel Ibn Ayaz — Dhaka, Bangladesh"
   },
   "settings": {
-    "accent": "#ff6363"
+    "accent": "#ff6363",
+    "rain": true
   }
 }

@@ -6,7 +6,7 @@ Personal portfolio of **Fozayel Ibn Ayaz** — full-stack developer & data analy
 
 ## Stack
 - Vanilla HTML / CSS / JavaScript — no frameworks, no build step
-- Whole-site 3D wireframe world (canvas): scroll-linked grid terrain, rotating polyhedra, pulsing data nodes — plus the walking-character contact scene
+- Vintage-style animated hero (canvas wireframe), walking-character contact scene
 - Dark / light theme switcher (hero & contact follow the theme)
 - Built-in CMS at `/admin` (password-protected): edit every visible string, roles, projects & settings, preview, then publish `content.json` to this repo
 - Fonts: Inter Variable + JetBrains Mono (self-hosted)
