@@ -30,7 +30,7 @@ export default function Home(){
     <Header labels={site.navLabels} logo={site.logo||'F.'} name={profile.name} location={String(profile.location||'Dhaka').split(',')[0]} availability={profile.availability||'Available for new projects'} projectCount={projects.length} skillCount={skills.length}/>
     <main id="main">
       <section className="hero section-container" id="top" aria-labelledby="hero-title">
-        <div className="hero-title-wrap"><p className="hero-greeting">Hi, I’m</p><h1 id="hero-title"><span className="hero-outline">FOZAYEL</span><span className="hero-solid">IBN AYAZ</span></h1></div>
+        <div className="hero-title-wrap"><p className="hero-greeting">Hi, I’m</p><h1 id="hero-title"><span className="hero-outline">FOZAYEL  IBN</span><span className="hero-solid"> AYAZ</span></h1></div>
         <div className="hero-portrait-layer"><picture className="hero-picture">{useCutout&&<source srcSet={siteSrcSet('/images/fozayel-cutout-520.webp 520w, /images/fozayel-cutout-760.webp 760w, /images/fozayel-cutout-1024.webp 1024w, /images/fozayel-cutout.webp 1254w')} sizes="(max-width: 720px) 130vw, (max-width: 1300px) 58vw, 760px" type="image/webp"/>}<img className="hero-portrait" src={siteAsset(useCutout?'/images/fozayel-cutout.png':heroPortrait)} alt={profile.imageAlt||'Portrait of Fozayel Ibn Ayaz'} width="1254" height="1254" tabIndex={0} fetchPriority="high" decoding="async"/></picture></div>
         <div className="hero-copy">
           <h2>{str(profile.title).split(' · ')[0]} <span>&amp; Data Analyst</span></h2>
