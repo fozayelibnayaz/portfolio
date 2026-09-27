@@ -459,12 +459,48 @@
   ],
   "skills": [
     {
+      "id": "skill-react-native",
+      "name": "React Native",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "skill-dart",
+      "name": "Dart",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "skill-tailwind-css",
+      "name": "Tailwind CSS",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "skill-bootstrap",
+      "name": "Bootstrap",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 4,
+      "visible": true
+    },
+    {
       "id": "skill-javascript-(es6+)",
       "name": "JavaScript (ES6+)",
       "category": "Frontend",
       "icon": "",
       "experience": "",
-      "order": 1,
+      "order": 5,
       "visible": true
     },
     {
@@ -473,16 +509,16 @@
       "category": "Frontend",
       "icon": "",
       "experience": "",
-      "order": 2,
+      "order": 6,
       "visible": true
     },
     {
       "id": "skill-react",
-      "name": "React",
+      "name": "React.js",
       "category": "Frontend",
       "icon": "",
       "experience": "",
-      "order": 3,
+      "order": 7,
       "visible": true
     },
     {
@@ -491,7 +527,7 @@
       "category": "Frontend",
       "icon": "",
       "experience": "",
-      "order": 4,
+      "order": 8,
       "visible": true
     },
     {
@@ -500,7 +536,7 @@
       "category": "Frontend",
       "icon": "",
       "experience": "",
-      "order": 5,
+      "order": 9,
       "visible": true
     },
     {
@@ -509,142 +545,160 @@
       "category": "Frontend",
       "icon": "",
       "experience": "",
-      "order": 6,
-      "visible": true
-    },
-    {
-      "id": "skill-node.js",
-      "name": "Node.js",
-      "category": "Backend & Data",
-      "icon": "",
-      "experience": "",
-      "order": 7,
-      "visible": true
-    },
-    {
-      "id": "skill-express",
-      "name": "Express",
-      "category": "Backend & Data",
-      "icon": "",
-      "experience": "",
-      "order": 8,
-      "visible": true
-    },
-    {
-      "id": "skill-php",
-      "name": "PHP",
-      "category": "Backend & Data",
-      "icon": "",
-      "experience": "",
-      "order": 9,
-      "visible": true
-    },
-    {
-      "id": "skill-python",
-      "name": "Python",
-      "category": "Backend & Data",
-      "icon": "",
-      "experience": "",
       "order": 10,
       "visible": true
     },
     {
-      "id": "skill-sql",
-      "name": "SQL",
-      "category": "Backend & Data",
+      "id": "skill-laravel",
+      "name": "Laravel",
+      "category": "Backend",
       "icon": "",
       "experience": "",
       "order": 11,
       "visible": true
     },
     {
-      "id": "skill-mysql",
-      "name": "MySQL",
-      "category": "Backend & Data",
+      "id": "skill-rest-apis",
+      "name": "REST APIs",
+      "category": "Backend",
       "icon": "",
       "experience": "",
       "order": 12,
       "visible": true
     },
     {
-      "id": "skill-supabase",
-      "name": "Supabase",
-      "category": "Backend & Data",
+      "id": "skill-node.js",
+      "name": "Node.js",
+      "category": "Backend",
       "icon": "",
       "experience": "",
       "order": 13,
       "visible": true
     },
     {
-      "id": "skill-wordpress",
-      "name": "WordPress",
-      "category": "CMS & SEO",
+      "id": "skill-express",
+      "name": "Express.js",
+      "category": "Backend",
       "icon": "",
       "experience": "",
       "order": 14,
       "visible": true
     },
     {
-      "id": "skill-woocommerce",
-      "name": "WooCommerce",
-      "category": "CMS & SEO",
+      "id": "skill-php",
+      "name": "PHP",
+      "category": "Backend",
       "icon": "",
       "experience": "",
       "order": 15,
       "visible": true
     },
     {
-      "id": "skill-acf",
-      "name": "ACF",
-      "category": "CMS & SEO",
+      "id": "skill-python",
+      "name": "Python",
+      "category": "Backend",
       "icon": "",
       "experience": "",
       "order": 16,
       "visible": true
     },
     {
-      "id": "skill-technical-seo",
-      "name": "Technical SEO",
-      "category": "CMS & SEO",
+      "id": "skill-mongodb",
+      "name": "MongoDB",
+      "category": "Database",
       "icon": "",
       "experience": "",
       "order": 17,
       "visible": true
     },
     {
-      "id": "skill-json-ld",
-      "name": "JSON-LD",
-      "category": "CMS & SEO",
+      "id": "skill-firebase",
+      "name": "Firebase",
+      "category": "Database",
       "icon": "",
       "experience": "",
       "order": 18,
       "visible": true
     },
     {
-      "id": "skill-ga4",
-      "name": "GA4",
-      "category": "CMS & SEO",
+      "id": "skill-sql",
+      "name": "SQL",
+      "category": "Database",
       "icon": "",
       "experience": "",
       "order": 19,
       "visible": true
     },
     {
-      "id": "skill-gtm",
-      "name": "GTM",
-      "category": "CMS & SEO",
+      "id": "skill-mysql",
+      "name": "MySQL",
+      "category": "Database",
       "icon": "",
       "experience": "",
       "order": 20,
       "visible": true
     },
     {
-      "id": "skill-looker-studio",
-      "name": "Looker Studio",
-      "category": "CMS & SEO",
+      "id": "skill-supabase",
+      "name": "Supabase",
+      "category": "Database",
       "icon": "",
       "experience": "",
       "order": 21,
+      "visible": true
+    },
+    {
+      "id": "skill-webflow",
+      "name": "Webflow",
+      "category": "CMS & Platforms",
+      "icon": "",
+      "experience": "",
+      "order": 22,
+      "visible": true
+    },
+    {
+      "id": "skill-wix",
+      "name": "Wix",
+      "category": "CMS & Platforms",
+      "icon": "",
+      "experience": "",
+      "order": 23,
+      "visible": true
+    },
+    {
+      "id": "skill-wordpress",
+      "name": "WordPress",
+      "category": "CMS & Platforms",
+      "icon": "",
+      "experience": "",
+      "order": 24,
+      "visible": true
+    },
+    {
+      "id": "skill-woocommerce",
+      "name": "WooCommerce",
+      "category": "CMS & Platforms",
+      "icon": "",
+      "experience": "",
+      "order": 25,
+      "visible": true
+    },
+    {
+      "id": "skill-acf",
+      "name": "ACF",
+      "category": "CMS & Platforms",
+      "icon": "",
+      "experience": "",
+      "order": 26,
+      "visible": true
+    },
+    {
+      "id": "skill-mikrotik-routeros-basic",
+      "name": "MikroTik RouterOS (Basic)",
+      "category": "Networking",
+      "icon": "",
+      "experience": "",
+      "order": 27,
       "visible": true
     },
     {
@@ -653,7 +707,7 @@
       "category": "DevOps & QA",
       "icon": "",
       "experience": "",
-      "order": 22,
+      "order": 28,
       "visible": true
     },
     {
@@ -662,7 +716,7 @@
       "category": "DevOps & QA",
       "icon": "",
       "experience": "",
-      "order": 23,
+      "order": 29,
       "visible": true
     },
     {
@@ -671,7 +725,7 @@
       "category": "DevOps & QA",
       "icon": "",
       "experience": "",
-      "order": 24,
+      "order": 30,
       "visible": true
     },
     {
@@ -680,7 +734,7 @@
       "category": "DevOps & QA",
       "icon": "",
       "experience": "",
-      "order": 25,
+      "order": 31,
       "visible": true
     },
     {
@@ -689,7 +743,7 @@
       "category": "DevOps & QA",
       "icon": "",
       "experience": "",
-      "order": 26,
+      "order": 32,
       "visible": true
     },
     {
@@ -698,7 +752,52 @@
       "category": "DevOps & QA",
       "icon": "",
       "experience": "",
-      "order": 27,
+      "order": 33,
+      "visible": true
+    },
+    {
+      "id": "skill-technical-seo",
+      "name": "Technical SEO",
+      "category": "SEO & Analytics",
+      "icon": "",
+      "experience": "",
+      "order": 34,
+      "visible": true
+    },
+    {
+      "id": "skill-json-ld",
+      "name": "JSON-LD",
+      "category": "SEO & Analytics",
+      "icon": "",
+      "experience": "",
+      "order": 35,
+      "visible": true
+    },
+    {
+      "id": "skill-ga4",
+      "name": "GA4",
+      "category": "SEO & Analytics",
+      "icon": "",
+      "experience": "",
+      "order": 36,
+      "visible": true
+    },
+    {
+      "id": "skill-gtm",
+      "name": "GTM",
+      "category": "SEO & Analytics",
+      "icon": "",
+      "experience": "",
+      "order": 37,
+      "visible": true
+    },
+    {
+      "id": "skill-looker-studio",
+      "name": "Looker Studio",
+      "category": "SEO & Analytics",
+      "icon": "",
+      "experience": "",
+      "order": 38,
       "visible": true
     },
     {
@@ -707,7 +806,7 @@
       "category": "Digital Marketing",
       "icon": "",
       "experience": "",
-      "order": 28,
+      "order": 39,
       "visible": true
     },
     {
@@ -716,7 +815,7 @@
       "category": "Digital Marketing",
       "icon": "",
       "experience": "",
-      "order": 29,
+      "order": 40,
       "visible": true
     },
     {
@@ -725,7 +824,7 @@
       "category": "Digital Marketing",
       "icon": "",
       "experience": "",
-      "order": 30,
+      "order": 41,
       "visible": true
     },
     {
@@ -734,7 +833,7 @@
       "category": "Digital Marketing",
       "icon": "",
       "experience": "",
-      "order": 31,
+      "order": 42,
       "visible": true
     },
     {
@@ -743,7 +842,7 @@
       "category": "Digital Marketing",
       "icon": "",
       "experience": "",
-      "order": 32,
+      "order": 43,
       "visible": true
     },
     {
@@ -752,7 +851,7 @@
       "category": "Digital Marketing",
       "icon": "",
       "experience": "",
-      "order": 33,
+      "order": 44,
       "visible": true
     }
   ],
