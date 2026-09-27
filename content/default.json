@@ -1,0 +1,821 @@
+{
+  "site": {
+    "title": "Fozayel Ibn Ayaz — Full-stack developer",
+    "seoTitle": "Fozayel Ibn Ayaz | Full-stack developer & data analyst",
+    "description": "Fozayel Ibn Ayaz — full-stack developer and data analyst in Dhaka. WordPress platforms, React/Next.js apps, analytics pipelines (GA4, GTM, Looker), and the ops that keep them running.",
+    "canonicalUrl": "https://fozayelibnayaz.github.io/portfolio/",
+    "favicon": "/favicon.svg",
+    "logo": "F.",
+    "socialImage": "/og-image.jpg",
+    "footer": "Built with care in Dhaka.",
+    "copyright": "© 2026 Fozayel Ibn Ayaz",
+    "navLabels": {
+      "about": "About",
+      "experience": "Experience",
+      "projects": "Projects",
+      "skills": "Skills",
+      "contact": "Contact"
+    },
+    "theme": {
+      "accent": "#22c55e",
+      "light": "#fdfdfc",
+      "dark": "#141414",
+      "darkAccent": "#36d978",
+      "accentTextLight": "#126b36",
+      "accentTextDark": "#63e38f"
+    }
+  },
+  "profile": {
+    "name": "Fozayel Ibn Ayaz",
+    "title": "Full-stack developer · Dhaka, Bangladesh",
+    "shortIntroduction": "I build WordPress platforms and web apps, wire up the analytics behind them, and keep the whole thing running in production.",
+    "biography": [
+      "I'm a full-stack developer and data analyst based in Dhaka. Day to day that means JavaScript, React and Next.js on the front end, PHP and Node.js on the back end, and WordPress as a serious delivery platform — ACF architectures, WooCommerce, Core Web Vitals budgets.",
+      "On the data side I work with SQL, Python, GA4 and GTM, and build Looker Studio dashboards that teams actually use — including forecasting with Prophet, ARIMA and LSTM models.",
+      "Currently a WordPress developer at Ekomedia and IT administrator at Café Lavista; previously a data analyst at Eagle 3D Streaming. I care about measurable work: fast pages, clean tracking, and deployments that don't surprise anyone."
+    ],
+    "image": "/images/fozayel-760.webp",
+    "imageAlt": "Fozayel Ibn Ayaz, full-stack developer, in a black jacket and glasses",
+    "location": "Dhaka, Bangladesh (GMT+6)",
+    "availability": "Open to work",
+    "resume": "/files/Fozayel_Ibn_Ayaz.pdf",
+    "socialLinks": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/fozayelibnayaz"
+      },
+      {
+        "label": "Email",
+        "url": "mailto:ibnayaz789@gmail.com"
+      },
+      {
+        "label": "Phone",
+        "url": "tel:+8801726611455"
+      }
+    ]
+  },
+  "about": {
+    "kicker": "About",
+    "title": "Developer, analyst, and the person who keeps it running",
+    "facts": [
+      {
+        "k": "LOCATION",
+        "v": "Dhaka, Bangladesh (GMT+6)"
+      },
+      {
+        "k": "CURRENT",
+        "v": "WordPress Developer @ Ekomedia"
+      },
+      {
+        "k": "FOCUS",
+        "v": "WordPress · React/Next.js · Analytics"
+      },
+      {
+        "k": "EXPERIENCE",
+        "v": "4+ years across dev, data & IT"
+      },
+      {
+        "k": "STACK",
+        "v": "JS/TS · PHP · Python · SQL"
+      },
+      {
+        "k": "STATUS",
+        "v": "Open to work"
+      }
+    ]
+  },
+  "experience": [
+    {
+      "title": "WordPress Developer",
+      "company": "Ekomedia",
+      "id": "exp-1",
+      "startDate": "12/2025",
+      "endDate": "Present",
+      "current": true,
+      "description": "Building and maintaining client platforms end to end.",
+      "responsibilities": [
+        "ACF-based WordPress architectures with reusable block patterns",
+        "Technical SEO: JSON-LD schema, semantic markup, Core Web Vitals tuning",
+        "Own QA and deployment workflows across client sites"
+      ],
+      "technologies": [
+        "WordPress",
+        "ACF",
+        "PHP",
+        "SEO",
+        "Core Web Vitals"
+      ],
+      "companyUrl": "",
+      "logo": "",
+      "location": "",
+      "visible": true,
+      "order": 1
+    },
+    {
+      "title": "Digital Marketing & IT Manager",
+      "company": "Family business",
+      "id": "exp-2",
+      "startDate": "07/2024",
+      "endDate": "Present",
+      "current": true,
+      "description": "Running the marketing, the website, and the tech for a family-run business.",
+      "responsibilities": [
+        "Digital marketing end to end: content calendar, social media posts, and seasonal promos",
+        "Local discovery: Google Business profile, local SEO, and review management",
+        "GA4 + GTM on the website — tracking what actually brings people in",
+        "Website uptime, security, backups and day-to-day tech support"
+      ],
+      "technologies": [
+        "WordPress",
+        "Digital marketing",
+        "Social media",
+        "Local SEO",
+        "GA4"
+      ],
+      "companyUrl": "",
+      "logo": "",
+      "location": "",
+      "visible": true,
+      "order": 2
+    },
+    {
+      "title": "IT Administrator",
+      "company": "Cafe Lavista",
+      "id": "exp-3",
+      "startDate": "07/2024",
+      "endDate": "Present",
+      "current": true,
+      "description": "Three business-critical WordPress properties, reliability, security, and remote support.",
+      "responsibilities": [
+        "Build and run three business-critical WordPress properties end to end",
+        "Reliability: uptime monitoring, core and plugin updates, scheduled backups",
+        "Security hardening: access control, safe plugins, malware sweeps",
+        "Remote support and fast fixes for day-to-day issues"
+      ],
+      "technologies": [
+        "WordPress",
+        "Security",
+        "Backups",
+        "IT support"
+      ],
+      "companyUrl": "",
+      "logo": "",
+      "location": "",
+      "visible": true,
+      "order": 3
+    },
+    {
+      "title": "Data Analyst",
+      "company": "Eagle 3D Streaming",
+      "id": "exp-4",
+      "startDate": "Jul 2023",
+      "endDate": "Aug 2026",
+      "current": false,
+      "description": "Analytics implementation and decision support.",
+      "responsibilities": [
+        "GA4, GTM and YouTube Analytics implementation end to end",
+        "Looker Studio dashboards for subscriber growth, retention, watch time/user-minute and revenue reporting.",
+        "Forecasting with Prophet, ARIMA and LSTM models; marketing measurement across campaigns"
+      ],
+      "technologies": [
+        "GA4",
+        "Google Tag Manager",
+        "YouTube Analytics",
+        "Looker Studio",
+        "SQL",
+        "Python"
+      ],
+      "companyUrl": "",
+      "logo": "",
+      "location": "",
+      "visible": true,
+      "order": 4
+    },
+    {
+      "title": "IT Support Engineer",
+      "company": "n2sys Technology",
+      "id": "exp-5",
+      "startDate": "01/2023",
+      "endDate": "06/2023",
+      "current": false,
+      "description": "First response for hardware, networks and applications.",
+      "responsibilities": [
+        "Desktop, network and application support for business clients",
+        "Infrastructure health monitoring and incident response"
+      ],
+      "technologies": [
+        "Networking",
+        "Hardware",
+        "Support"
+      ],
+      "companyUrl": "",
+      "logo": "",
+      "location": "",
+      "visible": true,
+      "order": 5
+    },
+    {
+      "title": "Coding Teacher",
+      "company": "Codingal",
+      "id": "exp-6",
+      "startDate": "08/2022",
+      "endDate": "12/2022",
+      "current": false,
+      "description": "Programming fundamentals for school students.",
+      "responsibilities": [
+        "Taught Scratch, Python and web basics with individualized learning paths"
+      ],
+      "technologies": [
+        "Teaching",
+        "Python",
+        "Scratch"
+      ],
+      "companyUrl": "",
+      "logo": "",
+      "location": "",
+      "visible": true,
+      "order": 6
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI YouTube Command Center",
+      "stack": "Product · AI · Analytics",
+      "bullets": [
+        "Creators had data scattered across YouTube Studio, sheets and guesswork.",
+        "Built a dashboard that ingests YouTube Analytics and generates plain-language insights.",
+        "Faster content decisions; weekly review time cut from hours to minutes."
+      ],
+      "slug": "ai-youtube-command-center",
+      "shortDescription": "Analytics command center for creators who want the story behind the numbers.",
+      "description": "An AI-powered YouTube channel command center built with Next.js and TypeScript. It integrates OAuth-based YouTube Analytics across more than 12 endpoints for views, retention, subscribers, search terms and per-video breakdowns, alongside an AI chat assistant with more than 30 function-calling tools. Scheduled GitHub Actions run filtered alerts and weekly/monthly digests; the application is deployed on Vercel with production CI.",
+      "technologies": [
+        "Next.js",
+        "TypeScript",
+        "YouTube Analytics API",
+        "OAuth",
+        "GitHub Actions",
+        "Vercel"
+      ],
+      "featured": true,
+      "visible": true,
+      "order": 1,
+      "category": "Product",
+      "role": "Full-stack developer",
+      "image": "",
+      "gallery": [],
+      "client": "",
+      "caseStudyUrl": "",
+      "date": "",
+      "liveUrl": "",
+      "githubUrl": "",
+      "id": "project-ai-youtube-command-center",
+      "featuredImage": "",
+      "caseStudy": [
+        "Integrated YouTube Analytics OAuth data across 12+ endpoints, including views, retention, subscriber growth, search terms and per-video performance.",
+        "Built an AI chat assistant with 30+ function-calling tools for on-demand channel insights.",
+        "Added spam-filtered notifications and scheduled weekly/monthly digests with GitHub Actions; deployed to Vercel."
+      ]
+    },
+    {
+      "name": "Eagle 3D Streaming BI Hub",
+      "stack": "Data · BI · Automation",
+      "bullets": [
+        "Reporting lived in five tools; nobody trusted a single number.",
+        "Consolidated GA4, GTM, billing and product events into Looker Studio with automated refresh.",
+        "Anomaly alerts reached the team the same day; leadership ran Monday reviews from one link."
+      ],
+      "slug": "eagle-3d-analytics-bi-hub",
+      "shortDescription": "One operational view for KPIs, customers, revenue and anomalies.",
+      "description": "A production analytics platform built with Python, Streamlit and MongoDB. It brings KPI scraping, YouTube OAuth analytics, customer-success tracking and a payment ledger for new and recurring revenue into a secure ten-page dashboard. Automated data pipelines run four times a day, with 15-minute anomaly detection and 16 Telegram alert types.",
+      "technologies": [
+        "Python",
+        "Streamlit",
+        "MongoDB",
+        "YouTube Analytics",
+        "Telegram"
+      ],
+      "featured": true,
+      "visible": true,
+      "order": 2,
+      "category": "Data",
+      "role": "Analytics & BI developer",
+      "image": "",
+      "gallery": [],
+      "client": "",
+      "caseStudyUrl": "",
+      "date": "",
+      "liveUrl": "",
+      "githubUrl": "",
+      "id": "project-eagle-3d-analytics-bi-hub",
+      "featuredImage": "",
+      "caseStudy": [
+        "Unified KPI scraping, YouTube OAuth analytics, customer-success tracking and the payment ledger in a ten-page dashboard.",
+        "Automated the data pipeline to run four times daily and detect anomalies every 15 minutes.",
+        "Configured 16 Telegram alert types for operational notifications."
+      ]
+    },
+    {
+      "name": "EuroEdge Admission Group",
+      "stack": "WordPress · IA",
+      "bullets": [
+        "The old site buried services and programs three levels deep.",
+        "Rebuilt information architecture on WordPress with ACF; added JSON-LD for programs and FAQs.",
+        "Contact conversions up; editors publish new program pages without a developer."
+      ],
+      "slug": "euroedge-admission-group",
+      "shortDescription": "A clearer digital front door for a UK-based student consultancy.",
+      "description": "A full WordPress and Elementor build for a UK-based international student consultancy. The multi-page architecture covers study destinations, English and IELTS courses, visa and admission services, and a partner-university network.",
+      "technologies": [
+        "WordPress",
+        "Elementor"
+      ],
+      "featured": true,
+      "visible": true,
+      "order": 3,
+      "category": "WordPress",
+      "role": "WordPress developer",
+      "image": "",
+      "gallery": [],
+      "client": "",
+      "caseStudyUrl": "",
+      "date": "",
+      "liveUrl": "",
+      "githubUrl": "",
+      "id": "project-euroedge-admission-group",
+      "featuredImage": "",
+      "caseStudy": [
+        "Designed the information architecture for a multi-page international admissions consultancy.",
+        "Built pages for study destinations, English/IELTS courses, visa and admission services, and partner universities.",
+        "Delivered the site using WordPress and Elementor."
+      ]
+    },
+    {
+      "name": "AEG Fournitures Storefront",
+      "stack": "WooCommerce · E-commerce",
+      "bullets": [
+        "Solo build: catalog, shipping zones and French-language checkout.",
+        "WooCommerce with tuned checkout flow, payment integration and schema markup.",
+        "Live and processing real orders; admins manage the catalog themselves."
+      ],
+      "slug": "aeg-fournitures-storefront",
+      "shortDescription": "French WooCommerce storefront for moving and packing supplies.",
+      "description": "A French WooCommerce storefront for moving and packing supplies, designed end-to-end in Figma and built independently on WordPress. Work included implementing the Figma UI, structuring a multi-category product catalog and setting up the storefront from product listings through checkout.",
+      "technologies": [
+        "WordPress",
+        "WooCommerce",
+        "Figma"
+      ],
+      "featured": false,
+      "visible": true,
+      "order": 4,
+      "category": "WooCommerce",
+      "role": "Solo designer & developer",
+      "image": "",
+      "gallery": [],
+      "client": "",
+      "caseStudyUrl": "",
+      "date": "",
+      "liveUrl": "",
+      "githubUrl": "",
+      "id": "project-aeg-fournitures-storefront",
+      "featuredImage": "",
+      "caseStudy": [
+        "Designed the storefront in Figma and implemented the UI independently.",
+        "Structured product listings across multiple moving and packing categories.",
+        "Set up the French WooCommerce shop from catalogue through checkout."
+      ]
+    },
+    {
+      "name": "Things Worth Buying",
+      "stack": "Next.js · Content",
+      "bullets": [
+        "Wanted a fast, honest review format instead of endless listicles.",
+        "Next.js static site with structured data and a repeatable content pipeline.",
+        "Pages pass Core Web Vitals; organic impressions grew month over month."
+      ],
+      "slug": "things-worth-buying",
+      "shortDescription": "Product-discovery site for recommendations that earn the click.",
+      "description": "A Next.js product-discovery and affiliate website with a modular component architecture, environment-based configuration and a Dockerized deployment setup. It presents curated product recommendations in a clean, fast-loading format.",
+      "technologies": [
+        "Next.js",
+        "React",
+        "Docker"
+      ],
+      "featured": false,
+      "visible": true,
+      "order": 5,
+      "category": "Next.js",
+      "role": "Full-stack developer",
+      "image": "",
+      "gallery": [],
+      "client": "",
+      "caseStudyUrl": "",
+      "date": "",
+      "liveUrl": "",
+      "githubUrl": "",
+      "id": "project-things-worth-buying",
+      "featuredImage": "",
+      "caseStudy": [
+        "Built a modular component architecture for repeatable recommendation pages.",
+        "Added environment-based configuration and a Dockerized deployment setup.",
+        "Designed the content format around curated product recommendations."
+      ]
+    },
+    {
+      "name": "Moving & Storage Sites",
+      "stack": "WordPress · Maintenance",
+      "bullets": [
+        "Two businesses needed steady page work, not another rebuild.",
+        "Reusable page systems, local SEO pages and monthly maintenance.",
+        "Zero downtime handovers; new landing pages ship within days."
+      ],
+      "slug": "moving-storage-wordpress",
+      "shortDescription": "Ongoing page development for two live businesses.",
+      "description": "Ongoing page-building and content-development work on two live WordPress sites: demenagement-blondeau.com and demenagementgauvin.com. The sites were built before this engagement; the work extends page templates, layout sections and content structure.",
+      "technologies": [
+        "WordPress"
+      ],
+      "featured": false,
+      "visible": true,
+      "order": 6,
+      "category": "WordPress",
+      "role": "WordPress developer",
+      "image": "",
+      "gallery": [],
+      "client": "",
+      "caseStudyUrl": "",
+      "date": "",
+      "liveUrl": "",
+      "githubUrl": "",
+      "id": "project-moving-storage-wordpress",
+      "featuredImage": "",
+      "caseStudy": [
+        "Contributed ongoing page-building and content-development work on two live WordPress sites.",
+        "Extended existing page templates and layout sections rather than rebuilding the sites.",
+        "Improved content structure as part of continuing WordPress development support."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "id": "skill-javascript-(es6+)",
+      "name": "JavaScript (ES6+)",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "skill-typescript",
+      "name": "TypeScript",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "skill-react",
+      "name": "React",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 3,
+      "visible": true
+    },
+    {
+      "id": "skill-next.js",
+      "name": "Next.js",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 4,
+      "visible": true
+    },
+    {
+      "id": "skill-html5",
+      "name": "HTML5",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 5,
+      "visible": true
+    },
+    {
+      "id": "skill-css3",
+      "name": "CSS3",
+      "category": "Frontend",
+      "icon": "",
+      "experience": "",
+      "order": 6,
+      "visible": true
+    },
+    {
+      "id": "skill-node.js",
+      "name": "Node.js",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 7,
+      "visible": true
+    },
+    {
+      "id": "skill-express",
+      "name": "Express",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 8,
+      "visible": true
+    },
+    {
+      "id": "skill-php",
+      "name": "PHP",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 9,
+      "visible": true
+    },
+    {
+      "id": "skill-python",
+      "name": "Python",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 10,
+      "visible": true
+    },
+    {
+      "id": "skill-sql",
+      "name": "SQL",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 11,
+      "visible": true
+    },
+    {
+      "id": "skill-mysql",
+      "name": "MySQL",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 12,
+      "visible": true
+    },
+    {
+      "id": "skill-supabase",
+      "name": "Supabase",
+      "category": "Backend & Data",
+      "icon": "",
+      "experience": "",
+      "order": 13,
+      "visible": true
+    },
+    {
+      "id": "skill-wordpress",
+      "name": "WordPress",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 14,
+      "visible": true
+    },
+    {
+      "id": "skill-woocommerce",
+      "name": "WooCommerce",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 15,
+      "visible": true
+    },
+    {
+      "id": "skill-acf",
+      "name": "ACF",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 16,
+      "visible": true
+    },
+    {
+      "id": "skill-technical-seo",
+      "name": "Technical SEO",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 17,
+      "visible": true
+    },
+    {
+      "id": "skill-json-ld",
+      "name": "JSON-LD",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 18,
+      "visible": true
+    },
+    {
+      "id": "skill-ga4",
+      "name": "GA4",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 19,
+      "visible": true
+    },
+    {
+      "id": "skill-gtm",
+      "name": "GTM",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 20,
+      "visible": true
+    },
+    {
+      "id": "skill-looker-studio",
+      "name": "Looker Studio",
+      "category": "CMS & SEO",
+      "icon": "",
+      "experience": "",
+      "order": 21,
+      "visible": true
+    },
+    {
+      "id": "skill-docker",
+      "name": "Docker",
+      "category": "DevOps & QA",
+      "icon": "",
+      "experience": "",
+      "order": 22,
+      "visible": true
+    },
+    {
+      "id": "skill-gcp",
+      "name": "GCP",
+      "category": "DevOps & QA",
+      "icon": "",
+      "experience": "",
+      "order": 23,
+      "visible": true
+    },
+    {
+      "id": "skill-kubernetes",
+      "name": "Kubernetes",
+      "category": "DevOps & QA",
+      "icon": "",
+      "experience": "",
+      "order": 24,
+      "visible": true
+    },
+    {
+      "id": "skill-playwright",
+      "name": "Playwright",
+      "category": "DevOps & QA",
+      "icon": "",
+      "experience": "",
+      "order": 25,
+      "visible": true
+    },
+    {
+      "id": "skill-postman",
+      "name": "Postman",
+      "category": "DevOps & QA",
+      "icon": "",
+      "experience": "",
+      "order": 26,
+      "visible": true
+    },
+    {
+      "id": "skill-git",
+      "name": "Git",
+      "category": "DevOps & QA",
+      "icon": "",
+      "experience": "",
+      "order": 27,
+      "visible": true
+    },
+    {
+      "id": "skill-offer-positioning",
+      "name": "Offer positioning",
+      "category": "Digital Marketing",
+      "icon": "",
+      "experience": "",
+      "order": 28,
+      "visible": true
+    },
+    {
+      "id": "skill-content-systems",
+      "name": "Content systems",
+      "category": "Digital Marketing",
+      "icon": "",
+      "experience": "",
+      "order": 29,
+      "visible": true
+    },
+    {
+      "id": "skill-social-media",
+      "name": "Social media",
+      "category": "Digital Marketing",
+      "icon": "",
+      "experience": "",
+      "order": 30,
+      "visible": true
+    },
+    {
+      "id": "skill-local-seo",
+      "name": "Local SEO",
+      "category": "Digital Marketing",
+      "icon": "",
+      "experience": "",
+      "order": 31,
+      "visible": true
+    },
+    {
+      "id": "skill-campaign-tracking-(ga4---gtm)",
+      "name": "Campaign tracking (GA4 / GTM)",
+      "category": "Digital Marketing",
+      "icon": "",
+      "experience": "",
+      "order": 32,
+      "visible": true
+    },
+    {
+      "id": "skill-conversion-basics",
+      "name": "Conversion basics",
+      "category": "Digital Marketing",
+      "icon": "",
+      "experience": "",
+      "order": 33,
+      "visible": true
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-nsu",
+      "institution": "North South University",
+      "degree": "BSc. in Computer Science and Engineering",
+      "field": "Computer Science and Engineering",
+      "startDate": "2017",
+      "endDate": "2022",
+      "description": "",
+      "logo": "",
+      "url": "",
+      "order": 1,
+      "visible": true
+    },
+    {
+      "id": "edu-ideal",
+      "institution": "Ideal College, Dhanmondi",
+      "degree": "Higher Secondary Certificate",
+      "field": "",
+      "startDate": "2014",
+      "endDate": "2016",
+      "description": "",
+      "logo": "",
+      "url": "",
+      "order": 2,
+      "visible": true
+    },
+    {
+      "id": "edu-dhanmondi",
+      "institution": "Dhanmondi Govt. Boys’ High School",
+      "degree": "Secondary School Certificate",
+      "field": "",
+      "startDate": "2004",
+      "endDate": "2014",
+      "description": "",
+      "logo": "",
+      "url": "",
+      "order": 3,
+      "visible": true
+    }
+  ],
+  "services": [],
+  "testimonials": [],
+  "contact": {
+    "email": "ibnayaz789@gmail.com",
+    "phone": "+8801726611455",
+    "location": "Dhaka, Bangladesh",
+    "socialProfiles": [
+      {
+        "label": "GitHub",
+        "url": "https://github.com/fozayelibnayaz"
+      }
+    ],
+    "formSettings": {
+      "enabled": true,
+      "provider": "mailto",
+      "endpoint": ""
+    },
+    "ctaTitle": "Let’s build something.",
+    "ctaText": "Tell me what you need built, fixed or measured. I usually reply within a day."
+  },
+  "awards": []
+}
