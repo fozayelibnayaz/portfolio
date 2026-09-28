@@ -4,6 +4,8 @@ on:
   push:
     branches: [main, master]
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
 
 permissions:
   contents: read
@@ -28,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Build static GitHub Pages site
+        env:
+          GITHUB_PROJECTS_OWNER: fozayelibnayaz
+          PORTFOLIO_REPO_READ_TOKEN: ${{ secrets.PORTFOLIO_REPO_READ_TOKEN }}
         run: npm run build:github-pages
       - name: Configure Pages
         uses: actions/configure-pages@v5

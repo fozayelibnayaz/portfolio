@@ -2,7 +2,9 @@ import Link from 'next/link';
 import type { CSSProperties } from 'react';
 import Header from '../components/Header';
 import ContactForm from '../components/ContactForm';
+import ProjectGallery from '../components/ProjectGallery';
 import { getContent } from '../lib/content';
+import { classifyProject } from '../lib/project-type';
 import { siteAsset, siteSrcSet } from '../lib/site-path';
 export const dynamic = 'force-dynamic';
 const str=(x:any)=>typeof x==='string'?x:'';
@@ -15,6 +17,7 @@ export default function Home(){
   const heroPortrait=useCutout?'/images/fozayel-cutout.webp':(str(profile.image)||'/images/fozayel-cutout.webp');
   const experience=arr(c.experience).filter(visible).sort((a:any,b:any)=>(a.order||0)-(b.order||0));
   const projects=arr(c.projects).filter(visible).sort((a:any,b:any)=>(a.order||0)-(b.order||0));
+  const projectCards=projects.map((p:any)=>({id:p.id,slug:p.slug,name:p.name,shortDescription:p.shortDescription||p.blurb||p.description||'',description:p.description||'',category:p.category||p.stack||'',stack:p.stack||'',technologies:arr(p.technologies),featured:!!p.featured,featuredImage:p.featuredImage||'',liveUrl:p.liveUrl||'',order:p.order||0,repoUpdatedAt:p.repoUpdatedAt||'',projectType:classifyProject(p)}));
   const skills=arr(c.skills).filter(visible).sort((a:any,b:any)=>(a.order||0)-(b.order||0));
   const education=arr(c.education).filter(visible).sort((a:any,b:any)=>(a.order||0)-(b.order||0));
   const services=arr(c.services).filter(visible).sort((a:any,b:any)=>(a.order||0)-(b.order||0));
@@ -51,7 +54,7 @@ export default function Home(){
       {projects.length>0&&<section className="section-container section-block work-section" id="projects">
         <SectionHead number="02" kicker="Selected work" title="/ THINGS I’VE BUILT" right={`${projects.length.toString().padStart(2,'0')} projects`}/>
         <div className="section-intro"><p className="section-title">Small details. Real-world work.</p><p>Selected work spanning product development, analytics, e-commerce and content systems.</p></div>
-        <div className="project-grid">{projects.map((p:any,i:number)=><ProjectCard key={p.slug||p.id||i} project={p} index={i}/>)}</div>
+        <ProjectGallery projects={projectCards}/>
       </section>}
       <section className="section-container section-block experience-section" id="experience">
         <SectionHead number="03" kicker="Experience" title="/ WHERE I’VE WORKED" right={`${experience.length.toString().padStart(2,'0')} professional chapters`}/>
@@ -77,4 +80,3 @@ export default function Home(){
 }
 function ContactGlyph({kind}:{kind:string}){const common={viewBox:'0 0 24 24',width:14,height:14,fill:'none',stroke:'currentColor',strokeWidth:1.8,strokeLinecap:'round' as const,strokeLinejoin:'round' as const,focusable:'false' as const, 'aria-hidden':true};if(kind==='mail')return <svg {...common}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>;if(kind==='phone')return <svg {...common}><path d="M7 3h3l2 5-2 2a15 15 0 0 0 4 4l2-2 5 2v3c0 1.1-.9 2-2 2C10.8 19 5 13.2 5 6c0-1.7.8-3 2-3Z"/></svg>;if(kind==='location')return <svg {...common}><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>;if(kind==='github')return <svg {...common}><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>;return <svg {...common}><path d="M14 3h7v7m0-7L10 14"/><path d="M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6"/></svg>}
 function SectionHead({number,kicker,title,right}:{number:string;kicker:string;title:string;right:string}){return <div className="section-head"><div className="section-head-left"><span className="section-number">{number}</span><span className="section-kicker">{kicker}</span><h2>{title}</h2></div><span className="section-head-note">{right}</span></div>}
-function ProjectCard({project:p,index}:{project:any;index:number}){return <Link className={`project-card project-tone-${index%3}`} href={`/projects/${p.slug}`}><div className="project-art">{p.featuredImage?<img className="project-custom-image" src={siteAsset(p.featuredImage)} alt="" loading="lazy"/>:<><div className="art-grid"/><div className="art-orbit art-orbit-one"/><div className="art-orbit art-orbit-two"/><div className="art-inner"><span className="art-kicker">{p.category||p.stack||'PROJECT'}</span><strong>{String(index+1).padStart(2,'0')}</strong><span className="art-mark">{index===0?'✳':index===1?'◉':'↗'}</span></div></>}<span className="project-arrow">↗</span><span className="project-live">{p.liveUrl?'LIVE':'CASE STUDY'}</span></div><div className="project-card-meta"><div><span className="project-type">{p.category||p.stack}</span><h3>{p.name}</h3><p>{p.shortDescription||p.blurb}</p></div><span className="project-open" aria-hidden="true">↗</span></div><div className="project-tags">{p.featured&&<span className="featured-tag">FEATURED</span>}{arr(p.technologies).slice(0,4).map((x:any)=><span key={x}>{x}</span>)}</div></Link>}

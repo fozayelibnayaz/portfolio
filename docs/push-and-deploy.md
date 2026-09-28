@@ -1,10 +1,10 @@
 # Push the portfolio from macOS and publish on GitHub Pages
 
-This guide deploys the **free static version** to the existing repository, `https://github.com/fozayelibnayaz/portfolio`. GitHub Pages cannot run the Next.js server, password-protected CMS, upload API, or server-side password settings. The live site's `/admin/` page explains how to edit the content source instead. No CMS password is included in the public project.
+This guide deploys the **free static version** to the existing repository, `https://github.com/fozayelibnayaz/portfolio`. GitHub Pages cannot run the Next.js server, password-protected CMS, upload API, or server-side password settings. GitHub Actions automatically discovers public GitHub repositories, including forks, and rebuilds the project list hourly. Private repos require an explicit, concept-only publication file and an Actions secret; details are in [`project-auto-sync.md`](project-auto-sync.md). No CMS password is included in the public project.
 
 ## 1. Download and unzip on your Mac
 
-Download `fozayel-portfolio-updated.zip`. Your browser normally saves it in **Downloads** (unless you changed the browser's download setting). In Finder, open Downloads and double-click the ZIP. It should create a folder named `fozayel-portfolio`.
+Download `fozayel-portfolio-dynamic.zip`. Your browser normally saves it in **Downloads** (unless you changed the browser's download setting). In Finder, open Downloads and double-click the ZIP. It should create a folder named `fozayel-portfolio-dynamic`.
 
 ## 2. Clone the existing repository
 
@@ -30,7 +30,7 @@ rsync -a --delete \
   --exclude='out/' \
   --exclude='.env' \
   --exclude='.DS_Store' \
-  ~/Downloads/fozayel-portfolio/ \
+  ~/Downloads/fozayel-portfolio-dynamic/ \
   ~/Desktop/portfolio-live/
 ```
 
@@ -63,13 +63,13 @@ If GitHub asks you to authenticate, use its browser sign-in or GitHub CLI (`gh a
 4. Wait for the workflow to finish successfully. It runs `npm ci`, creates the `/portfolio` static export, and deploys it with GitHub Pages.
 5. Visit **https://fozayelibnayaz.github.io/portfolio/**.
 
-The workflow is in `.github/workflows/deploy-pages.yml` and runs on pushes to `main` or `master`. If your repository's default branch has a different name, edit the workflow's `branches` list to include that branch, then push the change. The repository must have GitHub Pages available; the existing public Pages site is already at the intended address.
+The workflow is in `.github/workflows/deploy-pages.yml`; it runs on pushes to `main` or `master`, manual dispatch, and hourly on a schedule. If your repository's default branch has a different name, edit the workflow's `branches` list to include that branch, then push the change. The repository must have GitHub Pages available; the existing public Pages site is already at the intended address.
 
 ## 6. Update the live portfolio later
 
-For this static Pages version, edit `content/portfolio.json` in the GitHub repository (or in your local clone), commit the change, and push. GitHub Actions will rebuild and publish it. Keep the JSON valid; preserve quotation marks, commas, and brackets. You can review the current schema in `content/default.json`.
+For projects, keep each public GitHub repository's description and README current; the portfolio workflow detects new repositories and refreshes their cards/detail pages hourly without editing `content/portfolio.json`. To add a private concept, use the explicit safe-summary opt-in described in [`project-auto-sync.md`](project-auto-sync.md). For profile, skills, experience, and non-repository content, edit `content/portfolio.json`, then commit and push as usual.
 
-GitHub Pages does **not** host the CMS sign-in, changeable CMS password, CRUD API, or uploaded-media API. The originally supplied passphrase is not put in the public files. Editing the repository is the secure update path for this free static hosting choice. The portrait and site files are already included; don't replace the transparent cutout with a background image unless you intend to change the design.
+GitHub Pages does **not** host the CMS sign-in, changeable CMS password, CRUD API, or uploaded-media API. The originally supplied passphrase is not put in the public files. The portrait and site files are already included; don't replace the transparent cutout with a background image unless you intend to change the design.
 
 ## Optional local verification
 

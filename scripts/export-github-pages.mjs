@@ -24,7 +24,11 @@ try{
   await Promise.all(['app/api','app/uploads','app/admin'].map(dir=>rm(path.join(stage,dir),{recursive:true,force:true})));
   const adminDir=path.join(stage,'app/admin');
   await mkdir(adminDir,{recursive:true});
-  await writeFile(path.join(adminDir,'page.tsx'),`import Link from 'next/link';\nexport const metadata={title:'Edit portfolio content — Fozayel Ibn Ayaz'};\nexport default function PagesEditInfo(){return <main className="section-container section-block" style={{maxWidth:760,minHeight:'75vh',paddingTop:100}}><span className="section-kicker">GITHUB PAGES · STATIC SITE</span><h1 style={{fontSize:'clamp(38px,7vw,72px)',lineHeight:1,letterSpacing:'-.06em',margin:'22px 0'}}>This published copy is static.</h1><p style={{maxWidth:620,color:'var(--muted)',lineHeight:1.9}}>GitHub Pages cannot run a private CMS or save changes to a server. To update the live portfolio, open the repository, edit <code>content/portfolio.json</code>, commit the change, and push. GitHub Actions will rebuild and publish the site.</p><div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:28}}><a className="button button-primary" href="https://github.com/fozayelibnayaz/portfolio" target="_blank" rel="noreferrer">Open GitHub repository <span>↗</span></a><Link className="button button-quiet" href="/">Back to portfolio <span>↗</span></Link></div></main>}`);
+  await writeFile(path.join(adminDir,'page.tsx'),`import Link from 'next/link';\nexport const metadata={title:'Portfolio editing — Fozayel Ibn Ayaz'};\nexport default function PagesEditInfo(){return <main className="section-container section-block" style={{maxWidth:760,minHeight:'75vh',paddingTop:100}}><span className="section-kicker">GITHUB PAGES · AUTOMATED PROJECT SYNC</span><h1 style={{fontSize:'clamp(38px,7vw,72px)',lineHeight:1,letterSpacing:'-.06em',margin:'22px 0'}}>Projects sync from GitHub.</h1><p style={{maxWidth:620,color:'var(--muted)',lineHeight:1.9}}>Public repositories and their README details are refreshed automatically by GitHub Actions about once an hour. For a private project concept, publish only a safe title and one-sentence summary in a <code>PORTFOLIO_PUBLIC.md</code> opt-in file; see the project auto-sync guide in the repository. GitHub Pages is static, so it does not run a CMS or upload API.</p><div style={{display:'flex',gap:12,flexWrap:'wrap',marginTop:28}}><a className="button button-primary" href="https://github.com/fozayelibnayaz/portfolio/blob/main/docs/project-auto-sync.md" target="_blank" rel="noreferrer">Read the auto-sync guide <span>↗</span></a><Link className="button button-quiet" href="/">Back to portfolio <span>↗</span></Link></div></main>}`);
+
+  const sync=spawnSync(process.execPath,[path.join(stage,'scripts/sync-github-projects.mjs')],{cwd:stage,env:process.env,stdio:'inherit'});
+  if(sync.error)throw sync.error;
+  if(sync.status!==0)throw new Error(`GitHub project sync exited with code ${sync.status}`);
 
   const homeFile=path.join(stage,'app/page.tsx');
   let home=await readFile(homeFile,'utf8');
@@ -52,6 +56,7 @@ try{
   await writeFile(cssFile,css);
 
   const env={...process.env,GITHUB_PAGES_EXPORT:'1',NEXT_PUBLIC_BASE_PATH:'/portfolio',NEXT_PUBLIC_GITHUB_PAGES:'true',NEXT_PUBLIC_SITE_URL:'https://fozayelibnayaz.github.io/portfolio'};
+  delete env.PORTFOLIO_REPO_READ_TOKEN;
   const nextCli=path.join(root,'node_modules/next/dist/bin/next');
   const build=spawnSync(process.execPath,[nextCli,'build','--webpack'],{cwd:stage,env,stdio:'inherit'});
   if(build.error)throw build.error;
