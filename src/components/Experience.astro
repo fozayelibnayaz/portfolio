@@ -1,10 +1,10 @@
 ---
 import SecHead from './SecHead.astro';
-import { education, experience } from 'src/data/content';
+import { education, experience, languages } from 'src/data/content';
 ---
 <section class="section xp" id="experience" aria-labelledby="xp-title">
   <div class="shell">
-    <SecHead num="005" label="Experience" right="Six roles, one thread" />
+    <SecHead num="005" label="Experience" right="Five roles, one thread" />
     <h2 class="work__title" id="xp-title">TRACK<br />RECORD</h2>
     <div class="xp__list">
       {experience.map((e) => (
@@ -21,6 +21,15 @@ import { education, experience } from 'src/data/content';
       <ul>
         {education.map((e) => (
           <li class="mono mono--sm"><span>{e.when}</span><span>{e.role}</span><span>{e.org}</span></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="xp__langs">
+      <span class="mono mono--sm dim">Languages</span>
+      <ul>
+        {languages.map((l) => (
+          <li class="mono mono--sm"><span>{l.name}</span><span class="dim">{l.level}</span></li>
         ))}
       </ul>
     </div>

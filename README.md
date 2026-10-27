@@ -96,9 +96,10 @@ git branch -M main
 | 003 | Work | Filter chips, eight case-study cards each with a one-line result, then every verified live link |
 | — | Stats | Full-bleed lime band: 4+ / 12+ / 6 / 3 |
 | 004 | About | Statement headline, two sentences, three facts, one quote, portrait |
-| 005 | Experience | Six roles + education as a scannable table |
+| 005 | Experience | Five roles, education and languages as a scannable table |
 | 006 | Toolkit | Transmission panel — rotating giant technology names over drifting code, with Prev / Pause / Next and a progress rail — plus three grouped skill rows |
-| 007 | Contact | Three tiles (email, WhatsApp, GitHub), CV download, reply-time note |
+| 007 | Engineering | Six techniques shown as live demos, with every number counted from source at build time |
+| 008 | Contact | Three tiles (email, WhatsApp, GitHub), CV download, reply-time note |
 
 Long-form detail lives inside the per-project dialog, so the page itself stays visual.
 
@@ -108,6 +109,24 @@ The hero used to carry twelve elements — chips, a job rail, a status bar, a lo
 bar, a plate, a pitch block and a portrait. It now carries **four**: the two display lines, the
 portrait, and the name. Everything else moved down the page or was deleted. The result is one clear
 focal point instead of five competing ones.
+
+## Engineering section
+
+`src/components/Engineering.astro` proves the stack instead of claiming it. Six techniques, each
+with a working demo rather than a description:
+
+| Technique | Shown by |
+| --- | --- |
+| Fluid type | A word scaling on `clamp()`, with a rule that follows it |
+| Mask composite | The portrait dissolved by two intersected gradients |
+| Clipped gradient | A headline filled with a gradient, cut to the letterforms |
+| Scroll choreography | A staggered ladder driven by ScrollTrigger |
+| Infinite wrap | A strip looping via `modifiers` + `unitize` |
+| Zero UI framework | `0` external requests |
+
+The four headline numbers — CSS lines, TypeScript lines, components, media queries — are read
+from disk by `src/lib/buildStats.ts` during the build. Change the source and the figures change
+with it; there is no hand-typed number anywhere on the page to drift out of date.
 
 ## Motion inventory
 
@@ -122,6 +141,9 @@ All GSAP + ScrollTrigger, driven by a Lenis scroll loop, all skipped under `pref
 - 3D pointer tilt with image counter-parallax on project cards
 - stat counters, header hide-on-scroll, lime scroll-progress bar, section spy
 - magnetic buttons, custom cursor (fine pointers only), violet spotlight follow
+- split-word masked reveals on the big headings (words wrapped at runtime, lifted through an
+  `overflow:hidden` mask — real masks, no clipped descenders, untouched for screen readers)
+- scroll-velocity skew on the marquee, read from `ScrollTrigger.getVelocity()` and clamped
 
 ## Structure
 
@@ -134,6 +156,7 @@ src/
   data/content.ts        single source of truth: copy, projects, roles, links
   layouts/Base.astro     head, meta/OG, JSON-LD Person, chrome
   lib/asset.ts           base-path-safe asset helper (GitHub Pages friendly)
+  lib/buildStats.ts      counts CSS/TS lines, components, media queries from disk at build time
   pages/index.astro      page composition
   scripts/anim.ts        Lenis + GSAP motion layer
   styles/                tokens · base · hero · sections · dialog · responsive
@@ -159,7 +182,7 @@ public/
 ## Verified (headless Chromium)
 
 - `astro check` → **0 errors, 0 warnings, 0 hints**
-- Build → 1 page, 2.4 MB `dist/`; base-path build verified (`/portfolio/` links resolve)
+- Build → 1 page, 2.5 MB `dist/`; base-path build verified (`/portfolio/` links resolve)
 - **20 widths** from 320 → 2560 px: `scrollWidth === innerWidth` everywhere, no element crossing
   the viewport edge
 - 0 console errors, 0 failed requests

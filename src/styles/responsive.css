@@ -4,6 +4,8 @@
 
 @media (max-width: 1200px) {
   .deck { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .eng__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .eng__facts { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(12px, 2vw, 20px); }
   .toolkit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .stats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: clamp(16px, 2.4vw, 30px); }
   .stats__note { justify-self: start; }
@@ -36,6 +38,8 @@
 
 @media (max-width: 760px) {
   .deck { grid-template-columns: 1fr; }
+  .eng__grid { grid-template-columns: 1fr; }
+  .eng__facts { grid-template-columns: 1fr 1fr; }
   .toolkit__grid { grid-template-columns: 1fr; }
   .marquee__head .dim { display: none; }
   .tx__top-r { display: none; }

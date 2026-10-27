@@ -183,11 +183,9 @@ function reveal(sel: string, opts: gsap.TweenVars = {}) {
 
 reveal('.sec-head');
 reveal('.cap', { y: 34 });
-reveal('.work__title', { y: 40 });
 reveal('.work__lead', { y: 20 });
 reveal('.card', { y: 30, duration: 0.7 });
 reveal('.live', { y: 18 });
-reveal('.about__title', { y: 30 });
 reveal('.about__lead, .about__bio, .about__facts', { y: 18 });
 reveal('.about__figure', { y: 40, duration: 1 });
 reveal('.xp__row', { y: 16, duration: 0.6 });
@@ -195,10 +193,82 @@ reveal('.xp__edu li', { y: 12, duration: 0.5 });
 reveal('.toolkit__head > *', { y: 26 });
 reveal('.tx', { y: 30, duration: 0.9 });
 reveal('.tk', { y: 18 });
-reveal('.contact__title', { y: 34 });
 reveal('.ctile', { y: 20 });
 reveal('.footer__inner > *', { y: 14 });
 reveal('.marquee', { y: 18 });
+
+/* ------------------------------------------------------- split-word masks */
+/* Wraps each word (and each inline element, so <em> keeps its styling) in a
+   masked span, then lifts the inner span into place. Real masks — no clipped
+   descenders, and the text is untouched for screen readers before we run. */
+function splitWords(el: Element) {
+  const walk = (node: Element) => {
+    Array.from(node.childNodes).forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const text = child.textContent ?? '';
+        if (!text.trim()) return;
+        const frag = document.createDocumentFragment();
+        text.split(/(\s+)/).forEach((part) => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) {
+            frag.appendChild(document.createTextNode(' '));
+            return;
+          }
+          const w = document.createElement('span');
+          w.className = 'w';
+          const wi = document.createElement('span');
+          wi.className = 'wi';
+          wi.textContent = part;
+          w.appendChild(wi);
+          frag.appendChild(w);
+        });
+        node.replaceChild(frag, child);
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        const elChild = child as Element;
+        if (elChild.tagName === 'BR') return;
+        const w = document.createElement('span');
+        w.className = 'w';
+        const wi = document.createElement('span');
+        wi.className = 'wi';
+        wi.appendChild(elChild.cloneNode(true));
+        w.appendChild(wi);
+        node.replaceChild(w, child);
+      }
+    });
+  };
+  walk(el);
+  return Array.from(el.querySelectorAll('.wi'));
+}
+
+if (!reduce) {
+  $$('.work__title, .contact__title, .about__title, .eng__title').forEach((el) => {
+    const words = splitWords(el);
+    if (!words.length) return;
+    gsap.from(words, {
+      yPercent: 112,
+      duration: 0.95,
+      ease: 'power4.out',
+      stagger: 0.045,
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true },
+    });
+  });
+}
+
+/* --------------------------------------------- scroll-velocity marquee skew */
+/* Reads ScrollTrigger's own velocity and leans the strip into the direction
+   of travel — the classic "weight" trick, clamped so it never distorts. */
+if (!reduce) {
+  const track = $<HTMLElement>('[data-marquee]');
+  if (track) {
+    const skewTo = gsap.quickTo(track, 'skewX', { duration: 0.5, ease: 'power3' });
+    ScrollTrigger.create({
+      onUpdate: (self) => {
+        const v = gsap.utils.clamp(-7, 7, self.getVelocity() / 380);
+        skewTo(-v);
+      },
+    });
+  }
+}
 
 /* parallax */
 if (!reduce) {
@@ -255,28 +325,28 @@ if (!reduce) {
 })();
 
 /* --------------------------------------------------------------- counters */
+const fmt = new Intl.NumberFormat('en-US');
 $$<HTMLElement>('[data-count]').forEach((el) => {
   const end = Number(el.dataset.count ?? '0');
   if (!Number.isFinite(end)) return;
   const plus = el.querySelector('i');
-  if (reduce) {
-    el.textContent = String(end);
+
+  /* The build already rendered the final, correctly-formatted number.
+     Re-format through Intl on every frame so 1760 stays "1,760". */
+  const paint = (v: number) => {
+    el.textContent = fmt.format(Math.round(v));
     if (plus) el.append(plus);
-    return;
-  }
+  };
+
+  if (reduce) { paint(end); return; }
+
   const obj = { v: 0 };
   ScrollTrigger.create({
     trigger: el,
     start: 'top 92%',
     once: true,
     onEnter: () => {
-      gsap.to(obj, {
-        v: end, duration: 1.4, ease: 'power2.out',
-        onUpdate: () => {
-          el.textContent = String(Math.round(obj.v));
-          if (plus) el.append(plus);
-        },
-      });
+      gsap.to(obj, { v: end, duration: 1.5, ease: 'power2.out', onUpdate: () => paint(obj.v) });
     },
   });
 });

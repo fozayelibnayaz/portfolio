@@ -5,7 +5,7 @@
 export const site = {
   name: 'Fozayel Ibn Ayaz',
   first: 'Fozayel',
-  role: 'Full-Stack Developer & Data Analyst',
+  role: 'Full-Stack Developer · Analytics & QA',
   location: 'Dhaka, Bangladesh',
   timezone: 'GMT+6',
   email: 'ibnayaz789@gmail.com',
@@ -15,9 +15,9 @@ export const site = {
   repo: 'https://github.com/fozayelibnayaz/portfolio',
   url: 'https://fozayelibnayaz.github.io/portfolio/',
   availability: 'Open for work',
-  title: 'Fozayel Ibn Ayaz — Full-Stack Developer & Data Analyst',
+  title: 'Fozayel Ibn Ayaz — Full-Stack Developer, Analytics & QA',
   description:
-    'Full-stack developer and data analyst in Dhaka. Websites, online stores and dashboards — built, measured and maintained.',
+    'Full-stack developer in Dhaka working where projects quietly fail — between code, data and deployment. React, Next.js, Node.js, WordPress, GA4, Playwright.',
   cv: 'files/Fozayel_Ibn_Ayaz_CV.pdf',
 };
 
@@ -35,8 +35,8 @@ export const hero = {
   line1: 'FULL–STACK',
   line2: 'DEVELOPER',
   name: 'Fozayel Ibn Ayaz',
-  line: 'Websites, stores and dashboards —',
-  lineEm: 'built to work.',
+  line: 'Code, data and deployment —',
+  lineEm: 'one reliable system.',
   cta: 'See the work',
   cta2: 'Download CV',
 };
@@ -109,12 +109,12 @@ export const projects: Project[] = [
     category: 'dash',
     catLabel: 'Product · Analytics',
     year: '2025',
-    metric: 'Weekly reviews in minutes',
+    metric: '30+ AI function-calling tools',
     badge: 'Live',
     badgeKind: 'live',
     link: 'https://youtube-command-center-eight.vercel.app',
     image: 'img/work-youtube.webp',
-    tags: ['Next.js', 'TypeScript', 'AI'],
+    tags: ['Next.js', 'TypeScript', 'OAuth'],
     caseStudy: {
       sub: 'One screen instead of six browser tabs.',
       problem:
@@ -128,7 +128,7 @@ export const projects: Project[] = [
         'Weekly reviews went from hours of tab-switching to minutes on one screen.',
       role: 'Full-stack developer (solo)',
       timeline: '2025',
-      status: 'Live',
+      status: 'Live · GitHub Actions deploys',
       client: 'Independent product',
     },
   },
@@ -163,11 +163,11 @@ export const projects: Project[] = [
   },
   {
     key: 'eagle',
-    title: 'Eagle 3D Analytics Hub',
+    title: 'Eagle Analytics System',
     category: 'dash',
-    catLabel: 'Dashboard · Internal',
+    catLabel: 'Dashboard · Work',
     year: '2024',
-    metric: 'One link for the Monday review',
+    metric: '10-page BI hub · 151 tests',
     badge: 'Internal tool',
     badgeKind: 'private',
     link: null,
@@ -178,9 +178,9 @@ export const projects: Project[] = [
       problem:
         'Reporting lived in spreadsheets that nobody refreshed, so meetings started with an argument about whose figure was right.',
       did: [
-        'Consolidated streaming and catalog data into one pipeline',
-        'Built a single dashboard with consistent definitions',
-        'Reworked the schema so new content lands formatted, not broken',
+        'Consolidated streaming and catalog data into one BI pipeline',
+        'Built a 10-page dashboard covering KPIs, YouTube, revenue and retention',
+        'Added anomaly alerts that fire within 15 minutes, backed by 151 tests',
       ],
       changed:
         'One link, one set of numbers, and a review that starts with decisions instead of data arguments.',
@@ -283,26 +283,26 @@ export const projects: Project[] = [
     category: 'apps',
     catLabel: 'Tool · Sales',
     year: '2026',
-    metric: 'Follow-ups that do not slip',
+    metric: '14 modules · 124 countries · 155 tests',
     badge: 'Live',
     badgeKind: 'live',
     link: 'https://ayaz-prospect-studio.ayazwork2026.workers.dev/',
     image: 'img/work-prospect.webp',
-    tags: ['JavaScript', 'Workers', 'Product'],
+    tags: ['Cloudflare Workers', 'D1', 'Gmail API'],
     caseStudy: {
       sub: 'A follow-up system for people who hate follow-ups.',
       problem:
         'Freelance pipelines stall because the next message never gets written, not because leads are missing.',
       did: [
-        'Built a prospect list with a clear next action on every row',
-        'Added staged email and WhatsApp templates',
-        'Ran it on Cloudflare Workers with no backend to babysit',
+        'Built a B2B prospecting CRM with 14 modules and a clear next action on every row',
+        'Wired Gmail API sending and staged outreach templates across 124 countries',
+        'Covered the whole flow with 155 automated tests on Cloudflare Workers and D1',
       ],
       changed:
         'Every open lead has a next step and a date, so nothing quietly dies.',
       role: 'Product, design and build (solo)',
       timeline: '2026',
-      status: 'Live',
+      status: 'Live · 155 tests passing',
       client: 'Self-initiated',
     },
   },
@@ -322,59 +322,77 @@ export const liveLinks = [
 export const capabilities = [
   { icon: 'build', k: '01', title: 'Build', line: 'Sites, stores, web apps', bullet: 'Design → code → launch' },
   { icon: 'measure', k: '02', title: 'Measure', line: 'Tracking, dashboards, SEO', bullet: 'So you can see what works' },
-  { icon: 'care', k: '03', title: 'Maintain', line: 'Speed, backups, uptime', bullet: 'Nothing quietly breaks' },
+  { icon: 'care', k: '03', title: 'Verify', line: 'QA, tests, release checks', bullet: 'Nothing quietly breaks' },
 ];
 
 export const stats = [
   { n: '4', plus: true, l: 'Years shipping' },
-  { n: '12', plus: true, l: 'Live products' },
-  { n: '6', plus: false, l: 'Roles held' },
-  { n: '3', plus: false, l: 'Countries' },
+  { n: '8', plus: false, l: 'Live projects' },
+  { n: '5', plus: false, l: 'Roles held' },
+  { n: '4', plus: false, l: 'Countries' },
 ];
 
 export const about = {
-  lead: 'Four years of building things that have to work on a Monday.',
-  bio: 'Developer and analyst in Dhaka. I build the product, then build the numbers that prove it works.',
+  lead: 'I work where most projects quietly fail — in the space between code, data and deployment.',
+  bio: 'Full-stack developer in Dhaka, connecting frontend, backend, analytics and testing into one reliable system.',
   facts: [
     { k: 'Based', v: 'Dhaka, Bangladesh' },
-    { k: 'Focus', v: 'Web · Data · SEO' },
+    { k: 'Focus', v: 'Web · Data · QA' },
     { k: 'Now', v: 'WordPress dev @ Ekomedia' },
   ],
   quote: 'If it is not measured, it is not finished.',
 };
 
 export const experience = [
-  { when: '2025 — now', role: 'WordPress Developer', org: 'Ekomedia', place: 'Remote' },
-  { when: '2024 — now', role: 'Digital Marketing & IT Manager', org: 'Family business', place: 'Dhaka' },
-  { when: '2024 — now', role: 'IT Administrator', org: 'Café Lavista', place: 'Dhaka' },
-  { when: '2023 — 2026', role: 'Data Analyst', org: 'Eagle 3D Streaming', place: 'Remote' },
-  { when: '2023', role: 'IT Support', org: 'n2sys', place: 'Dhaka' },
-  { when: '2022', role: 'Coding Teacher', org: 'Codingal', place: 'Remote' },
+  { when: 'Dec 2025 — now', role: 'WordPress Developer', org: 'Ekomedia', place: 'Freelance · Remote' },
+  { when: 'Jul 2023 — Aug 2026', role: 'Data Analyst', org: 'Eagle 3D Streaming', place: 'Remote' },
+  { when: 'Jan 2023 — Jun 2023', role: 'IT Support Engineer', org: 'n2sys Technology', place: 'Dhaka' },
+  { when: 'Aug 2022 — Dec 2022', role: 'Coding Teacher', org: 'Codingal', place: 'Remote' },
+  { when: 'May 2022 — Jul 2022', role: 'Associate', org: 'Quantanite', place: 'Dhaka' },
 ];
 
 export const education = [
-  { when: '2017 — 2022', role: 'B.Sc. Computer Science', org: 'North South University' },
-  { when: '2014 — 2016', role: 'Higher Secondary', org: 'Ideal College, Dhanmondi' },
-  { when: '2004 — 2014', role: 'SSC', org: "Dhanmondi Govt. Boys' School" },
+  { when: '2017 — 2022', role: 'BSc. Computer Science & Engineering', org: 'North South University' },
+  { when: '2014 — 2016', role: 'Higher Secondary Certificate', org: 'Ideal College, Dhanmondi' },
+  { when: '2004 — 2014', role: 'Secondary School Certificate', org: "Dhanmondi Govt. Boys' High School" },
+];
+
+/* Languages — from the CV */
+export const languages = [
+  { name: 'Bengali', level: 'Native' },
+  { name: 'English', level: 'IELTS 6.5 · B2' },
 ];
 
 export const transmission = [
-  { name: 'React.js', cat: 'Frontend', used: 'Dashboards & stores' },
-  { name: 'Next.js', cat: 'Frontend', used: 'This site, storefronts' },
-  { name: 'TypeScript', cat: 'Frontend', used: 'Typed interfaces' },
-  { name: 'WordPress', cat: 'CMS', used: 'Nine client sites' },
-  { name: 'PHP', cat: 'Backend', used: 'Themes & custom APIs' },
-  { name: 'Python', cat: 'Data', used: 'Pipelines & forecasting' },
-  { name: 'GA4 + GTM', cat: 'Analytics', used: 'Tracking that survives' },
-  { name: 'Looker Studio', cat: 'Analytics', used: 'Dashboards people open' },
-  { name: 'GSAP', cat: 'Motion', used: 'Scroll choreography' },
-  { name: 'Docker', cat: 'DevOps', used: 'Repeatable environments' },
+  { name: 'TypeScript', cat: 'Language', used: 'Typed interfaces, end to end' },
+  { name: 'Next.js', cat: 'Frontend', used: 'Apps, dashboards, this site' },
+  { name: 'React', cat: 'Frontend', used: 'Dashboards & stores' },
+  { name: 'Node.js', cat: 'Backend', used: 'APIs & tooling' },
+  { name: 'WordPress', cat: 'CMS', used: 'ACF, CPTs, client builds' },
+  { name: 'Python', cat: 'Data', used: 'BI pipelines & forecasting' },
+  { name: 'GA4 + GTM', cat: 'Analytics', used: 'Event & dataLayer design' },
+  { name: 'Looker Studio', cat: 'Analytics', used: 'Dashboards leadership opens' },
+  { name: 'Playwright', cat: 'QA', used: 'Automated release checks' },
+  { name: 'Docker', cat: 'Infra', used: 'Repeatable environments' },
 ];
 
 export const skillGroups = [
-  { label: 'Frontend', items: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'GSAP'] },
-  { label: 'Backend & data', items: ['PHP', 'Node.js', 'Python', 'SQL', 'MongoDB'] },
-  { label: 'CMS & analytics', items: ['WordPress', 'WooCommerce', 'GA4', 'GTM', 'Looker'] },
+  {
+    label: 'Languages',
+    items: ['JavaScript (ES6+)', 'TypeScript', 'SQL', 'Java', 'PHP', 'Python', 'C++', 'C', 'HTML5', 'CSS3'],
+  },
+  {
+    label: 'Web',
+    items: ['Next.js', 'React', 'Node.js', 'Express', 'WordPress', 'WooCommerce', 'Figma', 'SEO'],
+  },
+  {
+    label: 'Data',
+    items: ['GA4', 'GTM', 'Looker Studio', 'Prophet', 'ARIMA', 'LSTM', 'Hadoop', 'Hive', 'Spark'],
+  },
+  {
+    label: 'Infra & tools',
+    items: ['GCP', 'Docker', 'Kubernetes', 'MySQL', 'MariaDB', 'Supabase', 'Firebase', 'Playwright', 'Postman', 'Unreal Engine'],
+  },
 ];
 
 export const contact = {

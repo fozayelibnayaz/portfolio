@@ -231,6 +231,15 @@ h1, h2, h3, h4 { font-weight: 400; line-height: 1; letter-spacing: -0.02em; }
 .cursor.is-hover { width: 62px; height: 62px; background: var(--chalk); border-color: transparent; }
 .cursor.is-hover::after { opacity: 0; }
 
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+.wi { display: inline-block; will-change: transform; }
+
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;

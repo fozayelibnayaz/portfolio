@@ -1,0 +1,136 @@
+---
+import { buildStats as s } from 'src/lib/buildStats';
+import { asset } from 'src/lib/asset';
+
+const nf = (n: number) => n.toLocaleString('en-US');
+
+/* Six techniques, each shown by a live demo rather than described. */
+const techniques = [
+  {
+    k: '01',
+    name: 'Fluid type',
+    tech: 'clamp() + custom properties',
+    line: 'One declaration scales from a 320px phone to a 2560px monitor.',
+    demo: 'fluid',
+  },
+  {
+    k: '02',
+    name: 'Mask composite',
+    tech: 'mask-composite: intersect',
+    line: 'Two gradients intersected so the portrait dissolves into the page.',
+    demo: 'mask',
+  },
+  {
+    k: '03',
+    name: 'Clipped gradient',
+    tech: 'background-clip: text',
+    line: 'The headline is a gradient, cut to the shape of the letters.',
+    demo: 'clip',
+  },
+  {
+    k: '04',
+    name: 'Scroll choreography',
+    tech: `GSAP ScrollTrigger · ${s.gsap.scrollTrigger} triggers`,
+    line: 'Every reveal, parallax and count is tied to scroll position.',
+    demo: 'scroll',
+  },
+  {
+    k: '05',
+    name: 'Infinite wrap',
+    tech: 'GSAP modifiers + unitize',
+    line: 'The strip loops forever with no clone glitch and no memory leak.',
+    demo: 'loop',
+  },
+  {
+    k: '06',
+    name: 'Zero UI framework',
+    tech: 'Astro · static output',
+    line: 'No React, no CSS library, no external request at runtime.',
+    demo: 'zero',
+  },
+];
+
+const facts = [
+  { n: nf(s.cssLines), l: 'Lines of CSS written by hand' },
+  { n: nf(s.tsLines), l: 'Lines of TypeScript' },
+  { n: String(s.components), l: 'Astro components' },
+  { n: String(s.mediaQueries), l: 'Media queries' },
+];
+---
+
+<section class="section eng" id="engineering" aria-labelledby="eng-title">
+  <div class="shell">
+    <div class="sec-head mono mono--sm">
+      <span class="sec-head__num">007</span>
+      <span>Engineering</span>
+      <span class="sec-head__line" aria-hidden="true"></span>
+      <span class="sec-head__right">Counted from source, not written by hand</span>
+    </div>
+
+    <div class="eng__head">
+      <h2 class="eng__title split" id="eng-title">UNDER<br />THE <em class="em">hood</em></h2>
+      <p class="eng__note dim">
+        Astro, GSAP and plain CSS — nothing else. Every number below is read from this
+        project's own files while it builds, so it cannot drift from the truth.
+      </p>
+    </div>
+
+    <dl class="eng__facts">
+      {facts.map((f) => (
+        <div class="eng__fact">
+          <dt class="eng__fact-n" data-count={f.n.replace(/,/g, '')}>{f.n}</dt>
+          <dd class="eng__fact-l mono mono--sm">{f.l}</dd>
+        </div>
+      ))}
+    </dl>
+
+    <div class="eng__grid">
+      {techniques.map((t) => (
+        <article class="tech">
+          <header class="tech__top mono mono--sm">
+            <span class="tech__k">{t.k}</span>
+            <span class="tech__tech">{t.tech}</span>
+          </header>
+
+          <div class="tech__demo" aria-hidden="true">
+            {t.demo === 'fluid' && (
+              <div class="d-fluid"><span>Aa</span><i></i></div>
+            )}
+            {t.demo === 'mask' && (
+              <div class="d-mask"><img src={asset('img/portrait-520.webp')} alt="" loading="lazy" decoding="async" width="520" height="520" /></div>
+            )}
+            {t.demo === 'clip' && (
+              <div class="d-clip"><span>Aa</span></div>
+            )}
+            {t.demo === 'scroll' && (
+              <div class="d-scroll">
+                {Array.from({ length: 7 }, (_, i) => <i style={`--i:${i}`} />)}
+              </div>
+            )}
+            {t.demo === 'loop' && (
+              <div class="d-loop">
+                <div class="d-loop__track">
+                  {Array.from({ length: 8 }, (_, i) => <span>{['Astro', 'GSAP', 'Lenis', 'CSS'][i % 4]}</span>)}
+                  {Array.from({ length: 8 }, (_, i) => <span>{['Astro', 'GSAP', 'Lenis', 'CSS'][i % 4]}</span>)}
+                </div>
+              </div>
+            )}
+            {t.demo === 'zero' && (
+              <div class="d-zero"><b>0</b><span class="mono mono--sm">external requests</span></div>
+            )}
+          </div>
+
+          <h3 class="tech__name">{t.name}</h3>
+          <p class="tech__line">{t.line}</p>
+        </article>
+      ))}
+    </div>
+
+    <div class="eng__bar mono mono--sm">
+      <span class="eng__bar-item"><i class="mark">●</i> {s.fonts} fonts, self-hosted</span>
+      <span class="eng__bar-item"><i class="mark">●</i> {s.customProps} CSS custom properties</span>
+      <span class="eng__bar-item"><i class="mark">●</i> {s.gsap.tweens} GSAP tweens · {s.gsap.scrollTrigger} scroll triggers</span>
+      <span class="eng__bar-item"><i class="mark">●</i> 0 UI frameworks</span>
+    </div>
+  </div>
+</section>
