@@ -1,0 +1,40 @@
+---
+import { nav, site } from 'src/data/content';
+---
+<header class="site-header" data-header>
+  <div class="shell site-header__bar">
+    <a class="brand" href="#top" aria-label={`${site.name} — home`}>
+      <span class="brand__glyph" aria-hidden="true">F<span class="brand__dot"></span></span>
+      <span class="brand__stack">
+        <span class="brand__name">{site.name}</span>
+        <span class="brand__role">Developer · Analyst</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary">
+      {nav.map((item) => <a class="site-nav__link" href={item.href} data-nav-link>{item.label}</a>)}
+    </nav>
+
+    <div class="site-header__end">
+      <a class="header-cta" href="#contact">Let’s talk <i aria-hidden="true">↗</i></a>
+      <button class="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" data-burger><span></span></button>
+    </div>
+  </div>
+  <span class="header-progress" data-progress aria-hidden="true"></span>
+</header>
+
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
+  <div class="mobile-nav__head mono mono--sm">
+    <span>Menu</span>
+    <span class="dim">{site.location}</span>
+  </div>
+  <nav class="mobile-nav__list" aria-label="Mobile">
+    {nav.map((item, i) => (
+      <a href={item.href}><b>{item.label}</b><i aria-hidden="true">0{i + 1}</i></a>
+    ))}
+  </nav>
+  <div class="mobile-nav__foot">
+    <a class="btn btn--solid" href="#contact">Start a project <i aria-hidden="true">↗</i></a>
+    <p class="mono mono--sm dim">{site.email}</p>
+  </div>
+</div>

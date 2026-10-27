@@ -1,0 +1,69 @@
+---
+import { skillGroups, transmission } from 'src/data/content';
+const codeRow = (offset: number) =>
+  Array.from({ length: 14 }, (_, i) => `const_${String((i + offset) % 8).padStart(2, '0')} → build()`).join('  ·  ');
+---
+<section class="section kit" id="toolkit" aria-labelledby="toolkit-title">
+  <div class="shell">
+    <div class="sec-head mono mono--sm">
+      <span class="sec-head__num">006</span>
+      <span>Toolkit</span>
+      <span class="sec-head__line" aria-hidden="true"></span>
+      <span class="sec-head__right">Ten I actually use</span>
+    </div>
+
+    <div class="toolkit__head">
+      <h2 class="toolkit__title" id="toolkit-title">THE<br />STACK</h2>
+      <p class="toolkit__note dim">No list of forty logos. This is what gets reached for on real work.</p>
+    </div>
+
+    <div class="tx" data-tx>
+      <div class="tx__code" aria-hidden="true">
+        <div class="tx__code-row" data-tx-row>{codeRow(0)}</div>
+        <div class="tx__code-row" data-tx-row>{codeRow(3)}</div>
+        <div class="tx__code-row" data-tx-row>{codeRow(6)}</div>
+      </div>
+
+      <div class="tx__top mono mono--sm">
+        <span class="tx__live"><span class="pip" aria-hidden="true"></span>Transmission</span>
+        <span class="tx__top-r">Auto-playing · tap to hold</span>
+      </div>
+
+      <div class="tx__stage" data-tx-stage aria-live="polite">
+        {transmission.map((t, i) => (
+          <div class:list={['tx__slide', { 'is-active': i === 0 }]} data-tx-slide>
+            <span class="tx__cat mono mono--sm">{String(i + 1).padStart(2, '0')} · {t.cat}</span>
+            <span class="tx__name" data-tx-name>{t.name}</span>
+            <span class="tx__used dim">{t.used}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="tx__foot">
+        <span class="tx__idx mono mono--sm"><b data-tx-idx>01</b><span class="dim">/{String(transmission.length).padStart(2, '0')}</span></span>
+        <span class="tx__bar" aria-hidden="true"><i data-tx-bar></i></span>
+        <span class="tx__controls">
+          <button class="tx__btn" type="button" data-tx-prev aria-label="Previous tool">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 6l-6 6 6 6" /></svg>
+          </button>
+          <button class="tx__btn tx__btn--play" type="button" data-tx-play aria-label="Pause autoplay" aria-pressed="false">
+            <svg class="ic-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12" /></svg>
+            <svg class="ic-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l11 6.5-11 6.5z" /></svg>
+          </button>
+          <button class="tx__btn" type="button" data-tx-next aria-label="Next tool">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 6l6 6-6 6" /></svg>
+          </button>
+        </span>
+      </div>
+    </div>
+
+    <div class="toolkit__grid">
+      {skillGroups.map((g) => (
+        <div class="tk">
+          <span class="tk__label mono mono--sm">{g.label}</span>
+          <div class="tk__items">{g.items.map((i) => <span class="chip mono mono--sm">{i}</span>)}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

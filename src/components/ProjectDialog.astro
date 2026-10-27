@@ -1,0 +1,39 @@
+<div class="dialog" data-dialog aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+  <div class="dialog__scrim" data-dialog-close></div>
+  <div class="dialog__panel" role="document">
+    <button class="dialog__close" type="button" data-dialog-close aria-label="Close case study">✕</button>
+    <div class="dialog__media">
+      <img data-dlg-img src="" alt="" width="1200" height="675" />
+      <span class="dialog__cat mono mono--sm" data-dlg-cat></span>
+    </div>
+    <div class="dialog__body">
+      <div class="dialog__head">
+        <h2 class="dialog__title" id="dlg-title" data-dlg-title></h2>
+        <p class="dialog__sub" data-dlg-sub></p>
+      </div>
+      <dl class="dialog__spec">
+        <div><dt class="mono mono--sm">Role</dt><dd data-dlg-role></dd></div>
+        <div><dt class="mono mono--sm">Client</dt><dd data-dlg-client></dd></div>
+        <div><dt class="mono mono--sm">Timeline</dt><dd data-dlg-time></dd></div>
+        <div><dt class="mono mono--sm">Status</dt><dd data-dlg-status></dd></div>
+      </dl>
+      <div class="dialog__cols">
+        <div class="dialog__col">
+          <h3 class="mono mono--sm">The problem</h3>
+          <p data-dlg-problem></p>
+          <h3 class="mono mono--sm">What changed</h3>
+          <p class="dialog__changed" data-dlg-changed></p>
+        </div>
+        <div class="dialog__col">
+          <h3 class="mono mono--sm">What I did</h3>
+          <ul class="dialog__did" data-dlg-did></ul>
+        </div>
+      </div>
+      <div class="dialog__tags" data-dlg-tags></div>
+      <div class="btn-row">
+        <a class="btn btn--solid" data-dlg-link href="#" target="_blank" rel="noopener noreferrer">Visit live site <i aria-hidden="true">↗</i></a>
+        <button class="btn" type="button" data-dialog-close>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,10 @@
+---
+interface Props { num: string; label: string; right?: string }
+const { num, label, right } = Astro.props;
+---
+<div class="sec-head mono mono--sm">
+  <span class="sec-head__num">{num}</span>
+  <span>{label}</span>
+  <span class="sec-head__line" aria-hidden="true"></span>
+  {right && <span class="sec-head__right">{right}</span>}
+</div>

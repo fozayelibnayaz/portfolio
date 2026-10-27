@@ -1,0 +1,30 @@
+---
+import { projects } from 'src/data/content';
+import { asset } from 'src/lib/asset';
+const strip = [...projects, ...projects];
+---
+<section class="marquee" aria-labelledby="marquee-label">
+  <div class="marquee__head shell mono mono--sm">
+    <span id="marquee-label"><span class="mark" aria-hidden="true">✳</span>&nbsp; Live now — {projects.length} shipped products</span>
+    <span class="dim">Hover to pause</span>
+  </div>
+  <div class="marquee__viewport">
+    <div class="marquee__track" data-marquee>
+      {strip.map((p) => (
+        <a
+          class="mcard"
+          href={p.link ?? '#work'}
+          target={p.link ? '_blank' : undefined}
+          rel={p.link ? 'noopener noreferrer' : undefined}
+          aria-label={`${p.title} — ${p.catLabel}`}
+        >
+          <img src={asset(p.image)} alt="" loading="lazy" decoding="async" width="640" height="400" />
+          <span class="mcard__foot">
+            <span class="mcard__title">{p.title}</span>
+            <span class="mcard__meta mono mono--sm">{p.catLabel} · {p.year}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

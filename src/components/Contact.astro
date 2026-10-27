@@ -1,0 +1,30 @@
+---
+import SecHead from './SecHead.astro';
+import { contact, site } from 'src/data/content';
+import { asset } from 'src/lib/asset';
+---
+<section class="section contact" id="contact" aria-labelledby="contact-title">
+  <div class="shell">
+    <SecHead num="007" label="Contact" right={site.availability} />
+    <h2 class="contact__title" id="contact-title">{contact.line1}<br /><em class="em">{contact.line2}</em></h2>
+    <p class="contact__lead">{contact.lead}</p>
+
+    <div class="contact__tiles">
+      {contact.tiles.map((t) => (
+        <a class="ctile" href={t.href}
+           target={t.href.startsWith('http') ? '_blank' : undefined}
+           rel={t.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+          <span class="ctile__k mono mono--sm">{t.k}</span>
+          <span class="ctile__v">{t.v}</span>
+          <span class="ctile__arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="contact__foot">
+      <a class="btn btn--solid" href={`mailto:${site.email}?subject=Project%20enquiry`} data-magnetic>Email me <i aria-hidden="true">↗</i></a>
+      <a class="btn" href={asset(site.cv)} download>Download CV <i aria-hidden="true">↓</i></a>
+      <span class="mono mono--sm dim">Replies within a day · Dhaka {site.timezone}</span>
+    </div>
+  </div>
+</section>

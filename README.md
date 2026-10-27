@@ -1,69 +1,179 @@
-# Fozayel Ibn Ayaz — portfolio
+# Fozayel Ibn Ayaz — Portfolio
 
-A responsive, editorial-style portfolio built with Next.js, using Fozayel's supplied portrait, verified portfolio content, and CV. The GitHub Pages build is a static export designed for the existing repository at `fozayelibnayaz/portfolio`.
+A one-page portfolio built with **Astro 5 + TypeScript + GSAP + Lenis** and hand-written CSS.
+Static output, no UI framework, no CSS library, no external requests.
 
-## Hosting options and the GitHub Pages limitation
+**Palette — “Signal”:** ink `#07080b`, chalk `#f3f6f1`, electric lime `#ccff3f`, violet `#6f5bff`,
+teal `#46e6c8`. Big Shoulders Display for headlines, Instrument Serif italic for accents,
+Instrument Sans for body, JetBrains Mono for labels — all self-hosted.
 
-### Free GitHub Pages (the prepared deployment)
+---
 
-GitHub Actions builds and deploys the site from `main` and refreshes it hourly. The published URL is `https://fozayelibnayaz.github.io/portfolio/`. Each build automatically syncs all public repositories owned by `fozayelibnayaz`, including forks, and builds project cards/detail pages from their GitHub descriptions, topics, language, README sections and suitable screenshots. New public repositories normally appear after the next hourly run. GitHub Pages is static, so it **cannot run the server-side CMS, password checks, uploads, or API routes**. Private repositories are skipped unless you deliberately opt in with a safe `PORTFOLIO_PUBLIC.md` concept-only file; see [`docs/project-auto-sync.md`](docs/project-auto-sync.md).
-
-To build the same static export locally, use Node.js 20.9+:
+## Getting started
 
 ```bash
-npm ci
-npm run build:github-pages
+npm install
+npm run dev          # http://localhost:4321
 ```
 
-The generated website is placed in `out/`. The script makes a temporary build copy, synchronizes GitHub repositories, and omits server-only CMS/API handlers from the published artifact; the regular source project remains available for local development. A local build syncs public repos; private concept cards also require `PORTFOLIO_REPO_READ_TOKEN` to be present in the environment.
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | dev server on `0.0.0.0:4321` |
+| `npm run build` | type-check (`astro check`) + production build → `dist/` |
+| `npm run preview` | serve the built `dist/` on `:4322` |
+| `npm run typecheck` | Astro + TypeScript diagnostics only |
 
-### Full CMS (local or a Node.js server)
+---
 
-The normal `npm run dev` / `npm run build` app includes the password-protected `/admin` CMS and API routes. It requires a Node.js server. Set `CMS_PASSWORD` in the shell or hosting provider's secret settings; never commit the password or a `.env` file. The CMS stores editable JSON and uploads on disk. On a server, a durable volume is required for changes to persist. **This full CMS mode is not available on GitHub Pages.** The supplied passphrase is not embedded in the public source.
+## Pushing this to `github.com/fozayelibnayaz/portfolio`
 
-## Design and implementation
+The repo is a **project page**, so the site lives at `https://fozayelibnayaz.github.io/portfolio/`.
+That means the build needs a base path — the included workflow already sets it.
 
-- Next.js 16, React 19, TypeScript 7, App Router, and hand-authored responsive CSS.
-- Self-hosted Archivo, Inter, and JetBrains Mono fonts; responsive WebP portrait variants and the transparent PNG master; local CV asset.
-- Accessible color theme control, reduced-motion support, mobile navigation, and a paged, swipeable 3×3 project gallery with automatic three-type classification.
-- Contact form hands off through a prepared `mailto:` message by default; it does not claim to store or deliver a message on a server.
-- Eagle 3D Streaming is listed as Data Analyst, Jul 2023–Aug 2026, `current: false`.
-
-## Deploy to GitHub Pages
-
-1. Push the project into the existing `https://github.com/fozayelibnayaz/portfolio` repository, preserving its `.git` history. Follow [`docs/push-and-deploy.md`](docs/push-and-deploy.md) for the Mac clone/copy/commit commands.
-2. In the GitHub repository, open **Settings → Pages** and choose **GitHub Actions** as the build/deployment source.
-3. Push to `main` or `master` (or manually run **Actions → Deploy portfolio to GitHub Pages → Run workflow**). A scheduled build also runs hourly. Wait for the workflow to finish successfully.
-4. Visit `https://fozayelibnayaz.github.io/portfolio/`. The workflow uses the repository base path `/portfolio`; do not publish the contents of `out/` to the repository root manually.
-
-Public-repository sync needs no token. Private concept-only sync is optional and requires your own read-only token stored as the repository Actions secret `PORTFOLIO_REPO_READ_TOKEN`; never commit or share it. GitHub Pages cannot securely host an admin password or private CMS. Public README/description edits and new public repositories are picked up by the hourly build. See [`docs/project-auto-sync.md`](docs/project-auto-sync.md) for the private opt-in and privacy rules, and [`docs/push-and-deploy.md`](docs/push-and-deploy.md) for first-time setup.
-
-## Local CMS and server-mode commands
+### 1. Initialise and push
 
 ```bash
-npm ci
-CMS_PASSWORD='choose-a-strong-password' npm run dev
+cd fozayel-portfolio
+
+git init
+git add .
+git commit -m "Portfolio: clean hero, signal palette, GSAP motion"
+
+git branch -M main
+git remote add origin https://github.com/fozayelibnayaz/portfolio.git
+
+# if the GitHub repo already has a README/commit, merge it first:
+git pull --rebase origin main
+
+git push -u origin main
 ```
 
-Visit `http://localhost:3000/admin`. For production Node mode:
+`node_modules/`, `dist/` and `.astro/` are already ignored by `.gitignore` — nothing heavy gets
+committed.
+
+### 2. Turn on Pages
+
+1. Open the repo → **Settings** → **Pages**
+2. **Source:** `GitHub Actions` (not “Deploy from a branch”)
+3. Push again (or **Actions → Deploy to GitHub Pages → Run workflow**)
+
+`.github/workflows/deploy.yml` builds with `BASE_PATH=/portfolio` and publishes `dist/`.
+Two minutes later the site is live at **https://fozayelibnayaz.github.io/portfolio/**
+
+### 3. Alternative: manual build + push `dist/`
+
+If you'd rather not use Actions, or you're deploying to Netlify/Vercel/Cloudflare:
 
 ```bash
-npm run typecheck
+# GitHub Pages (project site)  → must include the subpath
+BASE_PATH=/portfolio npm run build
+
+# Custom domain / Netlify / Vercel / Cloudflare Pages → root
 npm run build
-CMS_PASSWORD='choose-a-strong-password' npm run start
 ```
 
-The CMS fails closed for publishing when `CMS_PASSWORD` is unset. Use a password manager and a host secret manager; do not place passwords in source, chat, or `.env.example`. `PORTFOLIO_DATA_DIR` may point to a mounted durable directory for CMS JSON and uploaded files. On GitHub Pages, this variable has no effect because no server runs.
+For Netlify/Vercel/Cloudflare just point them at the repo — build command `npm run build`,
+output directory `dist`, no base path needed.
 
-## Content and QA
+### If your default branch is not `main`
 
-- Profile, experience, skill, and non-repository case-study source: `content/portfolio.json`.
-- New repository projects are synchronized at build time; no portfolio JSON edit is required for a public GitHub repo.
-- `content/default.json` is the fallback/metadata seed.
-- [`docs/project-auto-sync.md`](docs/project-auto-sync.md) explains hourly repo sync, README-derived detail pages, and the private-project privacy gate.
-- Public homepage: `/`; project detail pages: `/projects/<slug>/`.
-- In the Pages static artifact, `/admin/` is a short explanation page (no sign-in); in normal Node mode, `/admin` is the CMS.
-- [`docs/qa-report.md`](docs/qa-report.md) records build, device, accessibility, security, and Lighthouse checks.
-- [`docs/figma-handoff.md`](docs/figma-handoff.md) documents tokens/layout; [`docs/portfolio-design-board.svg`](docs/portfolio-design-board.svg) is an editable vector board for Figma.
+Change `branches: [main]` in `.github/workflows/deploy.yml` to match, or run:
 
-Run `npm run typecheck` and `npm run build:github-pages` before a Pages release. The standard server build is `npm run build`.
+```bash
+git branch -M main
+```
+
+---
+
+## The page, top to bottom
+
+| # | Section | What it does |
+| --- | --- | --- |
+| — | Preloader | Counter to 100, bar fills, curtain lifts |
+| 001 | Hero | Four elements only: the type, the portrait, the name, the line. `FULL–STACK` above, `DEVELOPER` behind the portrait, serif nameplate below, one sentence + two buttons at the foot |
+| — | Marquee | Infinite strip of all eight shipped projects, slows on hover |
+| 002 | Services | Build · Measure · Maintain — icon, one line, one proof line |
+| 003 | Work | Filter chips, eight case-study cards each with a one-line result, then every verified live link |
+| — | Stats | Full-bleed lime band: 4+ / 12+ / 6 / 3 |
+| 004 | About | Statement headline, two sentences, three facts, one quote, portrait |
+| 005 | Experience | Six roles + education as a scannable table |
+| 006 | Toolkit | Transmission panel — rotating giant technology names over drifting code, with Prev / Pause / Next and a progress rail — plus three grouped skill rows |
+| 007 | Contact | Three tiles (email, WhatsApp, GitHub), CV download, reply-time note |
+
+Long-form detail lives inside the per-project dialog, so the page itself stays visual.
+
+## What was removed from the hero
+
+The hero used to carry twelve elements — chips, a job rail, a status bar, a location line, a scroll
+bar, a plate, a pitch block and a portrait. It now carries **four**: the two display lines, the
+portrait, and the name. Everything else moved down the page or was deleted. The result is one clear
+focal point instead of five competing ones.
+
+## Motion inventory
+
+All GSAP + ScrollTrigger, driven by a Lenis scroll loop, all skipped under `prefers-reduced-motion`
+(content is never gated behind a tween):
+
+- preloader counter → curtain lift → staggered hero entrance
+- scroll-scrubbed hero parallax (portrait and aura)
+- fade-and-rise reveals per section, batched with ScrollTrigger
+- infinite marquee with a GSAP `modifiers` wrap that slows on hover
+- transmission: auto-advance, progress bar, clip transitions, real controls
+- 3D pointer tilt with image counter-parallax on project cards
+- stat counters, header hide-on-scroll, lime scroll-progress bar, section spy
+- magnetic buttons, custom cursor (fine pointers only), violet spotlight follow
+
+## Structure
+
+```
+src/
+  assets/fonts/          6 self-hosted woff2 subsets
+  components/            Header, Hero, Marquee, Capabilities, Work, Stats, About,
+                         Experience, Transmission, Contact, Footer, ProjectDialog,
+                         Preloader, Cursor, SecHead
+  data/content.ts        single source of truth: copy, projects, roles, links
+  layouts/Base.astro     head, meta/OG, JSON-LD Person, chrome
+  lib/asset.ts           base-path-safe asset helper (GitHub Pages friendly)
+  pages/index.astro      page composition
+  scripts/anim.ts        Lenis + GSAP motion layer
+  styles/                tokens · base · hero · sections · dialog · responsive
+public/
+  img/                   project screenshots + portraits
+  files/                 Fozayel_Ibn_Ayaz_CV.pdf
+.github/workflows/       GitHub Pages build + deploy
+```
+
+## Breakpoints
+
+| Width | Behaviour |
+| --- | --- |
+| ≥ 1061px | Hero: type above, portrait layered over the giant word, name below |
+| ≤ 1060px | Hero compacts, the giant word scales with the viewport |
+| ≤ 1120px | Nav collapses to a drawer |
+| ≤ 1080px | Services stack, about goes single-column, contact tiles stack |
+| ≤ 1200px | Work grid 3 → 2 columns |
+| ≤ 760px | Work grid → 1 column, full-screen dialog |
+| ≤ 560px | Type scale tightens, stats 2-up |
+| ≤ 800px tall (desktop) | The whole hero scales down so nothing can collide |
+
+## Verified (headless Chromium)
+
+- `astro check` → **0 errors, 0 warnings, 0 hints**
+- Build → 1 page, 2.4 MB `dist/`; base-path build verified (`/portfolio/` links resolve)
+- **20 widths** from 320 → 2560 px: `scrollWidth === innerWidth` everywhere, no element crossing
+  the viewport edge
+- 0 console errors, 0 failed requests
+- Interactions exercised: filters (8 → 1 → 8 cards), case-study dialog + Escape + focus return,
+  mobile drawer, anchor scrolling, transmission auto-advance / next, marquee hover
+- `prefers-reduced-motion`: no preloader, no entrance animation, hero fully visible on load
+
+## Accessibility
+
+Skip link, semantic landmarks, focus-visible rings, `aria-*` on the dialog and drawer, Escape closes
+overlays and restores focus, focus-trapped dialog, keyboard-operable carousel, `aria-pressed` on
+autoplay, reduced-motion support, descriptive `alt` text.
+
+## Content
+
+Every string lives in `src/data/content.ts` — hero copy, services, all eight case studies, live
+links, stats, roles, education, toolkit and contact details. Components never hard-code copy.

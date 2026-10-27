@@ -1,0 +1,88 @@
+/* =============================================================================
+   TOKENS — “Signal” palette. Ink + chalk + electric lime.
+   ========================================================================== */
+@font-face {
+  font-family: 'Big Shoulders Display';
+  src: url('../assets/fonts/big-shoulders.woff2') format('woff2-variations'),
+       url('../assets/fonts/big-shoulders.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('../assets/fonts/instrument-sans.woff2') format('woff2-variations'),
+       url('../assets/fonts/instrument-sans.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('../assets/fonts/instrument-sans-italic.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../assets/fonts/instrument-serif.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Serif';
+  src: url('../assets/fonts/instrument-serif-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('../assets/fonts/jetbrains-mono.woff2') format('woff2-variations'),
+       url('../assets/fonts/jetbrains-mono.woff2') format('woff2');
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  --ink: #07080b;
+  --ink-2: #0b0d12;
+  --surface: #11141b;
+  --surface-2: #161a23;
+  --surface-3: #1c2130;
+
+  --chalk: #f3f6f1;
+  --chalk-dim: #c9d1c8;
+  --muted: #98a29a;
+  --faint: #6b746d;
+
+  --lime: #ccff3f;
+  --lime-soft: #e4ff9c;
+  --lime-deep: #a4d61f;
+  --violet: #6f5bff;
+  --violet-soft: #9c8bff;
+  --teal: #46e6c8;
+
+  --line: rgba(243, 246, 241, 0.1);
+  --line-2: rgba(243, 246, 241, 0.18);
+  --line-3: rgba(243, 246, 241, 0.05);
+
+  --paper: #edf1e6;
+  --paper-ink: #0a0c0a;
+
+  --display: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+  --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --gutter: clamp(18px, 4.4vw, 80px);
+  --max: 1560px;
+  --section-y: clamp(52px, 5.4vw, 104px);
+  --hair: 1px;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io: cubic-bezier(0.65, 0.05, 0.36, 1);
+
+  --fs-mono: clamp(9.5px, 0.58vw + 6px, 11.5px);
+  --fs-body: clamp(14.5px, 0.42vw + 12.2px, 18px);
+  --fs-body-lg: clamp(16px, 0.6vw + 12.6px, 21px);
+}

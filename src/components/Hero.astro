@@ -1,0 +1,44 @@
+---
+import { hero, site } from 'src/data/content';
+import { asset } from 'src/lib/asset';
+---
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="hero__aura" aria-hidden="true" data-hero-aura></div>
+
+  <div class="shell hero__stage">
+    <h1 class="hero__type" id="hero-title">
+      <span class="l1" data-hero-line>{hero.line1}</span>
+    </h1>
+
+    <div class="hero__mid">
+      <span class="hero__type-l2 l2" aria-hidden="true" data-hero-line>{hero.line2}</span>
+      <figure class="hero__figure" data-hero-figure>
+        <img
+          src={asset('img/portrait-1100.webp')}
+          alt={`Portrait of ${site.name}`}
+          width="1100" height="1100"
+          fetchpriority="high" decoding="async"
+        />
+      </figure>
+    </div>
+    <span class="sr-only">{hero.line2}</span>
+
+    <div class="hero__plate" data-hero-plate>
+      <p class="hero__name">{hero.name}</p>
+    </div>
+  </div>
+
+  <div class="shell hero__foot">
+    <div>
+      <p class="hero__line" data-hero-line2>{hero.line} <em>{hero.lineEm}</em></p>
+      <div class="hero__actions" data-hero-actions>
+        <a class="btn btn--solid" href="#work" data-magnetic>{hero.cta} <i aria-hidden="true">↘</i></a>
+        <a class="btn" href={asset(site.cv)} download>{hero.cta2} <i aria-hidden="true">↓</i></a>
+      </div>
+    </div>
+    <a class="hero__scroll" href="#work" aria-label="Scroll to work">
+      <span class="hero__scroll-icon" aria-hidden="true">↓</span>
+      Scroll
+    </a>
+  </div>
+</section>

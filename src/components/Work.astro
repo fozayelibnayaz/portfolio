@@ -1,0 +1,77 @@
+---
+import SecHead from './SecHead.astro';
+import { extraWork, filters, liveLinks, projects } from 'src/data/content';
+import { asset } from 'src/lib/asset';
+
+const counts: Record<string, number> = { all: projects.length };
+for (const f of filters) if (f.key !== 'all') counts[f.key] = projects.filter((p) => p.category === f.key).length;
+const payload = projects.map((p) => ({ ...p, image: asset(p.image) }));
+---
+<section class="section work" id="work" aria-labelledby="work-title">
+  <div class="shell">
+    <SecHead num="003" label="Selected work" right="2022 → 2026" />
+
+    <div class="work__title-row">
+      <h2 class="work__title" id="work-title">SHIPPED</h2>
+      <div class="work__lead">
+        <span class="work__count mono"><b>{String(projects.length).padStart(2, '0')}</b><i>projects</i></span>
+        <p class="work__lead-text">Every tile is a real, live build. Tap one for the short version.</p>
+      </div>
+    </div>
+
+    <div class="work__filters" role="tablist" aria-label="Filter projects">
+      {filters.map((f, i) => (
+        <button
+          class:list={['chip', 'mono', 'mono--sm', { 'is-active': i === 0 }]}
+          type="button" role="tab" data-filter={f.key}
+          aria-selected={i === 0 ? 'true' : 'false'}
+        >
+          {f.label} <b>{String(counts[f.key]).padStart(2, '0')}</b>
+        </button>
+      ))}
+    </div>
+
+    <div class="deck" data-deck>
+      {projects.map((p) => (
+        <article class="card" data-card data-project={p.key} data-cat={p.category}>
+          <div class="card__media">
+            <img src={asset(p.image)} alt={`${p.title} — preview`} loading="lazy" decoding="async" width="900" height="560" />
+            <span class:list={['card__badge', { 'card__badge--soft': p.badgeKind !== 'live' }]}>
+              <span class="pip" aria-hidden="true"></span>{p.badge}
+            </span>
+          </div>
+          <div class="card__body">
+            <div class="card__kicker mono mono--sm">
+              <span class="dim">{p.catLabel}</span>
+              <span class="dim">{p.year}</span>
+            </div>
+            <h3>{p.title}</h3>
+            <p class="card__metric mono mono--sm"><i aria-hidden="true">✳</i>{p.metric}</p>
+            <div class="card__tags mono mono--sm">
+              {p.tags.map((t) => <span>{t}</span>)}
+            </div>
+          </div>
+          <button class="card__hit" type="button" data-open={p.key} aria-label={`Open case study: ${p.title}`}></button>
+        </article>
+      ))}
+    </div>
+
+    <div class="live">
+      <span class="live__label mono mono--sm"><span class="mark" aria-hidden="true">●</span>&nbsp; Live links</span>
+      <div class="live__links">
+        {liveLinks.map((l) => (
+          <a class="live__link mono mono--sm" href={l.href} target="_blank" rel="noopener noreferrer">
+            <i aria-hidden="true">↗</i>{l.label} <b>{l.meta}</b>
+          </a>
+        ))}
+      </div>
+      <div class="live__extra mono mono--sm">
+        {extraWork.map((e) => (
+          <a href={e.href} target="_blank" rel="noopener noreferrer">{e.label} <span class="dim">{e.meta}</span></a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script id="project-data" type="application/json" set:html={JSON.stringify(payload)} />

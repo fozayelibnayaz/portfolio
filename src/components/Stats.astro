@@ -1,0 +1,17 @@
+---
+import { stats } from 'src/data/content';
+---
+<section class="stats" aria-label="At a glance">
+  <div class="shell stats__inner">
+    <span class="stats__label mono mono--sm"><span class="mark">●</span>&nbsp; Scoreboard <span class="dim">— the short version</span></span>
+    <div class="stats__grid">
+      {stats.map((s) => (
+        <div class="stats__cell">
+          <span class="stats__num" data-count={s.n}>{s.n}{s.plus && <i aria-hidden="true">+</i>}</span>
+          <span class="stats__label-t mono mono--sm">{s.l}</span>
+        </div>
+      ))}
+    </div>
+    <span class="stats__note mono mono--sm">Dhaka · remote worldwide</span>
+  </div>
+</section>

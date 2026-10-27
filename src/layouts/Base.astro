@@ -1,0 +1,74 @@
+---
+import 'src/styles/tokens.css';
+import 'src/styles/base.css';
+import 'src/styles/hero.css';
+import 'src/styles/sections.css';
+import 'src/styles/dialog.css';
+import 'src/styles/responsive.css';
+import Cursor from 'src/components/Cursor.astro';
+import Preloader from 'src/components/Preloader.astro';
+import { site } from 'src/data/content';
+
+interface Props { title?: string; description?: string }
+const { title = site.title, description = site.description } = Astro.props;
+
+const basePath = import.meta.env.BASE_URL.replace(/\/+$/, '');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://fozayelibnayaz.github.io');
+const ogImage = new URL(`${basePath}/img/portrait-1100.webp`, canonical);
+const me = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  jobTitle: site.role,
+  email: `mailto:${site.email}`,
+  telephone: site.phone,
+  url: canonical.href,
+  image: ogImage.href,
+  address: { '@type': 'PostalAddress', addressLocality: 'Dhaka', addressCountry: 'BD' },
+  sameAs: [site.github],
+  knowsAbout: ['Full-stack development', 'WordPress', 'Data analysis', 'SEO', 'Web analytics'],
+});
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#07080b" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307080b'/%3E%3Ctext x='50%25' y='57%25' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23ccff3f'%3EF%3C/text%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href={`${basePath}/img/avatar.webp`} />
+
+    <script type="application/ld+json" set:html={me} />
+    <noscript><style>.preloader{display:none}body.is-loading{overflow:auto}</style></noscript>
+  </head>
+  <body class="is-loading">
+    <a class="skip" href="#main">Skip to content</a>
+    <Preloader />
+    <Cursor />
+    <div class="grain" aria-hidden="true"></div>
+    <div class="spot" aria-hidden="true" data-spot></div>
+
+    <slot />
+
+    <script>
+      import 'src/scripts/anim.ts';
+    </script>
+  </body>
+</html>

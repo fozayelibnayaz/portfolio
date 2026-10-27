@@ -1,0 +1,28 @@
+---
+import SecHead from './SecHead.astro';
+import { education, experience } from 'src/data/content';
+---
+<section class="section xp" id="experience" aria-labelledby="xp-title">
+  <div class="shell">
+    <SecHead num="005" label="Experience" right="Six roles, one thread" />
+    <h2 class="work__title" id="xp-title">TRACK<br />RECORD</h2>
+    <div class="xp__list">
+      {experience.map((e) => (
+        <div class="xp__row">
+          <span class="xp__when mono mono--sm">{e.when}</span>
+          <span class="xp__role">{e.role}</span>
+          <span class="xp__org">{e.org}</span>
+          <span class="xp__place mono mono--sm">{e.place}</span>
+        </div>
+      ))}
+    </div>
+    <div class="xp__edu">
+      <span class="mono mono--sm dim">Education</span>
+      <ul>
+        {education.map((e) => (
+          <li class="mono mono--sm"><span>{e.when}</span><span>{e.role}</span><span>{e.org}</span></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
