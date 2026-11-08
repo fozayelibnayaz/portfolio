@@ -1,125 +1,180 @@
 /* =============================================================================
-   CASE STUDY DIALOG
+   CASE STUDY — a light sheet that slides up over the page.
    ========================================================================== */
-.dialog {
+
+.sheet {
   position: fixed;
   inset: 0;
-  z-index: 320;
+  z-index: 280;
   display: grid;
-  place-items: center;
-  padding: clamp(12px, 2vw, 32px);
-  visibility: hidden;
-  pointer-events: none;
-}
-.dialog.is-open { visibility: visible; pointer-events: auto; }
-.dialog__scrim {
-  position: absolute;
-  inset: 0;
-  background: rgba(4, 5, 7, 0.82);
-  backdrop-filter: blur(10px);
+  align-items: end;
+  justify-items: center;
+  background: color-mix(in oklab, var(--ink) 24%, transparent);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
   opacity: 0;
-  transition: opacity 0.45s var(--ease);
+  visibility: hidden;
+  transition: opacity 0.34s var(--ease), visibility 0s linear 0.34s;
 }
-.dialog.is-open .dialog__scrim { opacity: 1; }
-.dialog__panel {
+.sheet.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.34s var(--ease), visibility 0s linear 0s;
+}
+
+.sheet__panel {
   position: relative;
-  z-index: 1;
-  width: min(1020px, 100%);
-  max-height: min(92vh, 940px);
+  width: min(1080px, 100%);
+  max-height: 92svh;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border: var(--hair) solid var(--line-2);
-  border-radius: 20px;
-  background: linear-gradient(180deg, #10131a, #080a0e);
+  background: var(--shell);
+  border: var(--hair) solid var(--rule-2);
+  border-bottom: 0;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  box-shadow: var(--shadow-lift);
+  transform: translateY(24px);
   opacity: 0;
-  transform: translateY(22px) scale(0.99);
-  transition: opacity 0.4s var(--ease), transform 0.5s var(--ease);
-  scrollbar-width: thin;
+  transition: transform 0.46s var(--ease-out), opacity 0.34s var(--ease);
 }
-.dialog.is-open .dialog__panel { opacity: 1; transform: none; }
-.dialog__panel::-webkit-scrollbar { width: 8px; }
-.dialog__panel::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 8px; }
-.dialog__close {
+.sheet.is-open .sheet__panel {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.sheet__top {
   position: sticky;
-  top: 12px;
-  margin-left: auto;
-  margin-right: 12px;
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  width: 40px; height: 40px;
-  float: right;
-  border: var(--hair) solid var(--line-2);
-  border-radius: 50%;
-  background: rgba(7, 8, 11, 0.8);
-  backdrop-filter: blur(8px);
-  color: var(--chalk);
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
-.dialog__close:hover { background: var(--lime); color: var(--paper-ink); border-color: var(--lime); }
-.dialog__media {
-  position: relative;
-  margin: -28px clamp(12px, 1.6vw, 22px) 0;
-  border-radius: 14px;
-  overflow: hidden;
-  border: var(--hair) solid var(--line);
-  background: var(--surface-2);
-}
-.dialog__media img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top center; }
-.dialog__cat {
-  position: absolute;
-  left: 12px; bottom: 12px;
-  padding: 6px 10px;
-  border-radius: 100px;
-  background: rgba(7, 8, 11, 0.8);
-  backdrop-filter: blur(8px);
-  color: var(--lime);
-  letter-spacing: 0.2em;
-}
-.dialog__body { display: grid; gap: clamp(16px, 2vw, 26px); padding: clamp(16px, 2.4vw, 34px); }
-.dialog__head { display: grid; gap: 8px; }
-.dialog__title {
-  font-family: var(--display);
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: clamp(28px, 4.4vw, 60px);
-  line-height: 0.94;
-  letter-spacing: -0.01em;
-}
-.dialog__sub { color: var(--chalk-dim); max-width: 54ch; }
-.dialog__cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 34px); }
-.dialog__col { display: grid; gap: 8px; align-content: start; }
-.dialog__col h3 { color: var(--faint); margin-top: 16px; }
-.dialog__col h3:first-child { margin-top: 0; }
-.dialog__col p { color: var(--chalk-dim); font-size: clamp(13.5px, 0.95vw, 15.5px); line-height: 1.55; }
-.dialog__changed { color: var(--chalk) !important; }
-.dialog__did { display: grid; gap: 7px; }
-.dialog__did li {
-  position: relative;
-  padding-left: 16px;
-  color: var(--chalk-dim);
-  font-size: clamp(13.5px, 0.95vw, 15.5px);
-  line-height: 1.5;
-}
-.dialog__did li::before { content: '✳'; position: absolute; left: 0; top: 0; color: var(--lime); font-size: 0.8em; }
-.dialog__spec {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
   gap: 12px;
-  padding-block: clamp(12px, 1.6vw, 18px);
-  border-block: var(--hair) solid var(--line);
+  padding: 14px clamp(18px, 3vw, 34px);
+  background: color-mix(in oklab, var(--shell) 92%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: var(--hair) solid var(--rule);
 }
-.dialog__spec div { display: grid; gap: 4px; }
-.dialog__spec dt { color: var(--faint); }
-.dialog__spec dd { margin: 0; font-size: clamp(12.5px, 0.88vw, 14px); color: var(--chalk); line-height: 1.35; }
-.dialog__tags { display: flex; flex-wrap: wrap; gap: 6px; }
-.dialog__tags span {
-  padding: 5px 9px;
-  border: var(--hair) solid var(--line);
-  border-radius: 6px;
+.sheet__kind {
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--mint);
+  color: var(--mint-ink);
   font-family: var(--mono);
-  font-size: calc(var(--fs-mono) * 0.92);
+  font-size: 8.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+.sheet__close {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  border: var(--hair) solid var(--rule-2);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease);
+}
+.sheet__close:hover { border-color: var(--ink); color: var(--ink); }
+
+.sheet__body { padding: clamp(22px, 3.4vw, 44px) clamp(18px, 3vw, 34px) clamp(30px, 4vw, 52px); }
+
+.sheet__media {
+  border-radius: var(--r);
+  overflow: hidden;
+  border: var(--hair) solid var(--rule);
+  margin-bottom: clamp(20px, 3vw, 32px);
+  aspect-ratio: 16 / 9;
+  background: var(--sunken);
+}
+.sheet__media img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+
+.sheet__title {
+  font-family: var(--display);
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.sheet__sub {
+  font-size: var(--fs-body);
   color: var(--muted);
+  max-width: 56ch;
+  margin-bottom: clamp(20px, 2.6vw, 30px);
+}
+
+.sheet__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+  gap: clamp(20px, 3vw, 44px);
+}
+.sheet__h {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 9px;
+}
+.sheet__p {
+  font-size: var(--fs-small);
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin-bottom: 18px;
+}
+.sheet__did {
+  display: grid;
+  gap: 7px;
+}
+.sheet__did li {
+  display: flex;
+  gap: 9px;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--ink-3);
+}
+.sheet__did li::before {
+  content: '';
+  flex: none;
+  width: 5px;
+  height: 5px;
+  margin-top: 8px;
+  border-radius: 50%;
+  background: var(--mint-ink);
+  opacity: 0.6;
+}
+
+.sheet__facts { display: grid; gap: 0; border-top: var(--hair) solid var(--rule); }
+.sheet__facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: var(--hair) solid var(--rule);
+}
+.sheet__facts dt {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.sheet__facts dd { font-size: var(--fs-small); color: var(--ink-2); text-align: right; }
+
+.sheet__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: clamp(22px, 3vw, 32px);
+}
+
+@media (max-width: 760px) {
+  .sheet__cols { grid-template-columns: 1fr; }
+  .sheet__panel { max-height: 94svh; }
 }

@@ -1,0 +1,350 @@
+/* =============================================================================
+   GALLERY — a deck. Cards arrive one over another as you scroll, the previous
+   one receding behind. Below 960px (or with motion off) it becomes a plain
+   stack of cards, because a pinned deck with no scroll budget is just a wall.
+   ========================================================================== */
+
+.gallery__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: clamp(18px, 3.4vw, 54px);
+  align-items: end;
+  margin-bottom: clamp(22px, 3vw, 34px);
+}
+.gallery__title {
+  font-family: var(--display);
+  font-size: var(--fs-h1);
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+.gallery__title em {
+  font-style: normal;
+  color: var(--mint-text);
+}
+.gallery__lead {
+  font-size: var(--fs-small);
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 38ch;
+  padding-bottom: 4px;
+}
+
+.gallery__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: var(--hair) solid var(--rule);
+}
+.gallery__filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.gallery__count {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.gallery__count [data-deck-pos] {
+  font-family: var(--display);
+  font-size: 20px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.gallery__count-sep { color: var(--rule-2); }
+
+/* ================================================================== DECK */
+.deck {
+  position: relative;
+  margin-top: clamp(20px, 3vw, 34px);
+  /* The scroll budget for the pinned deck. JS rewrites it to match the number
+     of visible cards; this value is the no-JS fallback. */
+  height: calc(100vh + 8 * 68vh);
+}
+.deck__stick {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.deck__card {
+  /* Every card shares the same grid cell, so they stack in exactly one place
+     and JS only has to move them vertically. */
+  grid-area: 1 / 1;
+  width: min(1080px, 92%);
+  height: min(72vh, 520px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
+  gap: 0;
+  border-radius: var(--r-lg);
+  background: var(--card);
+  border: var(--hair) solid var(--rule-2);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
+.deck__media {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--well);
+  box-shadow: inset 0 0 0 1px var(--rule);
+  min-height: 240px;
+}
+.deck__media img {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.8s var(--ease-out);
+}
+.deck__card:hover .deck__media img { transform: scale(1.035); }
+
+.deck__badge {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  background: color-mix(in oklab, var(--card) 90%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: var(--hair) solid var(--rule);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.deck__body {
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(20px, 2.6vw, 34px);
+  min-width: 0;
+  overflow-y: auto;
+}
+.deck__idx {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.deck__title {
+  font-family: var(--display);
+  font-size: clamp(24px, 2.6vw, 38px);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+  color: var(--ink);
+}
+.deck__sub {
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--muted);
+}
+.deck__metric {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--mint-text);
+  padding-top: 10px;
+  border-top: var(--hair) solid var(--rule);
+}
+.deck__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding-top: 2px;
+}
+.deck__tags li {
+  padding: 4px 9px;
+  border-radius: var(--r-pill);
+  background: var(--well);
+  border: var(--hair) solid var(--rule);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.deck__meta {
+  display: grid;
+  gap: 4px;
+  padding-top: 8px;
+}
+.deck__meta > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: var(--hair) solid var(--rule);
+  padding-bottom: 4px;
+}
+.deck__meta dt {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.deck__meta dd {
+  font-size: 11.5px;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.deck__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: var(--hair) solid var(--rule);
+}
+.deck__year {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.deck__open {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 13px;
+  border-radius: var(--r-pill);
+  border: var(--hair) solid var(--rule-2);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+.deck__open:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.deck__open i { font-style: normal; }
+
+/* ------------------------------------------------------------- live links */
+.links {
+  display: grid;
+  gap: 10px;
+  margin-top: clamp(30px, 4vw, 52px);
+  padding-top: 20px;
+  border-top: var(--hair) solid var(--rule);
+}
+.links__row { display: flex; flex-wrap: wrap; gap: 7px; }
+.links__a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border-radius: var(--r-pill);
+  border: var(--hair) solid var(--rule);
+  background: var(--card);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease),
+    transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease);
+}
+.links__a:hover {
+  border-color: var(--mint-text);
+  color: var(--mint-text);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-raise);
+}
+.links__a i { font-style: normal; font-size: 9px; color: var(--faint); }
+
+/* ============================================ static mode: small or calm */
+@media (max-width: 959px), (prefers-reduced-motion: reduce) {
+  .deck { height: auto !important; }
+  .deck__stick {
+    position: static;
+    height: auto;
+    display: block;
+    padding-inline: var(--gutter);
+    overflow: visible;
+  }
+  .deck__card {
+    grid-area: auto;
+    position: relative;
+    width: 100%;
+    max-width: var(--max);
+    height: auto;
+    margin: 0 auto 14px;
+    grid-template-columns: minmax(0, 1fr);
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  .deck__card[hidden] { display: none; }
+  .deck__media { aspect-ratio: 16 / 10; min-height: 0; }
+  .deck__body { overflow: visible; }
+}
+html[data-motion='calm'] .deck { height: auto !important; }
+html[data-motion='calm'] .deck__stick {
+  position: static;
+  height: auto;
+  display: block;
+  padding-inline: var(--gutter);
+  overflow: visible;
+}
+html[data-motion='calm'] .deck__card {
+  grid-area: auto;
+  position: relative;
+  width: 100%;
+  max-width: var(--max);
+  height: auto;
+  margin: 0 auto 14px;
+  grid-template-columns: minmax(0, 1fr);
+  transform: none !important;
+  opacity: 1 !important;
+}
+html[data-motion='calm'] .deck__card[hidden] { display: none; }
+
+/* Cards that the filter has removed must not take deck space. */
+.deck__card.is-filtered { display: none; }
+
+@media (max-width: 560px) {
+  .deck__body { padding: 18px; }
+  .deck__foot { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .deck__open { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 880px) {
+  .gallery__head { grid-template-columns: 1fr; }
+  .gallery__lead { max-width: 46ch; }
+  .gallery__bar { gap: 12px; }
+}

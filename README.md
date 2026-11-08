@@ -110,23 +110,45 @@ bar, a plate, a pitch block and a portrait. It now carries **four**: the two dis
 portrait, and the name. Everything else moved down the page or was deleted. The result is one clear
 focal point instead of five competing ones.
 
-## Engineering section
+## Engineering section (`#engineering`)
 
-`src/components/Engineering.astro` proves the stack instead of claiming it. Six techniques, each
-with a working demo rather than a description:
+Six techniques shown by nine live demos, every number counted from source at build time.
 
-| Technique | Shown by |
+| # | Technique | Demo |
+| --- | --- | --- |
+| 01 | `clamp()` + custom properties | word scales, rule follows |
+| 02 | `mask-composite: intersect` | portrait dissolved by two gradients |
+| 03 | `background-clip: text` | gradient headline |
+| 04 | WebGL · GLSL (no three.js) | live fragment shader |
+| 05 | GSAP SplitText | per-character type |
+| 06 | ScrollTrigger pin + scrub | pinned runway |
+| 07 | `animation-timeline: view()` | scroll-driven CSS, no JS |
+| 08 | GSAP `modifiers` + `unitize` | infinite wrap |
+| 09 | Astro static output | `0` external requests |
+
+## Performance budget
+
+Measured on every build. Current figures:
+
+| Metric | Value |
 | --- | --- |
-| Fluid type | A word scaling on `clamp()`, with a rule that follows it |
-| Mask composite | The portrait dissolved by two intersected gradients |
-| Clipped gradient | A headline filled with a gradient, cut to the letterforms |
-| Scroll choreography | A staggered ladder driven by ScrollTrigger |
-| Infinite wrap | A strip looping via `modifiers` + `unitize` |
-| Zero UI framework | `0` external requests |
+| First load (AVIF path) | ~515 KB |
+| First load (WebP fallback) | ~858 KB |
+| JavaScript | 57 KB gzipped |
+| CSS | 11 KB gzipped |
+| Fonts | 125 KB, 6 files, self-hosted |
+| Requests | 20 |
+| Third-party requests | 0 |
+| Widths tested | 320 → 2560 |
 
-The four headline numbers — CSS lines, TypeScript lines, components, media queries — are read
-from disk by `src/lib/buildStats.ts` during the build. Change the source and the figures change
-with it; there is no hand-typed number anywhere on the page to drift out of date.
+Images ship as **AVIF with a WebP fallback** (`Pic.astro`). Both files exist in
+`public/img`, so there is no build cost. AVIF is ~53% smaller than WebP, which is
+where most of the weight saving comes from.
+
+The hero shader is skipped for reduced-motion, save-data and single-core devices,
+paused when off-screen or when the tab is hidden, rendered at half resolution at
+40fps, and bails out on its own if the device cannot hold the frame budget.
+
 
 ## Motion inventory
 

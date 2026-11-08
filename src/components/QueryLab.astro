@@ -1,0 +1,222 @@
+---
+import SecHead from './SecHead.astro';
+import { run } from 'src/lib/sql';
+import { examples, tables } from 'src/lib/lab';
+
+/* The first result is computed here, at build time, by the same engine the
+   browser runs. So the table is real before any JavaScript arrives — and the
+   page is honest about which one of the two produced it. */
+const first = run(examples[0].sql, tables);
+const rows = first.rows.length;
+const cell = (v: unknown) => (v === null || v === undefined ? 'null' : String(v));
+---
+<section class="sec sec--tint lab" id="lab" aria-labelledby="lab-title">
+  <div class="shell">
+    <SecHead num="03" label="Query lab" meta="real sql · real data · runs here" />
+
+    <div class="lab__head">
+      <h2 class="lab__title" id="lab-title">
+        Ask the site <em>a question.</em>
+      </h2>
+      <p class="lab__lead">
+        The tables below are built from the same file that renders this page. Write
+        SQL, get rows. Nothing is mocked, and the timer is the browser's.
+      </p>
+    </div>
+
+    <div class="lab__wrap">
+      <div class="lab__editor">
+        <label class="lab__label" for="lab-sql">
+          <span class="label">Query</span>
+          <span class="lab__tables-hint">
+            {tables.map((t) => t.name).join(' · ')}
+          </span>
+        </label>
+
+        <div class="lab__field">
+          <span class="lab__prompt" aria-hidden="true">›</span>
+          <textarea
+            id="lab-sql"
+            class="lab__input"
+            spellcheck="false"
+            autocomplete="off"
+            autocapitalize="off"
+            rows="3"
+            aria-describedby="lab-help"
+          >{examples[0].sql}</textarea>
+        </div>
+
+        <div class="lab__bar">
+          <button class="btn btn--ink lab__run" type="button" data-lab-run>
+            Run <kbd aria-hidden="true">⌘↵</kbd>
+          </button>
+          <span class="lab__status" id="lab-help" data-lab-status role="status">
+            {rows} rows, computed at build. Run it to execute in this tab.
+          </span>
+        </div>
+
+        <div class="lab__examples">
+          <span class="label">Try</span>
+          <div class="lab__chips">
+            {examples.map((e, i) => (
+              <button class="chip chip--button lab__chip" type="button" data-lab-example={i} data-sql={e.sql}>
+                {e.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="lab__schema">
+          {tables.map((t) => (
+            <details class="schema">
+              <summary class="schema__sum">
+                <span class="schema__name">{t.name}</span>
+                <span class="schema__count">{t.rows.length} rows</span>
+              </summary>
+              <p class="schema__cols">{t.columns.join(', ')}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      <div class="lab__result" data-lab-result>
+        <div class="lab__result-head">
+          <span class="label">Result</span>
+          <span class="lab__timing" data-lab-timing aria-live="off">build · {rows} rows</span>
+        </div>
+        <div class="lab__table-wrap" data-lab-table-wrap tabindex="0" role="region" aria-label="Query results">
+          <table class="lab__table" data-lab-table>
+            <caption class="sr-only">Query result</caption>
+            <thead>
+              <tr>{first.columns.map((c) => <th scope="col">{c}</th>)}</tr>
+            </thead>
+            <tbody>
+              {first.rows.map((row) => (
+                <tr>{row.map((v) => <td>{cell(v)}</td>)}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="lab__error" data-lab-error hidden></p>
+        <p class="lab__note">
+          <span class="mark mark--live" aria-hidden="true"></span>
+          Parsed and executed in this tab. No request left the browser.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { tables } from 'src/lib/lab';
+
+  const input = document.getElementById('lab-sql') as HTMLTextAreaElement | null;
+  const runBtn = document.querySelector<HTMLButtonElement>('[data-lab-run]');
+  const tableEl = document.querySelector<HTMLTableElement>('[data-lab-table]');
+  const wrapEl = document.querySelector<HTMLElement>('[data-lab-table-wrap]');
+  const statusEl = document.querySelector<HTMLElement>('[data-lab-status]');
+  const timingEl = document.querySelector<HTMLElement>('[data-lab-timing]');
+  const errorEl = document.querySelector<HTMLElement>('[data-lab-error]');
+
+  if (input && runBtn && tableEl && statusEl && timingEl && errorEl && wrapEl) {
+    const thead = tableEl.tHead!.rows[0];
+    const tbody = tableEl.tBodies[0];
+    let engine: typeof import('src/lib/sql') | null = null;
+    let busy = false;
+
+    /* The engine is a separate chunk: nothing downloads it until someone
+       actually asks the page a question. */
+    const load = async () => {
+      engine ??= await import('src/lib/sql');
+      return engine;
+    };
+
+    const cell = (text: string, tag: 'th' | 'td', scope?: string) => {
+      const el = document.createElement(tag);
+      el.textContent = text;
+      if (scope) el.scope = scope;
+      return el;
+    };
+
+    const execute = async () => {
+      if (busy) return;
+      busy = true;
+      runBtn.setAttribute('aria-busy', 'true');
+
+      const { run } = await load();
+      const t0 = performance.now();
+      let result;
+      try {
+        result = run(input.value, tables);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'That query did not run.';
+        const ms = performance.now() - t0;
+        tbody.replaceChildren();
+        const tr = document.createElement('tr');
+        const td = cell('—', 'td');
+        td.colSpan = Math.max(thead.cells.length, 1);
+        td.className = 'lab__placeholder';
+        tr.append(td);
+        tbody.append(tr);
+        errorEl.hidden = false;
+        errorEl.textContent = message;
+        timingEl.textContent = `${ms.toFixed(2)} ms`;
+        statusEl.textContent = 'Query rejected — the reason is under the result.';
+        busy = false;
+        runBtn.removeAttribute('aria-busy');
+        return;
+      }
+
+      const ms = performance.now() - t0;
+
+      thead.replaceChildren();
+      for (const col of result.columns) thead.append(cell(col, 'th', 'col'));
+
+      tbody.replaceChildren();
+      if (result.rows.length === 0) {
+        const tr = document.createElement('tr');
+        const td = cell('No rows matched.', 'td');
+        td.colSpan = Math.max(result.columns.length, 1);
+        td.className = 'lab__placeholder';
+        tr.append(td);
+        tbody.append(tr);
+      } else {
+        for (const row of result.rows) {
+          const tr = document.createElement('tr');
+          for (const value of row) {
+            tr.append(cell(value === null || value === undefined ? 'null' : String(value), 'td'));
+          }
+          tbody.append(tr);
+        }
+      }
+
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+      const noun = result.rows.length === 1 ? 'row' : 'rows';
+      timingEl.textContent = `${ms.toFixed(2)} ms · ${result.rows.length} ${noun}`;
+      statusEl.textContent = `${result.rows.length} ${noun} returned in ${ms.toFixed(2)} ms.`;
+      wrapEl.scrollTop = 0;
+      busy = false;
+      runBtn.removeAttribute('aria-busy');
+    };
+
+    runBtn.addEventListener('click', () => void execute());
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        void execute();
+      }
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-lab-example]').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const sql = chip.dataset.sql;
+        if (!sql) return;
+        input.value = sql;
+        void execute();
+        input.focus();
+      });
+    });
+  }
+</script>

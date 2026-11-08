@@ -1,13 +1,19 @@
 ---
 import 'src/styles/tokens.css';
 import 'src/styles/base.css';
+import 'src/styles/nav.css';
 import 'src/styles/hero.css';
+import 'src/styles/gallery.css';
+import 'src/styles/sysmap.css';
+import 'src/styles/lab.css';
+import 'src/styles/repos.css';
 import 'src/styles/sections.css';
+import 'src/styles/ask.css';
 import 'src/styles/dialog.css';
 import 'src/styles/responsive.css';
-import Cursor from 'src/components/Cursor.astro';
-import Preloader from 'src/components/Preloader.astro';
 import { site } from 'src/data/content';
+import bricolage from 'src/assets/fonts/bricolage.woff2?url';
+import manrope from 'src/assets/fonts/manrope.woff2?url';
 
 interface Props { title?: string; description?: string }
 const { title = site.title, description = site.description } = Astro.props;
@@ -29,16 +35,18 @@ const me = JSON.stringify({
   knowsAbout: ['Full-stack development', 'WordPress', 'Data analytics', 'QA automation', 'Core Web Vitals', 'SEO'],
 });
 ---
+
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#07080b" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#dfe2da" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060908" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
     <link rel="canonical" href={canonical} />
 
     <meta property="og:type" content="website" />
@@ -52,23 +60,53 @@ const me = JSON.stringify({
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2307080b'/%3E%3Ctext x='50%25' y='57%25' text-anchor='middle' font-family='Georgia,serif' font-size='38' fill='%23ccff3f'%3EF%3C/text%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23d2e8da'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Helvetica,Arial' font-weight='500' font-size='36' fill='%232c6950'%3EF%3C/text%3E%3C/svg%3E" />
     <link rel="apple-touch-icon" href={`${basePath}/img/avatar.webp`} />
+    <link
+      rel="preload"
+      as="image"
+      href={`${basePath}/img/portrait-520.avif`}
+      type="image/avif"
+      fetchpriority="high"
+      imagesrcset={`${basePath}/img/portrait-320.avif 320w, ${basePath}/img/portrait-520.avif 520w`}
+      imagesizes="(max-width: 940px) 40vw, 260px"
+    />
+    <link rel="preload" as="font" type="font/woff2" href={bricolage} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={manrope} crossorigin="anonymous" />
+
 
     <script type="application/ld+json" set:html={me} />
-    <noscript><style>.preloader{display:none}body.is-loading{overflow:auto}</style></noscript>
+
+    {/* Theme before first paint. Anything later is a flash of the wrong page. */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('fia:theme');
+          var theme = stored === 'dark' || stored === 'light'
+            ? stored
+            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          /* Private mode, or storage disabled: the light default stands. */
+        }
+      })();
+    </script>
   </head>
-  <body class="is-loading">
-    <a class="skip" href="#main">Skip to content</a>
-    <Preloader />
-    <Cursor />
-    <div class="grain" aria-hidden="true"></div>
-    <div class="spot" aria-hidden="true" data-spot></div>
+  <body>
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="traces" aria-hidden="true"></div>
+    <div class="glow" aria-hidden="true"></div>
+    <div class="page-frame" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
     <slot />
 
     <script>
-      import 'src/scripts/anim.ts';
+      import 'src/scripts/theme.ts';
+      import 'src/scripts/chrome.ts';
+      import 'src/scripts/sysmap.ts';
+      import 'src/scripts/work.ts';
+      import 'src/scripts/contact.ts';
+      import 'src/scripts/ask-ui.ts';
     </script>
   </body>
 </html>

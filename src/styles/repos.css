@@ -1,0 +1,502 @@
+/* =============================================================================
+   REPOSITORIES — a paged gallery.
+
+   Fifty repositories do not fit in one view, and a wall of fifty cards is not
+   a gallery. So they are dealt into pages of eight: you turn pages, by arrow,
+   by number, or by swiping. Every page is a slide in one horizontal scroller,
+   which is what makes the swipe and the buttons agree.
+
+   The tile is a link; the live badge beside it is a second, separate link, so
+   neither swallows the other's tap target.
+   ========================================================================== */
+
+.repos__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: clamp(18px, 3.4vw, 54px);
+  align-items: end;
+  margin-bottom: clamp(20px, 2.6vw, 30px);
+}
+.repos__title {
+  font-family: var(--display);
+  font-size: var(--fs-h2);
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+.repos__title em { font-style: normal; color: var(--mint-text); }
+.repos__lead {
+  font-size: var(--fs-small);
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 42ch;
+  padding-bottom: 4px;
+}
+
+/* ------------------------------------------------------------------- pager */
+.pager { min-width: 0; }
+
+.pager__bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0 14px;
+  border-top: var(--hair) solid var(--rule);
+}
+.pager__count {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+}
+.pager__count b { color: var(--ink); font-weight: 400; }
+
+.pager__pages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  min-width: 0;
+}
+.pager__nums {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  min-width: 0;
+}
+.pager__nums::-webkit-scrollbar { display: none; }
+
+.pager__num {
+  display: grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 7px;
+  border-radius: var(--r-pill);
+  border: var(--hair) solid transparent;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease),
+    border-color 0.25s var(--ease);
+}
+.pager__num:hover { color: var(--ink); border-color: var(--rule-2); }
+.pager__num[aria-current='page'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.pager__arrow {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: var(--hair) solid var(--rule-2);
+  background: var(--card);
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease),
+    border-color 0.25s var(--ease), transform 0.25s var(--ease-out);
+}
+.pager__arrow:hover { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.pager__arrow:active { transform: scale(0.94); }
+
+.pager__hint {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* -------------------------------------------------------------------- deck */
+.pager__viewport {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  /* Room for the hover lift and the shadow, so nothing is clipped. */
+  padding: 4px 0 10px;
+}
+.pager__viewport::-webkit-scrollbar { display: none; }
+.pager__viewport:focus-visible { outline: none; }
+.pager__viewport:focus-visible .rtile:first-child .rtile__link {
+  outline: 2px solid var(--mint-text);
+  outline-offset: -2px;
+}
+
+.pager__track {
+  display: flex;
+  align-items: stretch;
+}
+.pager__page {
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.pager__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  /* Frames keep their natural height, so a short last page is a short row
+     rather than two cards stretched to fill an empty band. */
+  align-items: start;
+  grid-auto-rows: min-content;
+}
+
+/* ------------------------------------------------------------------- frame */
+.rtile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-radius: var(--r-md);
+  background: var(--card);
+  border: var(--hair) solid var(--rule);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease),
+    transform 0.3s var(--ease-out);
+}
+.rtile:hover {
+  border-color: var(--ink-3);
+  box-shadow: var(--shadow-raise);
+  transform: translateY(-2px);
+}
+
+/* The specimen panel: the repo's own initials, set like a type sample. No
+   invented numbers, no fake screenshots — just the name, big. */
+.rtile__spec {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: 1 1 auto;
+  min-height: 92px;
+  max-height: 132px;
+  background-color: var(--well);
+  background-image:
+    linear-gradient(to right, var(--rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px),
+    radial-gradient(120% 130% at 78% 8%, var(--tint-soft, var(--well)), transparent 72%);
+  background-size: 16px 16px, 16px 16px, 100% 100%;
+  border-bottom: var(--hair) solid var(--rule);
+  overflow: hidden;
+}
+.rtile__mono {
+  font-family: var(--display);
+  font-size: 52px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: var(--tint-ink, var(--ink-3));
+  opacity: 0.32;
+  transform: translateY(2px);
+  transition: opacity 0.35s var(--ease), transform 0.45s var(--ease-out);
+}
+.rtile:hover .rtile__mono { opacity: 0.46; transform: translateY(0) scale(1.03); }
+
+/* Chapter colour, read by the panel and the language line. */
+.rtile[data-tint='mint'] { --tint-ink: var(--mint-text); --tint-soft: var(--mint-soft); }
+.rtile[data-tint='lilac'] { --tint-ink: var(--lilac-text); --tint-soft: var(--lilac-soft); }
+.rtile[data-tint='butter'] { --tint-ink: var(--butter-text); --tint-soft: var(--butter-soft); }
+.rtile[data-tint='sky'] { --tint-ink: var(--sky-text); --tint-soft: var(--sky-soft); }
+.rtile[data-tint='blush'] { --tint-ink: var(--blush-text); --tint-soft: var(--blush-soft); }
+
+.rtile__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  color: inherit;
+}
+.rtile__link:focus-visible {
+  outline: 2px solid var(--mint-text);
+  outline-offset: -2px;
+  border-radius: var(--r-md);
+}
+
+.rtile__body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  padding: 11px 13px 10px;
+}
+.rtile__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 7px;
+  min-width: 0;
+}
+.rtile__top {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  flex: none;
+}
+.rtile__idx {
+  flex: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--tint-ink, var(--faint));
+  font-variant-numeric: tabular-nums;
+}
+.rtile__kind {
+  flex: none;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--tint-soft, var(--well));
+  color: var(--tint-ink, var(--ink-3));
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+.rtile__name {
+  min-width: 0;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.rtile__desc {
+  overflow-wrap: anywhere;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rtile__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: var(--hair) solid var(--rule);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.rtile__lang { color: var(--tint-ink, var(--ink-3)); }
+.rtile__star { color: var(--butter-text); }
+.rtile__flag {
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--well);
+  border: var(--hair) solid var(--rule);
+}
+.rtile__when { margin-left: auto; white-space: nowrap; }
+
+.rtile__live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin: 0 11px 10px;
+  padding: 4px 9px;
+  border-radius: var(--r-pill);
+  background: var(--mint-soft);
+  color: var(--mint-text);
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  align-self: flex-start;
+  min-height: 24px;
+  transition: filter 0.3s var(--ease);
+}
+.rtile__live:hover { filter: brightness(0.94); }
+.rtile__live .mark { width: 4px; height: 4px; }
+
+/* ----------------------------------------------------------- language bar */
+.repos__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px 28px;
+  margin-top: clamp(18px, 2.4vw, 26px);
+  padding: 16px 0;
+  border-top: var(--hair) solid var(--rule);
+  border-bottom: var(--hair) solid var(--rule);
+}
+.repos__langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  min-width: 0;
+}
+.lang {
+  display: grid;
+  grid-template-columns: 6px auto 18px;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 9px 4px 8px;
+  border-radius: var(--r-pill);
+  background: var(--card);
+  border: var(--hair) solid var(--rule);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+.lang__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--mint-text);
+}
+.lang[data-lang='TypeScript'] .lang__dot { background: var(--sky-text); }
+.lang[data-lang='JavaScript'] .lang__dot { background: var(--butter-text); }
+.lang[data-lang='Python'] .lang__dot { background: var(--lilac-text); }
+.lang[data-lang='HTML'] .lang__dot { background: var(--blush-text); }
+.lang[data-lang='Jupyter Notebook'] .lang__dot { background: var(--butter-text); }
+.lang__name { color: var(--ink-2); }
+.lang__count { color: var(--faint); text-align: right; }
+.lang__track {
+  display: none;
+  grid-column: 2 / 4;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--rule);
+  overflow: hidden;
+}
+.lang__fill {
+  display: block;
+  height: 100%;
+  width: var(--w);
+  background: var(--ink-3);
+  border-radius: inherit;
+}
+.repos__note {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+/* ------------------------------------------------------------------- all */
+.repos__all {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: clamp(18px, 2.4vw, 26px);
+  padding: 14px 16px;
+  border: var(--hair) solid var(--rule-2);
+  border-radius: var(--r-md);
+  background: var(--card);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  transition: background-color 0.3s var(--ease), border-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+.repos__all:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.repos__all i { font-style: normal; color: var(--mint-text); }
+.repos__all:hover i { color: var(--bg); }
+
+/* ------------------------------------------------------------- responsive */
+@media (max-width: 1100px) {
+  .pager__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 900px) {
+  .repos__head { grid-template-columns: 1fr; }
+  .repos__lead { max-width: 46ch; }
+  .pager__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pager__hint { display: none; }
+}
+@media (max-width: 620px) {
+  /* One page per screen, and each frame becomes a compact row: a small square
+     of initials on the left, the facts on the right. Eight of those is a
+     readable list, where eight stacked cards would be a scroll marathon. */
+  .pager__grid { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .pager__nums { gap: 2px; }
+  .pager__num { min-width: 26px; height: 28px; font-size: 9.5px; }
+  .pager__arrow { width: 28px; height: 28px; }
+  .pager__bar { gap: 8px; }
+
+  /* The link and the live badge become two children of one row: initials,
+     facts, badge. The badge is outside the <a> in the DOM (it is a second
+     link), so the row is built on the <li>, not on the anchor. */
+  .rtile {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .rtile__link {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    min-width: 0;
+  }
+  .rtile__spec {
+    flex: 0 0 64px;
+    width: 64px;
+    min-height: 0;
+    max-height: none;
+    border-bottom: 0;
+    border-right: var(--hair) solid var(--rule);
+    background-size: 13px 13px, 13px 13px, 100% 100%;
+  }
+  .rtile__mono { font-size: 23px; opacity: 0.42; }
+  .rtile__body {
+    padding: 9px 10px 9px 11px;
+    gap: 3px;
+    justify-content: center;
+  }
+  /* On a phone the name drops to its own line instead of truncating to fit
+     beside the index and the kind chip. */
+  .rtile__head { flex-direction: column; align-items: flex-start; gap: 1px; }
+  .rtile__name { white-space: normal; overflow: visible; text-overflow: clip; }
+  .rtile__desc {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    font-size: 11px;
+  }
+  .rtile__meta { padding-top: 5px; gap: 6px; border-top: 0; }
+
+  /* The badge lines up with the text column, not the card edge. */
+  .rtile__live {
+    align-self: flex-end;
+    margin: 0 10px 9px 0;
+    flex: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pager__viewport { scroll-behavior: auto; }
+}

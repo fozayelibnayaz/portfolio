@@ -1,0 +1,292 @@
+/* =============================================================================
+   QUERY LAB — a textarea, a run button, a table. The only "demo" that proves
+   the claim: the data really is queryable and the query really runs here.
+   ========================================================================== */
+
+.lab__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(18px, 3.4vw, 54px);
+  align-items: end;
+  margin-bottom: clamp(24px, 3.4vw, 40px);
+}
+.lab__title {
+  font-family: var(--display);
+  font-size: var(--fs-h1);
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 0.94;
+}
+.lab__title em { font-style: normal; color: var(--mint-text); }
+.lab__lead {
+  font-size: var(--fs-small);
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 36ch;
+  padding-bottom: 4px;
+}
+
+.lab__wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(12px, 1.8vw, 20px);
+  align-items: start;
+}
+
+/* ---------------------------------------------------------------- editor */
+.lab__editor {
+  display: grid;
+  gap: 12px;
+  padding: clamp(16px, 2vw, 24px);
+  background: var(--card);
+  border: var(--hair) solid var(--rule-2);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-raise);
+}
+.lab__label {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.lab__tables-hint {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--faint);
+}
+
+.lab__field {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  background: var(--well);
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--r-md);
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.lab__field:focus-within {
+  border-color: var(--mint-text);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--mint) 22%, transparent);
+}
+.lab__prompt {
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--mint-text);
+  user-select: none;
+}
+.lab__input {
+  flex: 1;
+  min-width: 0;
+  min-height: calc(1.6em * 3);
+  resize: vertical;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  tab-size: 2;
+}
+.lab__input:focus { outline: none; }
+.lab__input::selection {
+  background: color-mix(in oklab, var(--mint) 45%, transparent);
+  color: var(--ink);
+}
+
+.lab__bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.lab__run {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 15px;
+  font-size: 10px;
+}
+.lab__run kbd {
+  font-family: var(--mono);
+  font-size: 9px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--bg) 22%, transparent);
+  color: inherit;
+  opacity: 0.75;
+}
+.lab__status {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 1.5;
+  color: var(--faint);
+}
+
+.lab__examples { display: grid; gap: 8px; }
+.lab__chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.lab__chip { font-size: 9px; padding: 5px 9px; }
+
+.lab__schema { display: grid; gap: 4px; }
+.schema {
+  border-top: var(--hair) solid var(--rule);
+  padding-top: 6px;
+}
+.schema__sum {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  padding: 3px 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+.schema__sum::-webkit-details-marker { display: none; }
+.schema__sum::before {
+  content: '+';
+  color: var(--mint-text);
+  width: 10px;
+  font-size: 11px;
+}
+.schema[open] .schema__sum::before { content: '−'; }
+.schema__count { color: var(--faint); font-size: 9px; margin-left: auto; }
+.schema__cols {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  padding: 2px 0 8px 18px;
+}
+
+/* ---------------------------------------------------------------- result */
+.lab__result {
+  display: grid;
+  gap: 10px;
+  padding: clamp(16px, 2vw, 24px);
+  background: var(--ink);
+  border: var(--hair) solid var(--ink);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-raise);
+  min-height: 100%;
+  color: var(--bg);
+}
+:root[data-theme='dark'] .lab__result {
+  background: var(--well);
+  border-color: var(--rule-2);
+  color: var(--ink);
+}
+.lab__result-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.lab__result-head .label { color: color-mix(in oklab, var(--bg) 62%, transparent); }
+:root[data-theme='dark'] .lab__result-head .label { color: var(--faint); }
+.lab__timing {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: color-mix(in oklab, var(--bg) 70%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+:root[data-theme='dark'] .lab__timing { color: var(--mint-text); }
+
+.lab__table-wrap {
+  max-height: 340px;
+  overflow: auto;
+  border-radius: var(--r-sm);
+  scrollbar-width: thin;
+}
+/* The result grid scrolls both ways on a phone; make that reachable without a
+   trackpad (axe: scrollable-region-focusable). */
+.lab__table-wrap:focus-visible {
+  outline: 2px solid var(--mint);
+  outline-offset: 3px;
+}
+.lab__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+.lab__table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  text-align: left;
+  padding: 6px 10px;
+  font-size: 8.5px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--bg) 58%, transparent);
+  background: var(--ink);
+  border-bottom: 1px solid color-mix(in oklab, var(--bg) 20%, transparent);
+}
+:root[data-theme='dark'] .lab__table th {
+  color: var(--faint);
+  background: var(--well);
+  border-color: var(--rule-2);
+}
+.lab__table td {
+  padding: 5px 10px;
+  color: color-mix(in oklab, var(--bg) 88%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--bg) 10%, transparent);
+  white-space: nowrap;
+  max-width: 24ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+:root[data-theme='dark'] .lab__table td {
+  color: var(--ink-2);
+  border-color: var(--rule);
+}
+.lab__table tbody tr:last-child td { border-bottom: 0; }
+.lab__table tbody tr:hover td { background: color-mix(in oklab, var(--bg) 7%, transparent); }
+.lab__placeholder {
+  color: color-mix(in oklab, var(--bg) 50%, transparent) !important;
+  font-style: italic;
+}
+:root[data-theme='dark'] .lab__placeholder { color: var(--faint) !important; }
+
+.lab__note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in oklab, var(--bg) 14%, transparent);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  color: color-mix(in oklab, var(--bg) 62%, transparent);
+}
+:root[data-theme='dark'] .lab__note {
+  border-color: var(--rule);
+  color: var(--faint);
+}
+
+.lab__error {
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.55;
+  color: #ffb4a2;
+  background: color-mix(in oklab, #ff6b4a 16%, transparent);
+  border: 1px solid color-mix(in oklab, #ff6b4a 38%, transparent);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+}
+.lab__error[hidden] { display: none; }
+
+@media (max-width: 880px) {
+  .lab__head { grid-template-columns: 1fr; }
+  .lab__lead { max-width: 46ch; }
+  .lab__wrap { grid-template-columns: 1fr; }
+  .lab__result { min-height: 240px; }
+}

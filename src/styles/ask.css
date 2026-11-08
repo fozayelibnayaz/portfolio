@@ -1,0 +1,247 @@
+/* =============================================================================
+   ASK — a real search index over the work, opened with ⌘K. Not a chatbot:
+   every result is a document that exists on this page, with the terms that
+   matched shown next to it.
+   ========================================================================== */
+
+.ask {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  padding: clamp(60px, 12vh, 140px) var(--gutter) var(--gutter);
+  background: color-mix(in oklab, var(--ink) 26%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.32s var(--ease), visibility 0s linear 0.32s;
+}
+.ask.is-open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.32s var(--ease), visibility 0s linear 0s;
+}
+
+.ask__sheet {
+  width: min(680px, 100%);
+  max-height: min(72vh, 620px);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--r-lg);
+  background: var(--shell);
+  border: var(--hair) solid var(--rule-2);
+  box-shadow: var(--shadow-lift);
+  overflow: hidden;
+  transform: translateY(-10px) scale(0.985);
+  opacity: 0;
+  transition: transform 0.42s var(--ease-out), opacity 0.32s var(--ease);
+}
+.ask.is-open .ask__sheet {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* ------------------------------------------------------------------ input */
+.ask__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: var(--hair) solid var(--rule);
+}
+.ask__glyph {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--mint-ink);
+  flex: none;
+}
+.ask__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: clamp(16px, 1.5vw, 19px);
+  letter-spacing: -0.015em;
+  padding: 2px 0;
+}
+.ask__input::placeholder { color: var(--faint); }
+.ask__input:focus { outline: none; }
+.ask__esc {
+  flex: none;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: var(--hair) solid var(--rule);
+  background: var(--sunken);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------------------------------------------------------------- results */
+.ask__body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px;
+}
+.ask__group {
+  padding: 10px 10px 6px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.ask__list { display: grid; gap: 2px; }
+
+.ask__item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  text-align: left;
+  border-radius: var(--r-sm);
+  border: var(--hair) solid transparent;
+  scroll-margin: 8px;
+  transition: background-color 0.18s var(--ease), border-color 0.18s var(--ease);
+}
+.ask__item:hover { background: var(--bone); }
+.ask__item.is-active {
+  background: var(--bone);
+  border-color: var(--rule-2);
+}
+.ask__item.is-active .ask__go { transform: translateX(2px); opacity: 1; }
+
+.ask__kind {
+  padding: 3px 8px;
+  border-radius: var(--r-pill);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  background: var(--mint);
+  color: var(--mint-ink);
+}
+.ask__kind[data-kind='skill'] { background: var(--lilac); color: var(--lilac-ink); }
+.ask__kind[data-kind='role'] { background: var(--butter); color: var(--butter-ink); }
+.ask__kind[data-kind='link'] { background: var(--sky); color: var(--sky-ink); }
+.ask__kind[data-kind='section'] { background: var(--blush); color: var(--blush-ink); }
+
+.ask__text { min-width: 0; }
+.ask__name {
+  display: block;
+  font-size: 14.5px;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ask__name mark {
+  background: var(--butter);
+  color: inherit;
+  border-radius: 3px;
+  padding: 0 1px;
+}
+.ask__why {
+  display: block;
+  margin-top: 1px;
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ask__go {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.4;
+  transition: transform 0.25s var(--ease-out), opacity 0.2s var(--ease);
+}
+
+/* -------------------------------------------------------------- empty etc */
+.ask__empty {
+  padding: 34px 18px 40px;
+  text-align: center;
+}
+.ask__empty b {
+  display: block;
+  font-family: var(--display);
+  font-size: 19px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+.ask__empty span {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ask__suggest {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 10px 12px;
+}
+.ask__suggest button {
+  padding: 6px 11px;
+  border-radius: var(--r-pill);
+  border: var(--hair) solid var(--rule);
+  background: var(--shell);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+.ask__suggest button:hover { border-color: var(--mint-ink); color: var(--mint-ink); }
+
+/* ----------------------------------------------------------------- footer */
+.ask__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 16px;
+  border-top: var(--hair) solid var(--rule);
+  background: color-mix(in oklab, var(--bone) 60%, var(--shell));
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.ask__keys { display: flex; gap: 12px; }
+.ask__keys b {
+  font-weight: 400;
+  color: var(--ink-3);
+  margin-right: 3px;
+}
+
+@media (max-width: 620px) {
+  .ask { padding-top: 0; align-items: end; }
+  .ask__sheet {
+    max-height: 86svh;
+    border-radius: var(--r-lg) var(--r-lg) 0 0;
+    width: 100%;
+  }
+  .ask__foot .ask__keys { display: none; }
+}

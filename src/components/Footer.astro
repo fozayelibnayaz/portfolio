@@ -2,24 +2,28 @@
 import { nav, site } from 'src/data/content';
 const year = new Date().getFullYear();
 ---
-<footer class="footer">
-  <div class="shell footer__inner">
-    <a class="footer__brand" href="#top">
-      <span class="footer__glyph" aria-hidden="true">F.</span>
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer__top">
       <div>
-        <span class="footer__name">{site.name}</span>
-        <span class="mono mono--sm dim">{site.role}</span>
+        <a class="footer__brand" href="#top">
+          <span aria-hidden="true">F</span>
+          {site.name}
+        </a>
+        <p class="footer__role">{site.role} · {site.location}</p>
       </div>
-    </a>
-    <nav class="footer__nav mono mono--sm" aria-label="Footer">
-      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-      <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
-      <a href={site.repo} target="_blank" rel="noopener noreferrer">Source</a>
-    </nav>
-    <a class="footer__top mono mono--sm" href="#top"><i aria-hidden="true">↑</i> Back to top</a>
-  </div>
-  <div class="shell footer__bottom mono mono--sm">
-    <span>© {year} {site.name}</span>
-    <span>Built in Dhaka with Astro · GSAP</span>
+
+      <nav class="footer__nav" aria-label="Footer">
+        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href={site.repo} target="_blank" rel="noopener noreferrer">Source</a>
+      </nav>
+    </div>
+
+    <div class="footer__meta">
+      <span>© {year} {site.name}</span>
+      <span>Astro · no UI framework · {site.timezone}</span>
+      <a class="footer__top-link" href="#top">↑ Back to top</a>
+    </div>
   </div>
 </footer>

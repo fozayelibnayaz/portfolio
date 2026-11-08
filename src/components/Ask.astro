@@ -1,0 +1,55 @@
+---
+import { buildCorpus } from 'src/lib/corpus';
+import { buildIndex, liveSuggestions } from 'src/lib/ask';
+
+const docs = buildCorpus();
+const suggestions = liveSuggestions(buildIndex(docs));
+---
+<div class="ask" data-ask aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ask-title">
+  <div class="ask__sheet" role="document">
+    <h2 class="sr-only" id="ask-title">Search this site</h2>
+
+    <div class="ask__bar">
+      <span class="ask__glyph" aria-hidden="true">⌕</span>
+      <input
+        class="ask__input"
+        data-ask-input
+        type="text"
+        placeholder="Search work, skills, roles…"
+        role="combobox"
+        aria-expanded="true"
+        aria-controls="ask-results"
+        aria-autocomplete="list"
+        aria-describedby="ask-hint"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <kbd class="ask__esc">Esc</kbd>
+    </div>
+
+    <div class="ask__body" data-ask-body>
+      <div class="ask__suggest" data-ask-suggest>
+        <span class="sr-only" id="ask-hint">Try one of these searches</span>
+        {suggestions.map((s) => <button type="button" data-ask-try={s}>{s}</button>)}
+      </div>
+
+      <div class="ask__list" id="ask-results" role="listbox" aria-label="Search results" data-ask-list></div>
+
+      <div class="ask__empty" data-ask-empty hidden>
+        <b>Nothing under that name.</b>
+        <span>Try a tool, a client, or a year</span>
+      </div>
+    </div>
+
+    <div class="ask__foot">
+      <span data-ask-count aria-live="polite">{docs.length} things indexed</span>
+      <span class="ask__keys">
+        <span><b>↑↓</b>move</span>
+        <span><b>↵</b>open</span>
+        <span><b>esc</b>close</span>
+      </span>
+    </div>
+  </div>
+</div>
+
+<script id="ask-corpus" type="application/json" set:html={JSON.stringify(docs)} />

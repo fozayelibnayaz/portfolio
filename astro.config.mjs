@@ -17,7 +17,7 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: {
     assets: 'assets',
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always',
   },
   server: {
     host: true,

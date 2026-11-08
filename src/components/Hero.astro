@@ -1,44 +1,132 @@
 ---
-import { hero, site } from 'src/data/content';
+import { site, skillGroups } from 'src/data/content';
+import heroBg from 'src/assets/hero-dev.png?url';
 import { asset } from 'src/lib/asset';
+
+/* The dial. Five layers of the stack, placed around a portrait at angles
+   computed here, at build time — no magic numbers in the CSS. */
+const layers = [
+  { name: 'Interface', tools: 'React · Next.js · CSS', area: 'Web' },
+  { name: 'Logic', tools: 'Node · TypeScript · APIs', area: 'Web' },
+  { name: 'Data', tools: 'SQL · Python · GA4', area: 'Data' },
+  { name: 'Infra', tools: 'Docker · GCP · CI', area: 'Infra & tools' },
+  { name: 'Quality', tools: 'Playwright · axe · QA', area: 'Infra & tools' },
+];
+
+const R = 36; // % of the dial
+const nodes = layers.map((l, i) => {
+  const angle = (-90 + i * (360 / layers.length)) * (Math.PI / 180);
+  return {
+    ...l,
+    x: 50 + R * Math.cos(angle),
+    y: 50 + R * Math.sin(angle),
+    delay: i * 0.12,
+  };
+});
+
+const totalTools = skillGroups.reduce((n, g) => n + g.items.length, 0);
+
+/* A ticker of real tools, duplicated once so the loop is seamless. */
+const ticker = skillGroups.flatMap((g) => g.items).slice(0, 22);
 ---
 <section class="hero" id="top" aria-labelledby="hero-title">
-  <div class="hero__aura" aria-hidden="true" data-hero-aura></div>
+  <!-- The blueprint: a system diagram, drawn once and tinted by the theme. -->
+  <div class="hero__bg" style={`--hero-bg:url(${heroBg})`} aria-hidden="true"></div>
 
-  <div class="shell hero__stage">
-    <h1 class="hero__type" id="hero-title">
-      <span class="l1" data-hero-line>{hero.line1}</span>
-    </h1>
-
-    <div class="hero__mid">
-      <span class="hero__type-l2 l2" aria-hidden="true" data-hero-line>{hero.line2}</span>
-      <figure class="hero__figure" data-hero-figure>
-        <img
-          src={asset('img/portrait-1100.webp')}
-          alt={`Portrait of ${site.name}`}
-          width="1100" height="1100"
-          fetchpriority="high" decoding="async"
-        />
-      </figure>
+  <div class="hero__inner shell">
+    <div class="hero__top">
+      <span class="hero__live">
+        <span class="mark mark--live" aria-hidden="true"></span>
+        {site.availability}
+      </span>
+      <span class="hero__sep" aria-hidden="true">/</span>
+      <span>Dhaka <b data-clock aria-hidden="true">--:--</b></span>
+      <span class="hero__sep" aria-hidden="true">/</span>
+      <span class="hero__top-hide">Full-stack · analytics · QA</span>
     </div>
-    <span class="sr-only">{hero.line2}</span>
 
-    <div class="hero__plate" data-hero-plate>
-      <p class="hero__name">{hero.name}</p>
-    </div>
-  </div>
+    <div class="hero__grid">
+      <div class="hero__copy">
+        <h1 class="hero__title" id="hero-title">
+          <span class="hero__title-a">Fozayel</span>
+          <span class="hero__title-b">Ibn Ayaz</span>
+        </h1>
 
-  <div class="shell hero__foot">
-    <div>
-      <p class="hero__line" data-hero-line2>{hero.line} <em>{hero.lineEm}</em></p>
-      <div class="hero__actions" data-hero-actions>
-        <a class="btn btn--solid" href="#work" data-magnetic>{hero.cta} <i aria-hidden="true">↘</i></a>
-        <a class="btn" href={asset(site.cv)} download>{hero.cta2} <i aria-hidden="true">↓</i></a>
+        <p class="hero__statement">
+          I build the layers between an interface and a database —
+          <em>and the tests that keep them honest.</em>
+        </p>
+
+        <div class="hero__actions">
+          <a class="btn btn--ink" href="#work" data-magnetic>
+            See the work <i aria-hidden="true">↘</i>
+          </a>
+          <a class="btn" href={asset(site.cv)} download>
+            CV <i aria-hidden="true">↓</i>
+          </a>
+          <a class="hero__lab-link" href="#lab">
+            <span aria-hidden="true">⌘</span> Query the database
+          </a>
+        </div>
+
+        <dl class="hero__meta">
+          <div><dt>Currently</dt><dd>Full-stack @ ENT Sourcing</dd></div>
+          <div><dt>Timezone</dt><dd>GMT+6 · remote</dd></div>
+        </dl>
+      </div>
+
+      <!-- The dial: five layers of one system, placed around the person who
+           builds them. Every number on it is counted from content.ts. -->
+      <div class="hero__dial" data-dial>
+        <div class="dial">
+          <div class="dial__ring dial__ring--outer" aria-hidden="true"></div>
+          <div class="dial__ring dial__ring--ticks" aria-hidden="true"></div>
+
+          <figure class="dial__portrait">
+            <img
+              src={asset('img/portrait-520.avif')}
+              srcset={`${asset('img/portrait-320.avif')} 320w, ${asset('img/portrait-520.avif')} 520w, ${asset('img/portrait-700.avif')} 700w`}
+              sizes="(max-width: 940px) 44vw, 280px"
+              alt={`Portrait of ${site.name}`}
+              width="520"
+              height="520"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </figure>
+
+          {nodes.map((n, i) => (
+            <div
+              class="dial__node"
+              style={`--x:${n.x}%;--y:${n.y}%;--d:${n.delay}s`}
+              data-dial-node={i}
+            >
+              <span class="dial__dot" aria-hidden="true"></span>
+              <span class="dial__name">{n.name}</span>
+              <span class="dial__tools">{n.tools}</span>
+            </div>
+          ))}
+        </div>
+
+        <p class="dial__caption">
+          <span>{layers.length} layers</span>
+          <span class="dial__caption-sep" aria-hidden="true">·</span>
+          <span>{totalTools} tools</span>
+          <span class="dial__caption-sep" aria-hidden="true">·</span>
+          <span>one developer</span>
+        </p>
       </div>
     </div>
-    <a class="hero__scroll" href="#work" aria-label="Scroll to work">
-      <span class="hero__scroll-icon" aria-hidden="true">↓</span>
-      Scroll
-    </a>
   </div>
+
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker__track">
+      {[0, 1].map(() => ticker.map((t) => <span class="ticker__item">{t}</span>))}
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#work">
+    <span>Scroll</span>
+    <i aria-hidden="true">↓</i>
+  </a>
 </section>

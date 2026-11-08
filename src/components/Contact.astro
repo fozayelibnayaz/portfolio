@@ -2,29 +2,109 @@
 import SecHead from './SecHead.astro';
 import { contact, site } from 'src/data/content';
 import { asset } from 'src/lib/asset';
+
+const rows = [
+  { k: 'Email', v: site.email, href: `mailto:${site.email}?subject=Project%20enquiry`, ext: false },
+  { k: 'WhatsApp', v: site.phonePretty, href: `https://wa.me/${site.phone.replace(/\D/g, '')}`, ext: true },
+  { k: 'GitHub', v: 'fozayelibnayaz', href: site.github, ext: true },
+];
+const needs = ['Website', 'Store', 'Dashboard', 'Data / analytics', 'QA & testing', 'Not sure yet'];
 ---
-<section class="section contact" id="contact" aria-labelledby="contact-title">
+<section class="sec sec--line contact" id="contact" aria-labelledby="contact-title">
   <div class="shell">
-    <SecHead num="008" label="Contact" right={site.availability} />
-    <h2 class="contact__title" id="contact-title">{contact.line1}<br /><em class="em">{contact.line2}</em></h2>
-    <p class="contact__lead">{contact.lead}</p>
+    <SecHead num="07" label="Contact" meta={site.availability} />
 
-    <div class="contact__tiles">
-      {contact.tiles.map((t) => (
-        <a class="ctile" href={t.href}
-           target={t.href.startsWith('http') ? '_blank' : undefined}
-           rel={t.href.startsWith('http') ? 'noopener noreferrer' : undefined}>
-          <span class="ctile__k mono mono--sm">{t.k}</span>
-          <span class="ctile__v">{t.v}</span>
-          <span class="ctile__arrow" aria-hidden="true">↗</span>
-        </a>
-      ))}
-    </div>
+    <div class="contact__grid">
+      <div class="contact__left">
+        <h2 class="contact__title" id="contact-title">
+          Have something<br /><em>worth building?</em>
+        </h2>
+        <p class="contact__note">{contact.lead}</p>
 
-    <div class="contact__foot">
-      <a class="btn btn--solid" href={`mailto:${site.email}?subject=Project%20enquiry`} data-magnetic>Email me <i aria-hidden="true">↗</i></a>
-      <a class="btn" href={asset(site.cv)} download>Download CV <i aria-hidden="true">↓</i></a>
-      <span class="mono mono--sm dim">Replies within a day · Dhaka {site.timezone}</span>
+        <div class="contact__rows">
+          {rows.map((r) => (
+            <a
+              class="contact__row"
+              href={r.href}
+              target={r.ext ? '_blank' : undefined}
+              rel={r.ext ? 'noopener noreferrer' : undefined}
+            >
+              <span class="contact__k">{r.k}</span>
+              <span class="contact__v">{r.v}</span>
+              <i aria-hidden="true">↗</i>
+            </a>
+          ))}
+        </div>
+
+        <div class="contact__actions">
+          <a class="btn" href={asset(site.cv)} download>
+            Download CV <i aria-hidden="true">↓</i>
+          </a>
+          <span class="contact__hint">Replies within a day, Dhaka time.</span>
+        </div>
+      </div>
+
+      <form class="form" data-contact-form novalidate>
+        <div class="form__head">
+          <span class="label">Write it here</span>
+          <span class="form__hint">No account, no backend — it opens your mail app.</span>
+        </div>
+
+        <div class="form__pair">
+          <div class="field">
+            <label class="field__label" for="cf-name">Name</label>
+            <input class="field__input" id="cf-name" name="name" type="text" autocomplete="name"
+              required maxlength="80" placeholder="Your name" data-field="name" />
+            <p class="field__err" data-err="name" hidden></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="cf-email">Email</label>
+            <input class="field__input" id="cf-email" name="email" type="email" autocomplete="email"
+              required maxlength="120" placeholder="you@company.com" data-field="email" />
+            <p class="field__err" data-err="email" hidden></p>
+          </div>
+        </div>
+
+        <fieldset class="field field--set">
+          <legend class="field__label">What is it?</legend>
+          <div class="form__chips">
+            {needs.map((n, i) => (
+              <label class="chip chip--button form__chip">
+                <input type="checkbox" name="need" value={n} data-need checked={i === 0} />
+                <span>{n}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label class="field__label" for="cf-msg">
+            The short version
+            <span class="field__count" data-count-for="msg">0 / 800</span>
+          </label>
+          <textarea class="field__input field__input--area" id="cf-msg" name="message" rows="5"
+            required maxlength="800" placeholder="One paragraph is plenty. What it is, who it is for, when you need it."
+            data-field="message"></textarea>
+          <p class="field__err" data-err="message" hidden></p>
+        </div>
+
+        <div class="form__foot">
+          <button class="btn btn--ink form__send" type="submit">
+            Open in mail app <i aria-hidden="true">↗</i>
+          </button>
+          <button class="form__copy" type="button" data-copy>
+            or copy the message
+          </button>
+        </div>
+
+        <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+
+        <p class="form__fallback">
+          Mail app not set up? Write to
+          <a href={`mailto:${site.email}`}>{site.email}</a> directly.
+        </p>
+      </form>
     </div>
   </div>
 </section>

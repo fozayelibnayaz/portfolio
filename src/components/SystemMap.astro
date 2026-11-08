@@ -1,0 +1,82 @@
+---
+import SecHead from './SecHead.astro';
+import { systemLayers, trace } from 'src/data/content';
+---
+<section class="sec sec--line sysmap" id="stack" aria-labelledby="stack-title">
+  <div class="shell">
+    <SecHead num="02" label="How it is built" meta="five layers, one path" />
+
+    <div class="sysmap__head">
+      <h2 class="sysmap__title" id="stack-title">
+        Every project here<br />crosses <em>the same five layers.</em>
+      </h2>
+      <p class="sysmap__lead">
+        Pick a layer. It opens the same way each time: what it does, what I use
+        to do it, and one shipped project where it mattered.
+      </p>
+    </div>
+
+    <div class="sysmap__grid">
+      <div class="sysmap__list" role="tablist" aria-label="Stack layers" aria-orientation="vertical">
+        {systemLayers.map((l, i) => (
+          <button
+            class="layer"
+            type="button"
+            role="tab"
+            id={`layer-tab-${l.key}`}
+            aria-controls={`layer-panel-${l.key}`}
+            aria-selected={i === 0 ? 'true' : 'false'}
+            tabindex={i === 0 ? 0 : -1}
+            data-layer={l.key}
+            data-tint={l.tint}
+          >
+            <span class="layer__n">{l.n}</span>
+            <span class="layer__name">{l.name}</span>
+            <span class="layer__bar" aria-hidden="true"></span>
+          </button>
+        ))}
+      </div>
+
+      <div class="sysmap__panels">
+        {systemLayers.map((l, i) => (
+          <div
+            class="layer-panel"
+            role="tabpanel"
+            id={`layer-panel-${l.key}`}
+            aria-labelledby={`layer-tab-${l.key}`}
+            data-panel={l.key}
+            data-tint={l.tint}
+            hidden={i !== 0}
+          >
+            <p class="layer-panel__claim">{l.claim}</p>
+            <ul class="layer-panel__list">
+              {l.what.map((w) => <li>{w}</li>)}
+            </ul>
+            <div class="layer-panel__foot">
+              <div class="layer-panel__tools">
+                {l.tools.map((t) => <span class="layer-panel__tool">{t}</span>)}
+              </div>
+              <span class="layer-panel__proof">shipped in <b>{l.proof}</b></span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="trace" data-trace aria-label="A request crossing the stack">
+      <div class="trace__head">
+        <span class="label">Trace</span>
+        <span class="trace__hint" aria-hidden="true">one request, five layers</span>
+      </div>
+      <ol class="trace__list">
+        {trace.map((t, i) => (
+          <li class="trace__row" data-trace-row={i}>
+            <span class="trace__n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span class="trace__layer">{systemLayers.find((l) => l.key === t.layer)?.name}</span>
+            <span class="trace__line">{t.line}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

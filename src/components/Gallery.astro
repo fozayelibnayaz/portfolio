@@ -1,0 +1,120 @@
+---
+import SecHead from './SecHead.astro';
+import { extraWork, filters, liveLinks, projects } from 'src/data/content';
+import { asset } from 'src/lib/asset';
+
+const counts: Record<string, number> = { all: projects.length };
+for (const f of filters) if (f.key !== 'all') counts[f.key] = projects.filter((p) => p.category === f.key).length;
+
+const payload = projects.map((p) => ({ ...p, image: asset(p.image) }));
+---
+<section class="sec gallery" id="work" aria-labelledby="work-title">
+  <div class="shell">
+    <SecHead num="01" label="Selected work" meta="2022 → 2026" />
+
+    <div class="gallery__head">
+      <h2 class="gallery__title" id="work-title">
+        Eight builds.<br /><em>Scroll through them.</em>
+      </h2>
+      <p class="gallery__lead">
+        Client sites, stores, dashboards and things I built to learn. Each card
+        opens the short version: the problem, what changed, what I did.
+      </p>
+    </div>
+
+    <div class="gallery__bar">
+      <div class="gallery__filters" role="group" aria-label="Filter projects by kind">
+        {filters.map((f, i) => (
+          <button
+            class="chip chip--button"
+            type="button"
+            data-filter={f.key}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+          >
+            {f.label} {String(counts[f.key]).padStart(2, '0')}
+          </button>
+        ))}
+      </div>
+
+      <div class="gallery__count" aria-live="polite">
+        <span data-deck-pos aria-hidden="true">01</span>
+        <span class="gallery__count-sep" aria-hidden="true">/</span>
+        <span data-deck-total aria-hidden="true">{String(projects.length).padStart(2, '0')}</span>
+        <span class="sr-only"> projects shown</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="deck" data-deck>
+    <div class="deck__stick" data-deck-stick>
+      {projects.map((p, i) => (
+        <article
+          class="deck__card"
+          data-card
+          data-key={p.key}
+          data-cat={p.category}
+          style={`--i:${i};z-index:${i + 1}`}
+        >
+          <div class="deck__media">
+            <img
+              src={asset(p.image)}
+              srcset={`${asset(p.image.replace('.avif', '-640.avif'))} 640w, ${asset(p.image)} 1200w`}
+              sizes="(max-width: 959px) 92vw, 46vw"
+              alt={`${p.title} — homepage preview`}
+              width="1200"
+              height="750"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="deck__badge">
+              <span class="mark" aria-hidden="true"></span>{p.badge}
+            </span>
+          </div>
+
+          <div class="deck__body">
+            <span class="deck__idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="deck__title">{p.title}</h3>
+            <p class="deck__sub">{p.caseStudy.sub}</p>
+            <p class="deck__metric">{p.metric}</p>
+
+            <ul class="deck__tags">
+              {p.tags.slice(0, 4).map((t) => <li>{t}</li>)}
+            </ul>
+
+            <dl class="deck__meta">
+              <div><dt>Role</dt><dd>{p.caseStudy.role}</dd></div>
+              <div><dt>When</dt><dd>{p.caseStudy.timeline}</dd></div>
+            </dl>
+
+            <div class="deck__foot">
+              <span class="deck__year">{p.year} · {p.catLabel}</span>
+              <button class="deck__open" type="button" data-open={p.key} aria-haspopup="dialog">
+                Open case study <i aria-hidden="true">↗</i>
+              </button>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="links">
+      <span class="label">Live links</span>
+      <div class="links__row">
+        {liveLinks.map((l) => (
+          <a class="links__a" href={l.href} target="_blank" rel="noopener noreferrer">
+            {l.label} <i aria-hidden="true">↗</i>
+          </a>
+        ))}
+        {extraWork.map((e) => (
+          <a class="links__a" href={e.href} target="_blank" rel="noopener noreferrer">
+            {e.label} <i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script id="project-data" type="application/json" set:html={JSON.stringify(payload)} />

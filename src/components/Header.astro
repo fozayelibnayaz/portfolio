@@ -3,38 +3,82 @@ import { nav, site } from 'src/data/content';
 ---
 <header class="site-header" data-header>
   <div class="shell site-header__bar">
-    <a class="brand" href="#top" aria-label={`${site.name} — home`}>
-      <span class="brand__glyph" aria-hidden="true">F<span class="brand__dot"></span></span>
-      <span class="brand__stack">
-        <span class="brand__name">{site.name}</span>
-        <span class="brand__role">Full-Stack · Analytics & QA</span>
-      </span>
+    <a class="brand" href="#top">
+      <span class="brand__glyph" aria-hidden="true">F</span>
+      <span class="brand__name">{site.name}</span>
     </a>
 
-    <nav class="site-nav" aria-label="Primary">
-      {nav.map((item) => <a class="site-nav__link" href={item.href} data-nav-link>{item.label}</a>)}
+    <nav class="nav" aria-label="Primary" data-nav>
+      <span class="nav__thumb" data-nav-thumb aria-hidden="true"></span>
+      {nav.map((item, i) => (
+        <a class="nav__link" href={item.href} data-nav-link>
+          <span class="nav__idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>{item.label}
+        </a>
+      ))}
     </nav>
 
     <div class="site-header__end">
-      <a class="header-cta" href="#contact">Let’s talk <i aria-hidden="true">↗</i></a>
-      <button class="nav-burger" type="button" aria-label="Open menu" aria-expanded="false" data-burger><span></span></button>
+      <button
+        class="theme"
+        type="button"
+        data-theme-toggle
+        aria-pressed="false"
+        aria-label="Switch to dark theme"
+        title="Switch theme"
+      >
+        <svg class="theme__sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="12" r="4.2" />
+          <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4L17 7M7 17l-1.6 1.6" />
+        </svg>
+        <svg class="theme__moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M20.4 14.6A8.6 8.6 0 1 1 9.4 3.6a7 7 0 0 0 11 11Z" />
+        </svg>
+      </button>
+
+      <button class="ask-trigger" type="button" data-ask-open aria-haspopup="dialog" aria-keyshortcuts="Control+K Meta+K">
+        <span>Ask</span>
+        <kbd aria-hidden="true">⌘K</kbd>
+      </button>
+
+      <button
+        class="nav-burger"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        data-burger
+      >
+        <span></span><span></span>
+      </button>
     </div>
   </div>
   <span class="header-progress" data-progress aria-hidden="true"></span>
 </header>
 
-<div class="mobile-nav" id="mobile-nav" aria-hidden="true">
-  <div class="mobile-nav__head mono mono--sm">
-    <span>Menu</span>
-    <span class="dim">{site.location}</span>
-  </div>
-  <nav class="mobile-nav__list" aria-label="Mobile">
-    {nav.map((item, i) => (
-      <a href={item.href}><b>{item.label}</b><i aria-hidden="true">0{i + 1}</i></a>
-    ))}
-  </nav>
-  <div class="mobile-nav__foot">
-    <a class="btn btn--solid" href="#contact">Start a project <i aria-hidden="true">↗</i></a>
-    <p class="mono mono--sm dim">{site.email}</p>
+<div class="mobile-nav" id="mobile-nav" aria-hidden="true" inert data-mobile-nav>
+  <div class="mobile-nav__inner">
+    <div class="mobile-nav__head mono">
+      <span>Menu</span>
+      <span class="dim">{site.location} · {site.timezone}</span>
+    </div>
+
+    <nav class="mobile-nav__list" aria-label="Mobile">
+      {nav.map((item, i) => (
+        <a href={item.href} data-nav-item>
+          <i aria-hidden="true">{String(i + 1).padStart(2, '0')}</i>
+          <b>{item.label}</b>
+        </a>
+      ))}
+    </nav>
+
+    <div class="mobile-nav__foot">
+      <a class="btn btn--ink" href="#contact" data-nav-item>
+        Start a project <i aria-hidden="true">↗</i>
+      </a>
+      <div class="mobile-nav__contact mono">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </div>
+    </div>
   </div>
 </div>

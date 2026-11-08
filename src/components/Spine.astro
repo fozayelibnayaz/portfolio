@@ -1,0 +1,22 @@
+---
+/* A fixed ruler down the left margin: where you are, how much is left.
+   Hidden below 1080px, where the margin it needs does not exist. */
+const ticks = [
+  { id: 'work', label: 'Work' },
+  { id: 'stack', label: 'Stack' },
+  { id: 'lab', label: 'Lab' },
+  { id: 'repos', label: 'Repos' },
+  { id: 'about', label: 'About' },
+  { id: 'experience', label: 'History' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<nav class="spine" aria-label="Section ruler" data-spine>
+  {ticks.map((t, i) => (
+    <a class="spine__tick" href={`#${t.id}`} data-spine-tick data-target={t.id}>
+      <span aria-hidden="true"></span>
+      <b>{String(i + 1).padStart(2, '0')} {t.label}</b>
+    </a>
+  ))}
+</nav>

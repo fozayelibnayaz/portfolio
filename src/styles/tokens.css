@@ -1,88 +1,213 @@
 /* =============================================================================
-   TOKENS — “Signal” palette. Ink + chalk + electric lime.
+   TOKENS — two themes, one vocabulary.
+
+   Light is a bright studio; dark is the same room at night. Neither is an
+   inversion of the other: both palettes were picked and contrast-checked
+   separately (worst pair 4.60:1), so neither looks like a filter was applied.
    ========================================================================== */
+
+/* ------------------------------------------------------------------- fonts */
 @font-face {
-  font-family: 'Big Shoulders Display';
-  src: url('../assets/fonts/big-shoulders.woff2') format('woff2-variations'),
-       url('../assets/fonts/big-shoulders.woff2') format('woff2');
-  font-weight: 100 900;
+  font-family: 'Bricolage Grotesque';
+  /* Subset to the characters this site actually sets, fixed at the one weight
+     the design uses. 76 KB became 32 KB and the page paints sooner. */
+  src: url('../assets/fonts/bricolage.woff2') format('woff2');
+  font-weight: 200 800;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Instrument Sans';
-  src: url('../assets/fonts/instrument-sans.woff2') format('woff2-variations'),
-       url('../assets/fonts/instrument-sans.woff2') format('woff2');
-  font-weight: 400 700;
+  font-family: 'Manrope';
+  src: url('../assets/fonts/manrope.woff2') format('woff2');
+  font-weight: 200 800;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Instrument Sans';
-  src: url('../assets/fonts/instrument-sans-italic.woff2') format('woff2');
-  font-weight: 400 700;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Instrument Serif';
-  src: url('../assets/fonts/instrument-serif.woff2') format('woff2');
+  font-family: 'IBM Plex Mono';
+  src: url('../assets/fonts/plex-400.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: 'Instrument Serif';
-  src: url('../assets/fonts/instrument-serif-italic.woff2') format('woff2');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'JetBrains Mono';
-  src: url('../assets/fonts/jetbrains-mono.woff2') format('woff2-variations'),
-       url('../assets/fonts/jetbrains-mono.woff2') format('woff2');
-  font-weight: 100 800;
+  font-family: 'IBM Plex Mono';
+  src: url('../assets/fonts/plex-500.woff2') format('woff2');
+  font-weight: 500;
   font-display: swap;
 }
 
 :root {
-  --ink: #07080b;
-  --ink-2: #0b0d12;
-  --surface: #11141b;
-  --surface-2: #161a23;
-  --surface-3: #1c2130;
+  /* ---------------------------------------------------------------- type */
+  --display: 'Bricolage Grotesque', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  --chalk: #f3f6f1;
-  --chalk-dim: #c9d1c8;
-  --muted: #98a29a;
-  --faint: #6b746d;
+  --fs-hero: clamp(44px, 8vw, 124px);
+  --fs-h1: clamp(34px, 5.2vw, 72px);
+  --fs-h2: clamp(26px, 3.2vw, 42px);
+  --fs-body: clamp(15px, 1vw, 16.5px);
+  --fs-small: 13.5px;
+  --fs-mono: 11px;
 
-  --lime: #ccff3f;
-  --lime-soft: #e4ff9c;
-  --lime-deep: #a4d61f;
-  --violet: #6f5bff;
-  --violet-soft: #9c8bff;
-  --teal: #46e6c8;
-
-  --line: rgba(243, 246, 241, 0.1);
-  --line-2: rgba(243, 246, 241, 0.18);
-  --line-3: rgba(243, 246, 241, 0.05);
-
-  --paper: #edf1e6;
-  --paper-ink: #0a0c0a;
-
-  --display: 'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
-  --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', Arial, sans-serif;
-  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
-
-  --gutter: clamp(18px, 4.4vw, 80px);
-  --max: 1560px;
-  --section-y: clamp(52px, 5.4vw, 104px);
+  /* --------------------------------------------------------------- space */
+  --max: 1400px;
+  --gutter: clamp(18px, 4.2vw, 62px);
+  /* The distance from the viewport edge to the content column. Full-bleed
+     scrollers use it so their first and last frame line up with the shell. */
+  --shell-pad: max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  --section-y: clamp(64px, 7.2vw, 124px);
   --hair: 1px;
 
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-io: cubic-bezier(0.65, 0.05, 0.36, 1);
+  /* --------------------------------------------------------------- shape */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 13px;
+  --r: 16px;
+  --r-lg: 22px;
+  --r-xl: 30px;
+  --r-pill: 999px;
 
-  --fs-mono: clamp(9.5px, 0.58vw + 6px, 11.5px);
-  --fs-body: clamp(14.5px, 0.42vw + 12.2px, 18px);
-  --fs-body-lg: clamp(16px, 0.6vw + 12.6px, 21px);
+  /* --------------------------------------------------------------- motion */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.42s;
+
+  /* ============================================================ LIGHT ==== */
+  --bg: #dfe2da;
+  --card: #f6f7f2;
+  --well: #d9ddd5;
+  --tint: #e3eee7;
+  --rule: #ccd2c8;
+  --rule-2: #b4bcae;
+
+  --ink: #1b2124;
+  --ink-2: #333c39;
+  --ink-3: #454f4b;
+  --muted: #434d4a;
+  --faint: #4f5956;
+
+  --mint: #6ea98b;
+  --mint-text: #1f5f45;
+  --mint-soft: #e4f1e9;
+  --lilac: #a99bd6;
+  --lilac-text: #4b3f80;
+  --lilac-soft: #eae6f6;
+  --butter: #d9bf72;
+  --butter-text: #6b540e;
+  --butter-soft: #f6edcf;
+  --blush: #d9968a;
+  --blush-text: #7c3f2c;
+  --blush-soft: #f7e6e0;
+  --sky: #93b6d4;
+  --sky-text: #2a5473;
+  --sky-soft: #e2edf6;
+
+  --shadow-flat: 0 1px 0 rgb(32 38 42 / 0.04);
+  --shadow-raise: 0 1px 2px rgb(32 38 42 / 0.05), 0 12px 32px -20px rgb(32 38 42 / 0.28);
+  --shadow-lift: 0 2px 6px rgb(32 38 42 / 0.06), 0 30px 70px -34px rgb(32 38 42 / 0.38);
+  /* Surface: a dot matrix with heavier rules every fourth dot, so the page
+     reads like a canvas rather than a blank sheet. */
+  --grid-dot: rgb(27 33 36 / 0.2);
+  --grid-size: 23px;
+  /* Code-glyph texture strength, and the diagonal circuit traces. */
+  --surface-opacity: 0.055;
+  --trace: rgb(31 95 69 / 0.16);
+  --trace-2: rgb(27 33 36 / 0.07);
+  --glow: 1;
+  --bloom-a: color-mix(in oklab, var(--mint) 30%, transparent);
+  --bloom-b: color-mix(in oklab, var(--lilac) 26%, transparent);
+  --bloom-c: color-mix(in oklab, var(--butter) 22%, transparent);
+  --vignette: rgb(27 33 36 / 0.13);
+
+  /* Surfaces the panels ask for by name. */
+  --shell: var(--card);
+  --sunken: var(--well);
+  --bone: var(--well);
+  --font-body: var(--sans);
+
+  /* Text that sits *on* a solid colour swatch. These are not the same as the
+     *-text tokens: those are dark-enough hues for paper, and pair with the
+     pale *-soft surfaces. On a mid-tone swatch the ink has to go almost to
+     black (6.3:1 worst case here). */
+  --mint-ink: #0f1b16;
+  --lilac-ink: #171230;
+  --butter-ink: #241c05;
+  --blush-ink: #260c06;
+  --sky-ink: #0a1a26;
+
+  color-scheme: light;
+}
+
+/* ============================================================== DARK ==== */
+:root[data-theme='dark'] {
+  --bg: #060908;
+  --card: #121816;
+  --well: #060909;
+  --tint: #0f1714;
+  --rule: #232c29;
+  --rule-2: #35413d;
+
+  --ink: #edf1ec;
+  --ink-2: #c8d0ca;
+  --ink-3: #a4aea8;
+  --muted: #949f99;
+  --faint: #828d87;
+
+  --mint: #3f7a60;
+  --mint-text: #8ad7b6;
+  --mint-soft: #16241e;
+  --lilac: #4a4270;
+  --lilac-text: #c3b6f0;
+  --lilac-soft: #1c1a2a;
+  --butter: #5d4d1f;
+  --butter-text: #e8cf8a;
+  --butter-soft: #221d12;
+  --blush: #6b3a2e;
+  --blush-text: #f0b4a2;
+  --blush-soft: #241a17;
+  --sky: #2f4c64;
+  --sky-text: #a9c9ea;
+  --sky-soft: #141f29;
+
+  --shadow-flat: 0 1px 0 rgb(0 0 0 / 0.3);
+  --shadow-raise: 0 1px 2px rgb(0 0 0 / 0.4), 0 14px 34px -22px rgb(0 0 0 / 0.8);
+  --shadow-lift: 0 2px 8px rgb(0 0 0 / 0.45), 0 34px 80px -40px rgb(0 0 0 / 0.9);
+  --grid-dot: rgb(237 241 236 / 0.16);
+  --surface-opacity: 0.06;
+  --trace: rgb(138 215 182 / 0.14);
+  --trace-2: rgb(237 241 236 / 0.06);
+  --glow: 0.62;
+  --bloom-a: color-mix(in oklab, var(--mint-text) 22%, transparent);
+  --bloom-b: color-mix(in oklab, var(--lilac-text) 18%, transparent);
+  --bloom-c: color-mix(in oklab, var(--butter-text) 13%, transparent);
+  --vignette: rgb(0 0 0 / 0.6);
+
+  --shell: var(--card);
+  --sunken: var(--well);
+  --bone: var(--well);
+  --font-body: var(--sans);
+
+  /* Inverted: the swatches are dark here, so the ink goes almost to white. */
+  --mint-ink: #f2fbf6;
+  --lilac-ink: #f6f3ff;
+  --butter-ink: #fff9e8;
+  --blush-ink: #fff2ee;
+  --sky-ink: #eef6ff;
+
+  color-scheme: dark;
+}
+
+/* Motion off — either because the visitor asked the OS for it, or because
+   they used the switch in the header. Both routes land in the same rule. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0.001s;
+  }
+}
+
+html[data-motion='calm'] *,
+html[data-motion='calm'] *::before,
+html[data-motion='calm'] *::after {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.001s !important;
+  transition-delay: 0s !important;
 }

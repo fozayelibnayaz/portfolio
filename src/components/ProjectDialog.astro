@@ -1,38 +1,49 @@
-<div class="dialog" data-dialog aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dlg-title">
-  <div class="dialog__scrim" data-dialog-close></div>
-  <div class="dialog__panel" role="document">
-    <button class="dialog__close" type="button" data-dialog-close aria-label="Close case study">✕</button>
-    <div class="dialog__media">
-      <img data-dlg-img src="" alt="" width="1200" height="675" />
-      <span class="dialog__cat mono mono--sm" data-dlg-cat></span>
+---
+/* Case study sheet. Content is injected from the project payload that
+   WorkList already renders — one JSON blob, no second source of truth. */
+---
+<div class="sheet" data-dialog aria-hidden="true" inert role="dialog" aria-modal="true" aria-labelledby="dlg-title">
+  <div class="sheet__panel" role="document">
+    <div class="sheet__top">
+      <span class="sheet__kind" data-dlg-cat>Case study</span>
+      <button class="sheet__close" type="button" data-dialog-close aria-label="Close case study">
+        Close <span aria-hidden="true">✕</span>
+      </button>
     </div>
-    <div class="dialog__body">
-      <div class="dialog__head">
-        <h2 class="dialog__title" id="dlg-title" data-dlg-title></h2>
-        <p class="dialog__sub" data-dlg-sub></p>
+
+    <div class="sheet__body">
+      <div class="sheet__media">
+        <img data-dlg-img src="" alt="" width="1200" height="675" />
       </div>
-      <dl class="dialog__spec">
-        <div><dt class="mono mono--sm">Role</dt><dd data-dlg-role></dd></div>
-        <div><dt class="mono mono--sm">Client</dt><dd data-dlg-client></dd></div>
-        <div><dt class="mono mono--sm">Timeline</dt><dd data-dlg-time></dd></div>
-        <div><dt class="mono mono--sm">Status</dt><dd data-dlg-status></dd></div>
-      </dl>
-      <div class="dialog__cols">
-        <div class="dialog__col">
-          <h3 class="mono mono--sm">The problem</h3>
-          <p data-dlg-problem></p>
-          <h3 class="mono mono--sm">What changed</h3>
-          <p class="dialog__changed" data-dlg-changed></p>
+
+      <h2 class="sheet__title" id="dlg-title" data-dlg-title></h2>
+      <p class="sheet__sub" data-dlg-sub></p>
+
+      <div class="sheet__cols">
+        <div>
+          <h3 class="sheet__h">The problem</h3>
+          <p class="sheet__p" data-dlg-problem></p>
+          <h3 class="sheet__h">What changed</h3>
+          <p class="sheet__p" data-dlg-changed></p>
+          <h3 class="sheet__h">What I did</h3>
+          <ul class="sheet__did" data-dlg-did></ul>
         </div>
-        <div class="dialog__col">
-          <h3 class="mono mono--sm">What I did</h3>
-          <ul class="dialog__did" data-dlg-did></ul>
+
+        <div>
+          <dl class="sheet__facts">
+            <div><dt>Role</dt><dd data-dlg-role></dd></div>
+            <div><dt>Client</dt><dd data-dlg-client></dd></div>
+            <div><dt>Timeline</dt><dd data-dlg-time></dd></div>
+            <div><dt>Status</dt><dd data-dlg-status></dd></div>
+          </dl>
+
+          <div class="sheet__actions">
+            <a class="btn btn--ink" data-dlg-link href="#" target="_blank" rel="noopener noreferrer" hidden>
+              Visit live site <i aria-hidden="true">↗</i>
+            </a>
+            <button class="btn" type="button" data-dialog-close>Close</button>
+          </div>
         </div>
-      </div>
-      <div class="dialog__tags" data-dlg-tags></div>
-      <div class="btn-row">
-        <a class="btn btn--solid" data-dlg-link href="#" target="_blank" rel="noopener noreferrer">Visit live site <i aria-hidden="true">↗</i></a>
-        <button class="btn" type="button" data-dialog-close>Close</button>
       </div>
     </div>
   </div>

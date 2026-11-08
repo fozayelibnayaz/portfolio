@@ -1,0 +1,344 @@
+/* =============================================================================
+   NAV — brand, segmented switcher with a sliding thumb, theme switch, menu.
+   ========================================================================== */
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 200;
+  transition: transform 0.5s var(--ease-out), background-color 0.4s var(--ease);
+}
+.site-header::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: var(--hair);
+  background: var(--rule);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+.site-header.is-stuck {
+  background: color-mix(in oklab, var(--bg) 84%, transparent);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+}
+.site-header.is-stuck::after { opacity: 1; }
+.site-header.is-hidden { transform: translateY(-102%); }
+
+.site-header__bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 66px;
+}
+
+/* ------------------------------------------------------------------ brand */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+  min-width: 0;
+}
+.brand__glyph {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--mint-soft);
+  color: var(--mint-text);
+  border: var(--hair) solid color-mix(in oklab, var(--mint) 45%, transparent);
+  font-family: var(--display);
+  font-size: 16px;
+  font-weight: 500;
+  transition: transform 0.45s var(--ease-out), background-color 0.35s var(--ease),
+    color 0.35s var(--ease);
+}
+.brand:hover .brand__glyph {
+  transform: rotate(-8deg) scale(1.05);
+  background: var(--mint-text);
+  color: var(--bg);
+}
+.brand__name {
+  font-family: var(--display);
+  font-size: 15.5px;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+/* -------------------------------------------------------------------- nav */
+.nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline: auto;
+  padding: 4px;
+  border: var(--hair) solid var(--rule);
+  border-radius: var(--r-pill);
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.nav__thumb {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  height: calc(100% - 8px);
+  width: 0;
+  border-radius: var(--r-pill);
+  background: var(--card);
+  box-shadow: var(--shadow-flat), 0 2px 10px -6px rgb(0 0 0 / 0.4);
+  opacity: 0;
+  transition: transform 0.42s var(--ease-out), width 0.42s var(--ease-out), opacity 0.3s;
+  pointer-events: none;
+}
+.nav__thumb.is-on { opacity: 1; }
+
+.nav__link {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: var(--r-pill);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+.nav__link:hover { color: var(--ink); }
+.nav__link.is-active { color: var(--ink); }
+.nav__link.is-active .nav__idx { color: var(--mint-text); }
+.nav__idx {
+  font-size: 8.5px;
+  color: var(--faint);
+  margin-right: 6px;
+  transition: color 0.3s var(--ease);
+}
+
+/* -------------------------------------------------------------------- end */
+.site-header__end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+}
+
+/* --------------------------------------------------------------- ask pill */
+.ask-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 13px;
+  border-radius: var(--r-pill);
+  border: var(--hair) solid var(--rule-2);
+  background: var(--card);
+  color: var(--ink-2);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease),
+    background-color 0.3s var(--ease);
+}
+.ask-trigger kbd {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  letter-spacing: 0.02em;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--well);
+  color: var(--faint);
+}
+.ask-trigger:hover { border-color: var(--ink-3); color: var(--ink); }
+.ask-trigger:hover kbd { color: var(--ink-2); }
+
+/* ------------------------------------------------------------ theme switch */
+/* A single button that flips the whole page. The icon cross-fades between sun
+   and moon so the control always shows the mode you are NOT in — the state is
+   also exposed to assistive tech through aria-pressed. */
+.theme {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: var(--hair) solid var(--rule-2);
+  background: var(--card);
+  color: var(--ink-2);
+  overflow: hidden;
+  transition: border-color 0.3s var(--ease), color 0.3s var(--ease),
+    transform 0.4s var(--ease-out);
+}
+.theme:hover { border-color: var(--ink-3); color: var(--ink); transform: rotate(-12deg); }
+.theme svg {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.5s var(--ease-out), opacity 0.35s var(--ease);
+}
+.theme__sun { transform: translateY(0) scale(1); opacity: 1; }
+.theme__moon { transform: translateY(120%) scale(0.7); opacity: 0; }
+:root[data-theme='dark'] .theme__sun { transform: translateY(-120%) scale(0.7); opacity: 0; }
+:root[data-theme='dark'] .theme__moon { transform: translateY(0) scale(1); opacity: 1; }
+
+/* ----------------------------------------------------------------- burger */
+.nav-burger {
+  display: none;
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border: var(--hair) solid var(--rule-2);
+  border-radius: 50%;
+  background: var(--card);
+}
+.nav-burger span {
+  position: absolute;
+  left: 50%;
+  width: 14px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--ink);
+  transform: translateX(-50%);
+  transition: transform 0.45s var(--ease-out), top 0.45s var(--ease-out);
+}
+.nav-burger span:nth-child(1) { top: 15px; }
+.nav-burger span:nth-child(2) { top: 21px; }
+body.nav-open .nav-burger span:nth-child(1) { top: 18px; transform: translateX(-50%) rotate(45deg); }
+body.nav-open .nav-burger span:nth-child(2) { top: 18px; transform: translateX(-50%) rotate(-45deg); }
+
+/* --------------------------------------------------------------- progress */
+.header-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  background: var(--mint-text);
+  opacity: 0.6;
+  will-change: transform;
+}
+
+/* ====================================================== full-screen panel */
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: var(--bg);
+  color: var(--ink);
+  clip-path: inset(0 0 100% 0);
+  pointer-events: none;
+  visibility: hidden;
+  transition: clip-path 0.6s var(--ease-out), visibility 0s linear 0.6s;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+body.nav-open .mobile-nav {
+  clip-path: inset(0 0 0 0);
+  pointer-events: auto;
+  visibility: visible;
+  transition: clip-path 0.6s var(--ease-out), visibility 0s linear 0s;
+}
+.mobile-nav__inner {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: calc(66px + 28px) var(--gutter) calc(28px + env(safe-area-inset-bottom));
+}
+.mobile-nav__head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  padding-bottom: 13px;
+  border-bottom: var(--hair) solid var(--rule);
+}
+.mobile-nav__list { display: grid; gap: 4px; margin-top: auto; }
+.mobile-nav__list a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 4px;
+  border-bottom: var(--hair) solid var(--rule);
+}
+.mobile-nav__list a i {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--mint-soft);
+  color: var(--mint-text);
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+.mobile-nav__list a:nth-child(2) i { background: var(--lilac-soft); color: var(--lilac-text); }
+.mobile-nav__list a:nth-child(3) i { background: var(--butter-soft); color: var(--butter-text); }
+.mobile-nav__list a:nth-child(4) i { background: var(--sky-soft); color: var(--sky-text); }
+.mobile-nav__list a:nth-child(5) i { background: var(--blush-soft); color: var(--blush-text); }
+.mobile-nav__list b {
+  font-family: var(--display);
+  font-size: clamp(28px, 7.6vw, 40px);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.mobile-nav__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 18px;
+  border-top: var(--hair) solid var(--rule);
+}
+.mobile-nav__contact {
+  display: grid;
+  gap: 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mobile-nav__contact a { color: var(--ink-3); }
+
+/* ---------------------------------------------------------- media queries */
+@media (max-width: 1099px) {
+  .nav { display: none; }
+  .nav-burger { display: block; }
+  .site-header__end { margin-left: auto; }
+}
+@media (max-width: 520px) {
+  /* Visually smaller, still in the accessibility tree. Hiding these with
+     display:none would strip the link and button of their names entirely. */
+  .brand__name,
+  .ask-trigger span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .ask-trigger { position: relative; }
+  .ask-trigger { padding: 9px 10px; }
+}

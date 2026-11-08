@@ -2,36 +2,45 @@
 import SecHead from './SecHead.astro';
 import { education, experience, languages } from 'src/data/content';
 ---
-<section class="section xp" id="experience" aria-labelledby="xp-title">
+<section class="sec xp" id="experience" aria-labelledby="xp-title">
   <div class="shell">
-    <SecHead num="005" label="Experience" right="Five roles, one thread" />
-    <h2 class="work__title" id="xp-title">TRACK<br />RECORD</h2>
-    <div class="xp__list">
-      {experience.map((e) => (
-        <div class="xp__row">
-          <span class="xp__when mono mono--sm">{e.when}</span>
-          <span class="xp__role">{e.role}</span>
-          <span class="xp__org">{e.org}</span>
-          <span class="xp__place mono mono--sm">{e.place}</span>
-        </div>
-      ))}
-    </div>
-    <div class="xp__edu">
-      <span class="mono mono--sm dim">Education</span>
-      <ul>
-        {education.map((e) => (
-          <li class="mono mono--sm"><span>{e.when}</span><span>{e.role}</span><span>{e.org}</span></li>
-        ))}
-      </ul>
-    </div>
+    <SecHead num="06" label="History" meta="six roles, one thread" />
 
-    <div class="xp__langs">
-      <span class="mono mono--sm dim">Languages</span>
-      <ul>
-        {languages.map((l) => (
-          <li class="mono mono--sm"><span>{l.name}</span><span class="dim">{l.level}</span></li>
+    <h2 class="xp__title" id="xp-title">
+      Where I have<br /><em>done the work.</em>
+    </h2>
+
+    <ol class="xp__list">
+      {experience.map((e, i) => (
+        <li class:list={['xp__row', { 'is-now': i === 0 && e.when.includes('now') }]}>
+          <span class="xp__when">{e.when}</span>
+          <span class="xp__role">{e.role}</span>
+          <span class="xp__org">{e.org} · {e.place}</span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="xp__foot">
+      <div class="xp__edu">
+        <span class="label">Education</span>
+        {education.map((e) => (
+          <div class="xp__eduline">
+            <span>{e.when}</span>
+            <b>{e.role}</b>
+            <i>{e.org}</i>
+          </div>
         ))}
-      </ul>
+      </div>
+
+      <div class="xp__langs">
+        <span class="label">Languages</span>
+        {languages.map((l) => (
+          <div class="xp__lang">
+            <b>{l.name}</b>
+            <span>{l.level}</span>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 </section>
