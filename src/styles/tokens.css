@@ -70,6 +70,10 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur: 0.42s;
 
+  /* Shared canvas: the hero and every section use the same fine pinstripe. */
+  --page-surface: #f2f2f4;
+  --page-stripes: repeating-linear-gradient(90deg, transparent 0, transparent 9px, rgba(57, 65, 85, .065) 9px, rgba(57, 65, 85, .065) 10px);
+
   /* ============================================================ LIGHT ==== */
   --bg: #dfe2da;
   --card: #f6f7f2;
@@ -138,6 +142,8 @@
 
 /* ============================================================== DARK ==== */
 :root[data-theme='dark'] {
+  --page-surface: #11151c;
+  --page-stripes: repeating-linear-gradient(90deg, transparent 0, transparent 9px, rgba(216, 226, 255, .055) 9px, rgba(216, 226, 255, .055) 10px);
   --bg: #060908;
   --card: #121816;
   --well: #060909;

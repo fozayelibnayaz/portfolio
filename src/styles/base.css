@@ -15,7 +15,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--page-surface);
+  background-image: var(--page-stripes);
   color: var(--ink);
   font-family: var(--sans);
   font-size: var(--fs-body);
@@ -176,7 +177,7 @@ b, strong {
   z-index: 1;
 }
 .sec--line { border-top: var(--hair) solid var(--rule); }
-.sec--tint { background: var(--tint); }
+.sec--tint { background: transparent; }
 
 /* -------------------------------------------------------------- typography */
 .display {
@@ -378,3 +379,7 @@ body.is-locked { overflow: hidden; }
   .grid-bg { opacity: calc(var(--surface-opacity) * 6); }
   .traces { display: none; }
 }
+
+/* The shared hero pinstripe is the single page canvas, through the footer.
+   Retire the older glyph, trace and glow layers without touching panels. */
+.grid-bg, .traces, .glow { display: none; }

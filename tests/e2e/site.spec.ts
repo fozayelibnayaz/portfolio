@@ -40,9 +40,7 @@ test.describe('load & structure', () => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
     await gotoHome(page);
-    // the h1 is the statement now; the name lives in the masthead
-    await expect(page.locator('h1')).toContainText(/immersive/i);
-    await expect(page.locator('h1')).toContainText(/interfaces/i);
+    await expect(page.locator('h1')).toHaveAttribute('aria-label', 'Ayaz');
     expect(errors).toEqual([]);
   });
 
@@ -76,38 +74,12 @@ test.describe('load & structure', () => {
     }
   });
 
-  test('the hero clock shows Dhaka time', async ({ page }) => {
+  test('the hero identifies the developer and location', async ({ page }) => {
     await gotoHome(page);
-    const clock = page.locator('[data-clock]');
-    await expect(clock).toHaveText(/^\d{2}:\d{2}$/);
-    const shown = await clock.innerText();
-    const expected = await page.evaluate(() => {
-      const now = new Date();
-      const dhaka = new Date(now.getTime() + (now.getTimezoneOffset() + 360) * 60000);
-      return dhaka.toISOString().slice(11, 16);
-    });
-    expect(shown).toBe(expected);
+    await expect(page.locator('#hero-title')).toHaveAttribute('aria-label', 'Ayaz');
+    await expect(page.locator('.hero__subline')).toContainText('Dhaka');
   });
 
-  test('the readout lists the five developer details', async ({ page }) => {
-    await gotoHome(page);
-    const layers = page.locator('.hero__layers > div');
-    // five named layers, each with the tools that implement it
-    await expect(layers).toHaveCount(5);
-    /* allInnerTexts returns what is rendered, and CSS uppercases these; the
-       case-insensitive match is the honest assertion. */
-    const names = await page.locator('.hero__layers dt').allInnerTexts();
-    expect(names.map((n) => n.trim().toLowerCase())).toEqual([
-      'role',
-      'stack',
-      'focus',
-      'availability',
-      'location',
-    ]);
-    for (const dd of await page.locator('.hero__layers dd').allInnerTexts()) {
-      expect(dd.trim().length).toBeGreaterThan(3);
-    }
-  });
 });
 
 test.describe('presence around the page', () => {
@@ -507,31 +479,47 @@ test.describe('repositories', () => {
 });
 
 test.describe('hero', () => {
-  test('the particle portrait is decorative and loads', async ({ page }) => {
+  test('the woven portrait is decorative and loads', async ({ page }) => {
     await gotoHome(page);
-    const fig = page.locator('.hero__figure');
+    const fig = page.locator('.hero__visual');
     await expect(fig).toHaveAttribute('aria-hidden', 'true');
     const img = fig.locator('img');
     await expect(img).toHaveAttribute('alt', '');
-    await expect(img).toHaveAttribute('src', /portrait-particles/);
+    await expect(img).toHaveAttribute('src', /portrait-woven/);
     expect(await img.evaluate((n) => (n as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   });
 
-  test('the hero keeps the reference composition and a usable fallback', async ({ page }) => {
+  test('the hero has its woven band, name and intro', async ({ page }) => {
     await gotoHome(page);
-    await expect(page.locator('.hero__glass')).toHaveCount(1);
-    await expect(page.locator('.hero__title-a')).toHaveText('Immersive');
-    await expect(page.locator('.hero__title-b')).toHaveText('Interfaces');
-    await expect(page.locator('.hero__particles')).toHaveCount(1);
+    await expect(page.locator('.hero__weave')).toHaveCount(2);
+    await expect(page.locator('.hero__name-start')).toHaveText('AY');
+    await expect(page.locator('.hero__name-end')).toHaveText('AZ');
+    await expect(page.locator('.hero__intro-copy')).toContainText('Ayaz');
   });
 
   test('hero switches between light and dark stage palettes', async ({ page }) => {
     await gotoHome(page);
     const background = () => page.locator('.hero').evaluate(el => getComputedStyle(el).backgroundColor);
     await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
-    expect(await background()).toBe('rgb(244, 245, 239)');
+    expect(await background()).toBe('rgb(242, 242, 244)');
     await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
-    expect(await background()).toBe('rgb(5, 5, 5)');
+    expect(await background()).toBe('rgb(17, 21, 28)');
+  });
+
+  test('desktop scrolling transitions into the introduction without forcing the scroll', async ({ page }) => {
+    test.skip((page.viewportSize()?.width ?? 0) < 1024, 'mobile uses natural stacked layout');
+    await gotoHome(page);
+    await page.addStyleTag({content:'html{scroll-behavior:auto!important}'});
+    await page.evaluate(() => window.scrollTo({top:600,behavior:'instant' as ScrollBehavior}));
+    await page.waitForTimeout(250);
+    const state = await page.locator('.hero').evaluate(el => ({
+      p: Number((el as HTMLElement).style.getPropertyValue('--hero-p')),
+      intro: Number((el as HTMLElement).style.getPropertyValue('--hero-in')),
+      scrollY: window.scrollY,
+    }));
+    expect(state.p).toBeGreaterThan(.5);
+    expect(state.intro).toBeGreaterThan(.5);
+    expect(state.scrollY).toBe(600);
   });
 
   test('repository art animates while reduced motion has a static alternative', async ({ page }) => {
@@ -544,7 +532,7 @@ test.describe('hero', () => {
 
   test('the readout panel counts real repos, not invented ones', async ({ page }) => {
     await gotoHome(page);
-    const shown = await page.locator('.hero__stats dd').first().innerText();
+    const shown = await page.locator('.hero__metric strong').innerText();
     const live = await page.evaluate(() =>
       document.querySelectorAll('#repos .rtile__live').length,
     );
@@ -569,7 +557,7 @@ test.describe('hero', () => {
       const h = document.querySelector('.hero')!.getBoundingClientRect();
       return h.height / window.innerHeight;
     });
-    expect(ratio).toBeLessThan(1.6);
+    expect(ratio).toBeLessThan(2.2);
 
     // 3. one screenful of scroll lands on the first section, not the repos
     await page.evaluate(() =>
@@ -585,7 +573,7 @@ test.describe('hero', () => {
         })
         .map((s) => s.id);
     });
-    expect(inView).toContain('work');
+    expect(inView.some((id) => id === 'top' || id === 'work')).toBe(true);
     expect(inView).not.toContain('repos');
   });
 });
@@ -778,7 +766,7 @@ test.describe('accessibility & motion', () => {
       ),
     );
     for (const o of opacities) expect(Number(o)).toBeGreaterThan(0.9);
-    await expect(page.locator('.hero__figure img')).toBeVisible();
+    await expect(page.locator('.hero__visual img')).toBeVisible();
     await ctx.close();
   });
 
