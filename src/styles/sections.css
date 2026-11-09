@@ -177,11 +177,21 @@
   font-family: var(--display);
   font-size: var(--fs-h1);
   font-weight: 300;
-  letter-spacing: -0.045em;
-  line-height: 0.94;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  text-transform: uppercase;
   margin-bottom: 16px;
 }
-.contact__title em { font-style: normal; color: var(--mint-text); }
+/* The second line is drawn, not filled — the same gesture as the hero, so the
+   page opens and closes on one idea. */
+.contact__title em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1.1px var(--mint-text);
+}
+@supports not (-webkit-text-stroke: 1px currentColor) {
+  .contact__title em { color: var(--mint-text); }
+}
 .contact__note {
   font-size: var(--fs-small);
   line-height: 1.65;

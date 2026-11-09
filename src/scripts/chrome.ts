@@ -172,14 +172,27 @@ if (clock) {
 /* --------------------------------------------------------------- GSAP, later */
 /* The tweening layer is not needed to read the page, so it arrives after the
    first paint instead of delaying it. */
-const idle = (fn: () => void) => {
-  if (typeof window.requestIdleCallback === 'function') {
-    window.requestIdleCallback(fn, { timeout: 1500 });
-  } else {
-    setTimeout(fn, 300);
-  }
+/* Wait for the visitor to actually do something, or for the page to go quiet
+   for a long stretch. On a throttled phone the old idle-with-timeout fired
+   while the hero was still painting, and GSAP's 72 KB landed on the main
+   thread during the largest-paint window: 2.2s of script for an effect nobody
+   had asked for yet. Interaction-first removes that entirely. */
+const whenQuiet = (fn: () => void) => {
+  let done = false;
+  const run = () => {
+    if (done) return;
+    done = true;
+    for (const ev of EVENTS) window.removeEventListener(ev, run);
+    /* Let the gesture finish first: booting on pointerdown means the chunk
+       parses and animates while the button is still being pressed. */
+    setTimeout(fn, 220);
+  };
+  const EVENTS = ['pointerdown', 'keydown', 'wheel', 'touchstart', 'scroll'] as const;
+  for (const ev of EVENTS) window.addEventListener(ev, run, { once: true, passive: true });
+  /* Worst case: still load eventually, just not during the first paint. */
+  setTimeout(run, 2200);
 };
 
-idle(() => {
+whenQuiet(() => {
   void import('./fx').then((m) => m.initFx());
 });

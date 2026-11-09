@@ -46,9 +46,7 @@ const monogram = (name: string) => {
         Every public repo.<br /><em>Rough ones included.</em>
       </h2>
       <p class="repos__lead">
-        All {total} of them — shipped, half-finished and coursework alike. Kept
-        public because the mess is part of the record. {hosted} have something
-        running right now.
+        {total} public repositories · {hosted} live sites.
       </p>
     </div>
   </div>
@@ -212,15 +210,17 @@ const monogram = (name: string) => {
         if (Number(b.dataset.pageGo) === n) b.setAttribute('aria-current', 'page');
         else b.removeAttribute('aria-current');
       }
-      nums.find((b) => Number(b.dataset.pageGo) === n)?.scrollIntoView({
-        block: 'nearest',
-        inline: 'nearest',
-      });
     };
 
     const goTo = (n: number, smooth = true) => {
       const target = Math.min(Math.max(1, n), slides.length);
       paint(target);
+      /* Only a deliberate move scrolls the number row; doing this from the
+         scroll handler would force layout on every frame of a swipe. */
+      nums.find((b) => Number(b.dataset.pageGo) === target)?.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
+      });
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       viewport.scrollTo({
         left: (target - 1) * width(),

@@ -6,6 +6,14 @@ import { expect, test, type Page } from '@playwright/test';
    ========================================================================== */
 
 /** The palette is the fastest path to any project. */
+/* The browser restores the last scroll position between navigations, so a
+   test that assumes it starts at the hero is a coin flip. Every test starts
+   at the top, exactly as a first-time visitor would. */
+async function gotoHome(page: Page) {
+  await page.goto('/');
+  await page.evaluate(() => window.scrollTo(0, 0));
+}
+
 async function openAsk(page: Page) {
   await page.keyboard.press('Control+k');
   await expect(page.locator('[data-ask]')).toHaveClass(/is-open/);
@@ -31,13 +39,15 @@ test.describe('load & structure', () => {
   test('renders with no page errors', async ({ page }) => {
     const errors: string[] = [];
     page.on('pageerror', (e) => errors.push(e.message));
-    await page.goto('/');
-    await expect(page.locator('h1')).toContainText('Fozayel');
+    await gotoHome(page);
+    // the h1 is the statement now; the name lives in the masthead
+    await expect(page.locator('h1')).toContainText(/immersive/i);
+    await expect(page.locator('h1')).toContainText(/interfaces/i);
     expect(errors).toEqual([]);
   });
 
   test('every section is on the page and painted', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const sections = await page.evaluate(() =>
       ['work', 'stack', 'lab', 'repos', 'about', 'experience', 'contact'].map((id) => {
         const el = document.getElementById(id);
@@ -55,7 +65,7 @@ test.describe('load & structure', () => {
   });
 
   test('nothing overflows horizontally at any width', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     for (const width of [320, 375, 414, 768, 1024, 1280, 1440, 1920]) {
       await page.setViewportSize({ width, height: 900 });
       await page.waitForTimeout(220);
@@ -67,7 +77,7 @@ test.describe('load & structure', () => {
   });
 
   test('the hero clock shows Dhaka time', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const clock = page.locator('[data-clock]');
     await expect(clock).toHaveText(/^\d{2}:\d{2}$/);
     const shown = await clock.innerText();
@@ -79,28 +89,30 @@ test.describe('load & structure', () => {
     expect(shown).toBe(expected);
   });
 
-  test('the dial places five stack layers around the portrait', async ({ page }) => {
-    await page.goto('/');
-    const nodes = page.locator('[data-dial-node]');
-    await expect(nodes).toHaveCount(5);
-    const positions = await nodes.evaluateAll((els) =>
-      els.map((e) => {
-        const r = e.getBoundingClientRect();
-        return { x: Math.round(r.x + r.width / 2), y: Math.round(r.y + r.height / 2) };
-      }),
-    );
-    // All five sit on one ring: equal distance from their own centroid.
-    const cx = positions.reduce((n, p) => n + p.x, 0) / positions.length;
-    const cy = positions.reduce((n, p) => n + p.y, 0) / positions.length;
-    const radii = positions.map((p) => Math.hypot(p.x - cx, p.y - cy));
-    const spread = Math.max(...radii) - Math.min(...radii);
-    expect(spread).toBeLessThan(30);
+  test('the readout lists the five developer details', async ({ page }) => {
+    await gotoHome(page);
+    const layers = page.locator('.hero__layers > div');
+    // five named layers, each with the tools that implement it
+    await expect(layers).toHaveCount(5);
+    /* allInnerTexts returns what is rendered, and CSS uppercases these; the
+       case-insensitive match is the honest assertion. */
+    const names = await page.locator('.hero__layers dt').allInnerTexts();
+    expect(names.map((n) => n.trim().toLowerCase())).toEqual([
+      'role',
+      'stack',
+      'focus',
+      'availability',
+      'location',
+    ]);
+    for (const dd of await page.locator('.hero__layers dd').allInnerTexts()) {
+      expect(dd.trim().length).toBeGreaterThan(3);
+    }
   });
 });
 
 test.describe('presence around the page', () => {
   test('the header sticks and reports progress', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.evaluate(() => window.scrollTo(0, 1200));
     await page.waitForTimeout(400);
     await expect(page.locator('[data-header]')).toHaveClass(/is-stuck/);
@@ -113,7 +125,7 @@ test.describe('presence around the page', () => {
   });
 
   test('the nav thumb follows the section you are reading', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('#lab').scrollIntoViewIfNeeded();
     await page.waitForTimeout(900);
     const active = await page.locator('.nav__link.is-active').innerText();
@@ -121,8 +133,13 @@ test.describe('presence around the page', () => {
   });
 
   test('a section link scrolls and updates the hash', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('.hero__actions a[href="#work"]').click();
+    await gotoHome(page);
+    if (await page.locator('[data-burger]').isVisible()) {
+      await page.locator('[data-burger]').click();
+      await page.locator('[data-mobile-nav] a[href="#work"]').click();
+    } else {
+      await page.locator('.nav__link[href="#work"]').click();
+    }
     await page.waitForTimeout(1200);
     expect(page.url()).toContain('#work');
   });
@@ -130,7 +147,7 @@ test.describe('presence around the page', () => {
 
 test.describe('gallery deck', () => {
   test('the deck advances as you scroll', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     /* Below 960px the deck deliberately becomes a plain stack of cards. */
     test.skip((page.viewportSize()?.width ?? 0) < 960, 'static stack on narrow screens');
     const deckTop = await page.evaluate(() => {
@@ -149,7 +166,7 @@ test.describe('gallery deck', () => {
   });
 
   test('the filters narrow the deck', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const all = await page.locator('[data-card]').count();
     await page.locator('[data-filter="store"]').click();
     await page.waitForTimeout(400);
@@ -164,7 +181,7 @@ test.describe('gallery deck', () => {
   });
 
   test('a card opens its case study and Escape closes it', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('[data-open]').first().click();
     await expect(page.locator('[data-dialog]')).toHaveClass(/is-open/);
     await expect(page.locator('[data-dlg-title]')).not.toBeEmpty();
@@ -174,7 +191,7 @@ test.describe('gallery deck', () => {
   });
 
   test('every live link is a real https URL', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const hrefs = await page.locator('.links__a').evaluateAll((els) =>
       els.map((e) => (e as HTMLAnchorElement).href),
     );
@@ -185,7 +202,7 @@ test.describe('gallery deck', () => {
 
 test.describe('system map', () => {
   test('clicking a layer opens exactly one panel', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const panels = page.locator('[data-panel]');
     await expect(panels).toHaveCount(5);
     await expect(page.locator('[data-panel]:visible')).toHaveCount(1);
@@ -198,7 +215,7 @@ test.describe('system map', () => {
   });
 
   test('arrow keys move between layers', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('#layer-tab-interface').focus();
     await page.keyboard.press('ArrowDown');
     await page.waitForTimeout(150);
@@ -209,7 +226,7 @@ test.describe('system map', () => {
 
 test.describe('query lab', () => {
   test('ships its first result, then runs the query in the tab', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     /* The first table is computed at build time by the same engine, so it is
        already there before any JavaScript runs. */
     await expect(page.locator('[data-lab-table] tbody tr')).toHaveCount(8);
@@ -221,7 +238,7 @@ test.describe('query lab', () => {
   });
 
   test('an example chip replaces the query and runs it', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('[data-lab-example="1"]').click();
     await page.waitForTimeout(250);
     await expect(page.locator('#lab-sql')).toHaveValue(/GROUP BY category/);
@@ -231,7 +248,7 @@ test.describe('query lab', () => {
   });
 
   test('bad SQL is rejected with a readable message', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('#lab-sql').fill('DELETE FROM projects');
     await page.locator('[data-lab-run]').click();
     await expect(page.locator('[data-lab-error]')).toBeVisible();
@@ -239,7 +256,7 @@ test.describe('query lab', () => {
   });
 
   test('keyboard shortcut runs the query', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('#lab-sql').fill('SELECT title FROM projects LIMIT 2');
     await page.locator('#lab-sql').press('Control+Enter');
     await expect(page.locator('[data-lab-table] tbody tr')).toHaveCount(2);
@@ -248,7 +265,7 @@ test.describe('query lab', () => {
 
 test.describe('theme switch', () => {
   test('flips the theme, reports state and persists', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const html = page.locator('html');
     const toggle = page.locator('[data-theme-toggle]');
 
@@ -266,7 +283,7 @@ test.describe('theme switch', () => {
   });
 
   test('the dark theme really changes the palette', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const read = () =>
       page.evaluate(() => getComputedStyle(document.body).backgroundColor);
     const light = await read();
@@ -279,7 +296,7 @@ test.describe('theme switch', () => {
 
 test.describe('contact form', () => {
   test('refuses to send an empty form and says which field', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('[data-contact-form] button[type="submit"]').click();
     await expect(page.locator('[data-err="name"]')).toBeVisible();
     await expect(page.locator('[data-err="email"]')).toBeVisible();
@@ -288,7 +305,7 @@ test.describe('contact form', () => {
   });
 
   test('accepts a filled form and composes a mailto', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('#cf-name').fill('Rina');
     await page.locator('#cf-email').fill('rina@studio.test');
     await page.locator('#cf-msg').fill('We need a store for our ceramics, launching in March.');
@@ -306,7 +323,7 @@ test.describe('contact form', () => {
   });
 
   test('the contact section carries a real form, not just an address', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const form = page.locator('#contact form');
     await expect(form).toBeVisible();
     await expect(form.locator('input[type="email"]')).toBeVisible();
@@ -316,7 +333,7 @@ test.describe('contact form', () => {
 
 test.describe('repositories', () => {
   test('every public repo is on the page, dealt into pages', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await expect(page.locator('[data-repo]')).toHaveCount(50);
 
     // pages partition the set: every repo is in exactly one page
@@ -340,7 +357,7 @@ test.describe('repositories', () => {
   });
 
   test('every repo links to its own GitHub page', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const links = await page.locator('.rtile__link').evaluateAll((els) =>
       els.map((e) => (e as HTMLAnchorElement).href),
     );
@@ -353,7 +370,7 @@ test.describe('repositories', () => {
   });
 
   test('the gallery is paged, and every frame is inside a page', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const viewport = page.locator('[data-pager-viewport]');
     await expect(viewport).toHaveCount(1);
     // reachable by keyboard, which is what axe looks for in a scroller
@@ -377,7 +394,7 @@ test.describe('repositories', () => {
 
   test('page buttons, arrows and keyboard all move the deck', async ({ page }) => {
     test.setTimeout(60_000);
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('#repos').scrollIntoViewIfNeeded();
     await page.waitForTimeout(400);
 
@@ -407,12 +424,51 @@ test.describe('repositories', () => {
     await expect(now).toHaveText(total);
   });
 
+  test('a real touch swipe turns the page', async ({ page, context }) => {
+    test.setTimeout(60_000);
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoHome(page);
+    await page.locator('#repos').scrollIntoViewIfNeeded();
+    await page.waitForTimeout(600);
+
+    const now = page.locator('[data-page-now]');
+    await expect(now).toHaveText('01');
+
+    /* Playwright's touchscreen only taps, so drive Chrome's real touch input:
+       synthetic TouchEvents would not move a native scroller either. */
+    const cdp = await context.newCDPSession(page);
+    const box = await page.locator('[data-pager-viewport]').boundingBox();
+    const y = Math.round(box!.y + Math.min(180, box!.height / 2));
+    const x0 = Math.round(box!.x + box!.width - 60);
+    const x1 = Math.round(box!.x + 50);
+
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x: x0, y }],
+    });
+    for (let i = 1; i <= 10; i++) {
+      await cdp.send('Input.dispatchTouchEvent', {
+        type: 'touchMove',
+        touchPoints: [{ x: Math.round(x0 + ((x1 - x0) * i) / 10), y }],
+      });
+      await page.waitForTimeout(16);
+    }
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+
+    await page.waitForTimeout(1100);
+    await expect(now).toHaveText('02');
+    const moved = await page.evaluate(
+      () => (document.querySelector('[data-pager-viewport]') as HTMLElement).scrollLeft,
+    );
+    expect(moved).toBeGreaterThan(100);
+  });
+
   test('the deck never widens the page', async ({ page }) => {
     /* Four full page loads, so this one needs more than the default budget. */
     test.setTimeout(90_000);
     for (const width of [320, 390, 768, 1440]) {
       await page.setViewportSize({ width, height: 800 });
-      await page.goto('/');
+      await gotoHome(page);
       await page.waitForTimeout(300);
       const overflow = await page.evaluate(
         () => document.documentElement.scrollWidth - window.innerWidth,
@@ -422,7 +478,7 @@ test.describe('repositories', () => {
   });
 
   test('live badges sit inside their own tile', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const outside = await page.evaluate(() => {
       let bad = 0;
       document.querySelectorAll('.rtile').forEach((tile) => {
@@ -442,7 +498,7 @@ test.describe('repositories', () => {
   });
 
   test('the language bar counts add up to the repo total', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const sum = await page.locator('.lang__count').evaluateAll((els) =>
       els.reduce((n, e) => n + Number(e.textContent ?? 0), 0),
     );
@@ -451,37 +507,92 @@ test.describe('repositories', () => {
 });
 
 test.describe('hero', () => {
-  test('the portrait is not cropped through the head', async ({ page }) => {
-    await page.goto('/');
-    const info = await page.evaluate(() => {
-      const img = document.querySelector<HTMLImageElement>('.dial__portrait img')!;
-      const r = img.getBoundingClientRect();
-      return {
-        natural: [img.naturalWidth, img.naturalHeight],
-        box: [Math.round(r.width), Math.round(r.height)],
-      };
-    });
-    // square source into a square frame: the crop cannot cut the top off
-    expect(info.natural[0]).toBe(info.natural[1]);
-    expect(Math.abs(info.box[0] - info.box[1])).toBeLessThanOrEqual(2);
+  test('the particle portrait is decorative and loads', async ({ page }) => {
+    await gotoHome(page);
+    const fig = page.locator('.hero__figure');
+    await expect(fig).toHaveAttribute('aria-hidden', 'true');
+    const img = fig.locator('img');
+    await expect(img).toHaveAttribute('alt', '');
+    await expect(img).toHaveAttribute('src', /portrait-particles/);
+    expect(await img.evaluate((n) => (n as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
   });
 
-  test('the blueprint background is present and decorative', async ({ page }) => {
-    await page.goto('/');
-    const bg = page.locator('.hero__bg');
-    await expect(bg).toHaveCount(1);
-    await expect(bg).toHaveAttribute('aria-hidden', 'true');
-    const url = await page.evaluate(() => {
-      const el = document.querySelector<HTMLElement>('.hero__bg')!;
-      return getComputedStyle(el, '::after').backgroundImage;
+  test('the hero keeps the reference composition and a usable fallback', async ({ page }) => {
+    await gotoHome(page);
+    await expect(page.locator('.hero__glass')).toHaveCount(1);
+    await expect(page.locator('.hero__title-a')).toHaveText('Immersive');
+    await expect(page.locator('.hero__title-b')).toHaveText('Interfaces');
+    await expect(page.locator('.hero__particles')).toHaveCount(1);
+  });
+
+  test('hero switches between light and dark stage palettes', async ({ page }) => {
+    await gotoHome(page);
+    const background = () => page.locator('.hero').evaluate(el => getComputedStyle(el).backgroundColor);
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'light'));
+    expect(await background()).toBe('rgb(244, 245, 239)');
+    await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
+    expect(await background()).toBe('rgb(5, 5, 5)');
+  });
+
+  test('repository art animates while reduced motion has a static alternative', async ({ page }) => {
+    await gotoHome(page);
+    const art = page.locator('.rtile__spec').first();
+    expect(await art.evaluate(el => getComputedStyle(el, '::before').animationName)).toBe('repo-orbit');
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    expect(await art.evaluate(el => getComputedStyle(el, '::before').animationName)).toBe('none');
+  });
+
+  test('the readout panel counts real repos, not invented ones', async ({ page }) => {
+    await gotoHome(page);
+    const shown = await page.locator('.hero__stats dd').first().innerText();
+    const live = await page.evaluate(() =>
+      document.querySelectorAll('#repos .rtile__live').length,
+    );
+    // the panel number and the number of live badges must agree
+    expect(Number(shown.replace(/\D/g, ''))).toBe(live);
+  });
+
+  test('the hero does not trap the scroll', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoHome(page);
+    // smooth scrolling makes a measurement taken 500ms later a coin flip
+    await page.addStyleTag({ content: 'html{scroll-behavior:auto!important}' });
+    await page.waitForTimeout(900);
+
+    // 1. nothing moves on its own
+    const before = await page.evaluate(() => window.scrollY);
+    await page.waitForTimeout(1200);
+    expect(await page.evaluate(() => window.scrollY)).toBe(before);
+
+    // 2. the hero is not taller than the screen by much — no locked viewport
+    const ratio = await page.evaluate(() => {
+      const h = document.querySelector('.hero')!.getBoundingClientRect();
+      return h.height / window.innerHeight;
     });
-    expect(url).toContain('hero-dev');
+    expect(ratio).toBeLessThan(1.6);
+
+    // 3. one screenful of scroll lands on the first section, not the repos
+    await page.evaluate(() =>
+      window.scrollTo({ top: window.innerHeight, behavior: 'instant' as ScrollBehavior }),
+    );
+    await page.waitForTimeout(500);
+    const inView = await page.evaluate(() => {
+      const mid = window.innerHeight / 2;
+      return [...document.querySelectorAll('section[id]')]
+        .filter((s) => {
+          const r = s.getBoundingClientRect();
+          return r.top < mid && r.bottom > mid;
+        })
+        .map((s) => s.id);
+    });
+    expect(inView).toContain('work');
+    expect(inView).not.toContain('repos');
   });
 });
 
 test.describe('ask palette', () => {
   test('opens with the keyboard and with the button', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-ask]')).not.toHaveClass(/is-open/);
@@ -491,7 +602,7 @@ test.describe('ask palette', () => {
   });
 
   test('finds a real project by a technology', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await typeAsk(page, 'wordpress');
     const names = await page.locator('.ask__name').allInnerTexts();
@@ -499,7 +610,7 @@ test.describe('ask palette', () => {
   });
 
   test('does not return every skill for one skill query', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await typeAsk(page, 'python');
     const names = await page.locator('.ask__name').allInnerTexts();
@@ -508,14 +619,14 @@ test.describe('ask palette', () => {
   });
 
   test('highlights the matched run', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await typeAsk(page, 'blondeau');
     await expect(page.locator('.ask__name mark').first()).toBeVisible();
   });
 
   test('every suggestion chip returns something', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     const chips = page.locator('[data-ask-try]');
     const count = await chips.count();
@@ -528,7 +639,7 @@ test.describe('ask palette', () => {
   });
 
   test('arrow keys move the active row', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await typeAsk(page, 'wordpress');
 
@@ -545,7 +656,7 @@ test.describe('ask palette', () => {
   });
 
   test('Enter on a project result opens its case study', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await typeAsk(page, 'eagle analytics');
     await page.locator('[data-ask-input]').press('Enter');
@@ -554,7 +665,7 @@ test.describe('ask palette', () => {
   });
 
   test('a section result navigates', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await typeAsk(page, 'hire');
     await page.locator('[data-ask-input]').press('Enter');
@@ -563,7 +674,7 @@ test.describe('ask palette', () => {
   });
 
   test('says so plainly when nothing matches', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await openAsk(page);
     await page.locator('[data-ask-input]').fill('zzzzqqq');
     await page.waitForTimeout(300);
@@ -573,7 +684,7 @@ test.describe('ask palette', () => {
 
 test.describe('responsive navigation', () => {
   test('nav collapses to the menu button on a narrow screen', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.setViewportSize({ width: 1200, height: 900 });
     await expect(page.locator('[data-nav]')).toBeVisible();
     await expect(page.locator('[data-burger]')).toBeHidden();
@@ -585,7 +696,7 @@ test.describe('responsive navigation', () => {
 
   test('the open menu keeps a visible close control', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await gotoHome(page);
     const burger = page.locator('[data-burger]');
     await burger.click();
     await page.waitForTimeout(800);
@@ -611,9 +722,41 @@ test.describe('responsive navigation', () => {
     await expect(burger).toHaveAttribute('aria-expanded', 'false');
   });
 
+  test('the menu button is tappable and the menu fits every phone width', async ({ page }) => {
+    for (const width of [320, 360, 390, 414]) {
+      await page.setViewportSize({ width, height: 780 });
+      await gotoHome(page);
+      const burger = page.locator('[data-burger]');
+      const box = await burger.boundingBox();
+      // a 24px tap target is the floor; this should be well past it
+      expect(box!.width, `burger width at ${width}`).toBeGreaterThanOrEqual(24);
+      expect(box!.height, `burger height at ${width}`).toBeGreaterThanOrEqual(24);
+
+      await burger.click();
+      await page.waitForTimeout(700);
+
+      // the panel must not overflow sideways, and every link must be reachable
+      const overflow = await page.evaluate(() => {
+        const el = document.querySelector<HTMLElement>('[data-mobile-nav]')!;
+        return el.scrollWidth - el.clientWidth;
+      });
+      expect(overflow, `menu overflow at ${width}`).toBeLessThanOrEqual(0);
+
+      const links = page.locator('[data-mobile-nav] a');
+      const n = await links.count();
+      expect(n).toBeGreaterThan(6);
+      for (let i = 0; i < n; i++) {
+        await expect(links.nth(i)).toBeVisible();
+      }
+
+      await burger.click();
+      await page.waitForTimeout(400);
+    }
+  });
+
   test('a menu link closes the menu and lands on the section', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await gotoHome(page);
     await page.locator('[data-burger]').click();
     await page.waitForTimeout(700);
     await page.locator('[data-mobile-nav] a[href="#about"]').click();
@@ -627,19 +770,20 @@ test.describe('accessibility & motion', () => {
   test('reduced motion leaves everything visible', async ({ browser }) => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce' });
     const page = await ctx.newPage();
-    await page.goto('/');
+    await gotoHome(page);
     await page.waitForTimeout(1200);
     const opacities = await page.evaluate(() =>
-      ['.hero__title', '.hero__statement', '.hero__actions'].map(
+      ['.hero__title', '.hero__statement'].map(
         (s) => getComputedStyle(document.querySelector(s)!).opacity,
       ),
     );
     for (const o of opacities) expect(Number(o)).toBeGreaterThan(0.9);
+    await expect(page.locator('.hero__figure img')).toBeVisible();
     await ctx.close();
   });
 
   test('all images have alt text', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     const missing = await page.locator('img').evaluateAll(
       (els) => els.filter((e) => e.getAttribute('alt') === null).length,
     );
@@ -647,7 +791,7 @@ test.describe('accessibility & motion', () => {
   });
 
   test('the palette is reachable and closable by keyboard alone', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await page.keyboard.press('Control+k');
     await expect(page.locator('[data-ask-input]')).toBeFocused();
     await page.keyboard.type('python');

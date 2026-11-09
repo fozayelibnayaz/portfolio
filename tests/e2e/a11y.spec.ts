@@ -1,6 +1,14 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
+/* The browser restores the last scroll position between navigations, so a
+   test that assumes it starts at the hero is a coin flip. Every test starts
+   at the top, exactly as a first-time visitor would. */
+async function gotoHome(page: Page) {
+  await page.goto('/');
+  await page.evaluate(() => window.scrollTo(0, 0));
+}
+
 /** Audit the resting design, not a frame of an animation. */
 async function settle(page: Page) {
   await page.addStyleTag({
@@ -57,13 +65,13 @@ test.describe('accessibility (axe)', () => {
   test.use({ reducedMotion: 'reduce' });
 
   test('no serious or critical violations on load', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await audit(page);
   });
 
   test('the open palette is accessible', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await page.keyboard.press('Control+k');
     await page.waitForTimeout(600);
@@ -71,7 +79,7 @@ test.describe('accessibility (axe)', () => {
   });
 
   test('a case study sheet is accessible', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await page.locator('[data-open]').first().click();
     await page.waitForTimeout(600);
@@ -80,7 +88,7 @@ test.describe('accessibility (axe)', () => {
 
   test('the open mobile menu is accessible', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await page.locator('[data-burger]').click();
     await page.waitForTimeout(800);
@@ -88,7 +96,7 @@ test.describe('accessibility (axe)', () => {
   });
 
   test('the query lab and contact form are accessible', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await page.locator('#lab').scrollIntoViewIfNeeded();
     await page.waitForTimeout(700);
@@ -97,7 +105,7 @@ test.describe('accessibility (axe)', () => {
   });
 
   test('the repositories section is accessible', async ({ page }) => {
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await page.locator('#repos').scrollIntoViewIfNeeded();
     await page.waitForTimeout(700);
@@ -107,7 +115,7 @@ test.describe('accessibility (axe)', () => {
   test('the dark theme passes the same audit', async ({ browser }) => {
     const ctx = await browser.newContext({ reducedMotion: 'reduce', colorScheme: 'dark' });
     const page = await ctx.newPage();
-    await page.goto('/');
+    await gotoHome(page);
     await settle(page);
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
     await audit(page);

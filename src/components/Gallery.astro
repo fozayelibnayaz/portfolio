@@ -63,7 +63,8 @@ const payload = projects.map((p) => ({ ...p, image: asset(p.image) }));
               alt={`${p.title} — homepage preview`}
               width="1200"
               height="750"
-              loading="lazy"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'auto' : 'low'}
               decoding="async"
             />
             <span class="deck__badge">

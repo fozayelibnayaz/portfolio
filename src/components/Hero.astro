@@ -1,132 +1,41 @@
 ---
 import { site, skillGroups } from 'src/data/content';
-import heroBg from 'src/assets/hero-dev.png?url';
 import { asset } from 'src/lib/asset';
-
-/* The dial. Five layers of the stack, placed around a portrait at angles
-   computed here, at build time — no magic numbers in the CSS. */
-const layers = [
-  { name: 'Interface', tools: 'React · Next.js · CSS', area: 'Web' },
-  { name: 'Logic', tools: 'Node · TypeScript · APIs', area: 'Web' },
-  { name: 'Data', tools: 'SQL · Python · GA4', area: 'Data' },
-  { name: 'Infra', tools: 'Docker · GCP · CI', area: 'Infra & tools' },
-  { name: 'Quality', tools: 'Playwright · axe · QA', area: 'Infra & tools' },
-];
-
-const R = 36; // % of the dial
-const nodes = layers.map((l, i) => {
-  const angle = (-90 + i * (360 / layers.length)) * (Math.PI / 180);
-  return {
-    ...l,
-    x: 50 + R * Math.cos(angle),
-    y: 50 + R * Math.sin(angle),
-    delay: i * 0.12,
-  };
-});
-
-const totalTools = skillGroups.reduce((n, g) => n + g.items.length, 0);
-
-/* A ticker of real tools, duplicated once so the loop is seamless. */
-const ticker = skillGroups.flatMap((g) => g.items).slice(0, 22);
+import snapshot from 'src/data/repos.json';
+const liveNow = snapshot.repos.filter((r) => r.home).length;
+const toolCount = skillGroups.reduce((n, g) => n + g.items.length, 0);
+const ticker = [ ['Availability', 'Open'], ['Stack', 'React / Node'], ['Core_ID', 'Full-stack developer'] ];
 ---
 <section class="hero" id="top" aria-labelledby="hero-title">
-  <!-- The blueprint: a system diagram, drawn once and tinted by the theme. -->
-  <div class="hero__bg" style={`--hero-bg:url(${heroBg})`} aria-hidden="true"></div>
-
-  <div class="hero__inner shell">
-    <div class="hero__top">
-      <span class="hero__live">
-        <span class="mark mark--live" aria-hidden="true"></span>
-        {site.availability}
-      </span>
-      <span class="hero__sep" aria-hidden="true">/</span>
-      <span>Dhaka <b data-clock aria-hidden="true">--:--</b></span>
-      <span class="hero__sep" aria-hidden="true">/</span>
-      <span class="hero__top-hide">Full-stack · analytics · QA</span>
-    </div>
-
-    <div class="hero__grid">
-      <div class="hero__copy">
-        <h1 class="hero__title" id="hero-title">
-          <span class="hero__title-a">Fozayel</span>
-          <span class="hero__title-b">Ibn Ayaz</span>
-        </h1>
-
-        <p class="hero__statement">
-          I build the layers between an interface and a database —
-          <em>and the tests that keep them honest.</em>
-        </p>
-
-        <div class="hero__actions">
-          <a class="btn btn--ink" href="#work" data-magnetic>
-            See the work <i aria-hidden="true">↘</i>
-          </a>
-          <a class="btn" href={asset(site.cv)} download>
-            CV <i aria-hidden="true">↓</i>
-          </a>
-          <a class="hero__lab-link" href="#lab">
-            <span aria-hidden="true">⌘</span> Query the database
-          </a>
-        </div>
-
-        <dl class="hero__meta">
-          <div><dt>Currently</dt><dd>Full-stack @ ENT Sourcing</dd></div>
-          <div><dt>Timezone</dt><dd>GMT+6 · remote</dd></div>
-        </dl>
-      </div>
-
-      <!-- The dial: five layers of one system, placed around the person who
-           builds them. Every number on it is counted from content.ts. -->
-      <div class="hero__dial" data-dial>
-        <div class="dial">
-          <div class="dial__ring dial__ring--outer" aria-hidden="true"></div>
-          <div class="dial__ring dial__ring--ticks" aria-hidden="true"></div>
-
-          <figure class="dial__portrait">
-            <img
-              src={asset('img/portrait-520.avif')}
-              srcset={`${asset('img/portrait-320.avif')} 320w, ${asset('img/portrait-520.avif')} 520w, ${asset('img/portrait-700.avif')} 700w`}
-              sizes="(max-width: 940px) 44vw, 280px"
-              alt={`Portrait of ${site.name}`}
-              width="520"
-              height="520"
-              fetchpriority="high"
-              decoding="async"
-            />
-          </figure>
-
-          {nodes.map((n, i) => (
-            <div
-              class="dial__node"
-              style={`--x:${n.x}%;--y:${n.y}%;--d:${n.delay}s`}
-              data-dial-node={i}
-            >
-              <span class="dial__dot" aria-hidden="true"></span>
-              <span class="dial__name">{n.name}</span>
-              <span class="dial__tools">{n.tools}</span>
-            </div>
-          ))}
-        </div>
-
-        <p class="dial__caption">
-          <span>{layers.length} layers</span>
-          <span class="dial__caption-sep" aria-hidden="true">·</span>
-          <span>{totalTools} tools</span>
-          <span class="dial__caption-sep" aria-hidden="true">·</span>
-          <span>one developer</span>
-        </p>
-      </div>
-    </div>
+  <div class="hero__field" aria-hidden="true"></div>
+  <div class="hero__figure" aria-hidden="true">
+    <img src={asset('/img/portrait-particles.png')} alt="" width="1080" height="1080" fetchpriority="high" />
+    <canvas class="hero__particles" width="720" height="720" data-source={asset('/img/portrait-cutout.webp')}></canvas>
   </div>
-
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__track">
-      {[0, 1].map(() => ticker.map((t) => <span class="ticker__item">{t}</span>))}
-    </div>
+  <div class="hero__glass" aria-hidden="true"><span></span></div>
+  <div class="hero__copy">
+    <h1 class="hero__title" id="hero-title"><span class="hero__title-a">Immersive</span><span class="hero__title-b">Interfaces</span></h1>
+    <p class="hero__kicker"><span class="hero__rule" aria-hidden="true"></span><span>[ Full-stack · Analytics · QA ]</span><span class="hero__rule" aria-hidden="true"></span></p>
+    <p class="hero__statement">I build the layers between an interface and a database — and the tests that keep them honest.</p>
+    <div class="hero__mini"><span><b>{liveNow}</b> Live sites</span><span><b>{toolCount}</b> Tools</span></div>
   </div>
-
-  <a class="hero__scroll" href="#work">
-    <span>Scroll</span>
-    <i aria-hidden="true">↓</i>
-  </a>
+  <aside class="hero__panel" aria-label="Developer stats">
+    <div class="hero__panel-head"><span>Developer stats</span><span class="hero__panel-fill"></span><span class="hero__panel-live"><i></i> Active</span></div>
+    <div class="hero__panel-body">
+      <dl class="hero__stats"><div><dt>Live sites</dt><dd>{liveNow}</dd></div><div><dt>Tools</dt><dd>{toolCount}</dd></div></dl>
+      <dl class="hero__layers">
+        <div><dt>Role</dt><dd>Full-stack developer</dd></div>
+        <div><dt>Stack</dt><dd>React / Node</dd></div>
+        <div><dt>Focus</dt><dd>Analytics / QA</dd></div>
+        <div><dt>Availability</dt><dd>Open for work</dd></div>
+        <div><dt>Location</dt><dd>Dhaka</dd></div>
+      </dl>
+    </div>
+  </aside>
+  <div class="hero__ticker" aria-label="Availability and stack"><div class="hero__ticker-track">{[0,1].map((i) => <div class="hero__ticker-group" aria-hidden={i === 1 ? 'true' : undefined}>{ticker.map(([label,value]) => <span class="hero__ticker-item"><span>{label}</span><b>{value}</b><i aria-hidden="true">·</i></span>)}</div>)}</div></div>
+  <div class="hero__contact"><div><span>Wanna say hello?</span><a href={`mailto:${site.email}`}>{site.email}</a></div><div><span>Local time</span><b>Dhaka <span data-clock>--:--</span></b></div></div>
 </section>
+
+<script>
+  import 'src/scripts/hero-particles';
+</script>
